@@ -2,7 +2,7 @@
 
 1. Cài đặt đầy đủ packages cần thiết nhất (như firebase, react-router-dom, styled-components), setup sao cho tất cả chạy đều ổn áp
 
-2. Thiết lập Firebase
+2. Thiết lập Firebase :fire:
 
 3. Thiết lập Routes
 
