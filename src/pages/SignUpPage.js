@@ -1,3 +1,4 @@
+import { IconEyeClosed } from "components/Icon";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 
@@ -64,8 +65,9 @@ const SignUpPage = () => {
               name="password"
               placeholder="Enter your password"
               control={control}
-              hasIcon={true}
-            ></Input>
+            >
+              <IconEyeClosed className="input-icon"></IconEyeClosed>
+            </Input>
           </div>
         </form>
       </div>

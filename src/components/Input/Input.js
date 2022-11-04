@@ -1,4 +1,3 @@
-import { IconEyeOpen } from "components/Icon";
 import React from "react";
 import { useController } from "react-hook-form";
 import styled from "styled-components";
@@ -28,7 +27,7 @@ const InputStyles = styled.div`
       color: #84878b;
     }
   }
-  .icon-eye {
+  .input-icon {
     position: absolute;
     top: 50%;
     right: 2rem;
@@ -51,9 +50,9 @@ const Input = ({
   });
   return (
     // Truyền props hasIcon vào đây để có thể sử dụng props này trong styled-components
-    <InputStyles hasIcon={hasIcon}>
+    <InputStyles hasIcon={children ? true : false}>
       <input type={type} id={name} {...field} {...props} />
-      {hasIcon ? <IconEyeOpen className="icon-eye"></IconEyeOpen> : <></>}
+      {children}
     </InputStyles>
   );
 };
