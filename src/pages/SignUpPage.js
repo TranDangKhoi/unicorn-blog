@@ -1,3 +1,4 @@
+import { Field } from "components/Field";
 import { IconEyeClosed } from "components/Icon";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
@@ -22,12 +23,7 @@ const SignUpPageStyles = styled.div`
     max-width: 700px;
     margin: 0 auto;
   }
-  .field {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 20px;
-  }
+
   .label {
     color: ${(props) => props.theme.grayDark};
     font-weight: 500;
@@ -51,8 +47,8 @@ const SignUpPage = () => {
       <div className="container">
         <img srcSet="/blog-logo.png 1.5x" alt="unicorn-blog" className="logo" />
         <h1 className="heading">Unicorn Blog</h1>
-        <form className="form">
-          <div className="field" onSubmit={handleSubmit(handleSignUp)}>
+        <form className="form" onSubmit={handleSubmit(handleSignUp)}>
+          <Field>
             <Label htmlFor="username">Username</Label>
             <Input
               type="text"
@@ -60,6 +56,9 @@ const SignUpPage = () => {
               placeholder="Enter your username"
               control={control}
             ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="password">Password</Label>
             <Input
               type="password"
               name="password"
@@ -68,7 +67,7 @@ const SignUpPage = () => {
             >
               <IconEyeClosed className="input-icon"></IconEyeClosed>
             </Input>
-          </div>
+          </Field>
         </form>
       </div>
     </SignUpPageStyles>
