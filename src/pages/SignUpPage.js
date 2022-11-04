@@ -1,12 +1,13 @@
 import { Field } from "components/Field";
-import { IconEyeClosed } from "components/Icon";
+import { IconEyeClosed, IconEyeOpen } from "components/Icon";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 const SignUpPageStyles = styled.div`
+  background: #f2f2f2;
   min-height: 100vh;
   padding: 40px;
   .logo {
@@ -20,6 +21,9 @@ const SignUpPageStyles = styled.div`
     margin-bottom: 60px;
   }
   .form {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
     max-width: 700px;
     margin: 0 auto;
   }
@@ -36,6 +40,7 @@ const SignUpPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm();
+  const [hidePassword, setHidePassword] = useState(true);
   useEffect(() => {
     document.title = "Sign up to Unicorn Blog";
   }, []);
@@ -73,12 +78,20 @@ const SignUpPage = () => {
           <Field>
             <Label htmlFor="password">Password</Label>
             <Input
-              type="password"
+              type={hidePassword ? "password" : "text"}
               name="password"
               placeholder="Enter your password"
               control={control}
             >
-              <IconEyeClosed className="input-icon"></IconEyeClosed>
+              {hidePassword ? (
+                <IconEyeClosed
+                  onClick={() => setHidePassword(false)}
+                ></IconEyeClosed>
+              ) : (
+                <IconEyeOpen
+                  onClick={() => setHidePassword(true)}
+                ></IconEyeOpen>
+              )}
             </Input>
           </Field>
         </form>

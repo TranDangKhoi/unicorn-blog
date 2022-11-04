@@ -12,7 +12,7 @@ const InputStyles = styled.div`
     width: 100%;
     border-radius: 8px;
     transition: all 150ms ease-in-out;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     &:focus {
       background-size: white;
       border-color: ${(props) => props.theme.primary};
@@ -52,7 +52,7 @@ const Input = ({
     // Truyền props hasIcon vào đây để có thể sử dụng props này trong styled-components
     <InputStyles hasIcon={children ? true : false}>
       <input type={type} id={name} {...field} {...props} />
-      {children}
+      {children ? <div className="input-icon">{children}</div> : <></>}
     </InputStyles>
   );
 };
