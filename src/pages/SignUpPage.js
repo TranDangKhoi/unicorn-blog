@@ -47,13 +47,26 @@ const SignUpPage = () => {
       <div className="container">
         <img srcSet="/blog-logo.png 1.5x" alt="unicorn-blog" className="logo" />
         <h1 className="heading">Unicorn Blog</h1>
-        <form className="form" onSubmit={handleSubmit(handleSignUp)}>
+        <form
+          className="form"
+          onSubmit={handleSubmit(handleSignUp)}
+          autoComplete="off"
+        >
           <Field>
             <Label htmlFor="username">Username</Label>
             <Input
               type="text"
               name="username"
               placeholder="Enter your username"
+              control={control}
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="email">Email address</Label>
+            <Input
+              type="text"
+              name="email"
+              placeholder="Enter your email"
               control={control}
             ></Input>
           </Field>
