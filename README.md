@@ -15,3 +15,15 @@
 5. Code trang Sign Up sử dụng RHF và Yup
 
 6. Authentication với Firebase
+
+# Những thứ rút ra được sau khi làm project
+
+- `Rút ngắn đường dẫn import giữa các file lại` = cách `add thêm file jsconfig.json nằm cùng cấp với folder src`, sau đó code vào bên trong là:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./src"
+  }
+}
+```

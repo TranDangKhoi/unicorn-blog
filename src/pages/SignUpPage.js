@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import { Input } from "components/Input";
+import { Label } from "components/Label";
 
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
 const SignUpPageStyles = styled.div`
   min-height: 100vh;
   padding: 40px;
@@ -29,50 +32,40 @@ const SignUpPageStyles = styled.div`
     font-weight: 500;
     font-size: 16px;
   }
-  .input {
-    font-weight: 500;
-    width: 100%;
-    padding: 20px;
-    border-radius: 8px;
-    transition: all 150ms ease-in-out;
-    border: 1px solid transparent;
-    background: ${(props) => props.theme.grayLight};
-    &:focus {
-      background-size: white;
-      border-color: ${(props) => props.theme.primary};
-    }
-    &::placeholder {
-      color: #84878b;
-    }
-    &::-webkit-input-placeholder {
-      color: #84878b;
-    }
-    &::-moz-input-placeholder {
-      color: #84878b;
-    }
-  }
 `;
 const SignUpPage = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm();
   useEffect(() => {
     document.title = "Sign up to Unicorn Blog";
   }, []);
+  const handleSignUp = (values) => {
+    console.log(values);
+  };
   return (
     <SignUpPageStyles>
       <div className="container">
         <img srcSet="/blog-logo.png 1.5x" alt="unicorn-blog" className="logo" />
         <h1 className="heading">Unicorn Blog</h1>
         <form className="form">
-          <div className="field">
-            <label htmlFor="username" className="label">
-              Username
-            </label>
-            <input
-              id="username"
-              name="username"
+          <div className="field" onSubmit={handleSubmit(handleSignUp)}>
+            <Label htmlFor="username">Username</Label>
+            <Input
               type="text"
-              className="input"
+              name="username"
               placeholder="Enter your username"
-            />
+              control={control}
+            ></Input>
+            <Input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              control={control}
+              hasIcon={true}
+            ></Input>
           </div>
         </form>
       </div>
