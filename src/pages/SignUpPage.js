@@ -1,11 +1,13 @@
 import { Field } from "components/Field";
 import { IconEyeClosed, IconEyeOpen } from "components/Icon";
 import { Input } from "components/Input";
+import { Button } from "components/Button";
 import { Label } from "components/Label";
 
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { LoadingSpinner } from "components/Loading";
 const SignUpPageStyles = styled.div`
   background: #f2f2f2;
   min-height: 100vh;
@@ -94,6 +96,9 @@ const SignUpPage = () => {
               )}
             </Input>
           </Field>
+          <Button type="submit" onClick={handleSignUp}>
+            Sign up
+          </Button>
         </form>
       </div>
     </SignUpPageStyles>
