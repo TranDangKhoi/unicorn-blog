@@ -63,14 +63,12 @@ const SignUpPage = () => {
     control,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-    watch,
-    reset,
   } = useForm({
     mode: "onSubmit",
     resolver: yupResolver(schema),
   });
   const [hidePassword, setHidePassword] = useState(true);
-  const { userInfo, setUserInfo } = useAuth();
+  const { setUserInfo } = useAuth();
   useEffect(() => {
     document.title = "Sign up to Unicorn Blog";
   }, []);

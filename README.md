@@ -12,9 +12,43 @@
 
 4. Viết auth-context để lưu trữ thông tin người dùng và dùng ở nhiều nơi
 
-5. Code trang Sign Up sử dụng RHF và Yup
+# List những tasks/targets cần hoàn thành
 
-6. Authentication với Firebase
+- v1.0:
+
+1. Code trang Sign Up sử dụng RHF và Yup
+
+2. Authentication với Firebase
+
+3. Sử dụng prop-types và comment params cho component
+
+4. Login UI
+
+5. Header UI
+
+6. Homepage UI
+
+7. Details UI
+
+8. Routing
+
+9. Hoàn thiện form để submit bài viết
+
+10. Hoàn thiện chức năng thêm bài viết và thêm chi tiết bài viết đó vào database
+
+11. Hoàn thiện chức năng sửa/xóa bài viết
+
+12. Table UI
+
+13. Categories UI
+
+14. Users
+
+15. 404 Not Found Page
+
+16. Checkbox, Radio, Toggle components
+
+- v1.1:
 
 # Những thứ rút ra được sau khi làm project
 

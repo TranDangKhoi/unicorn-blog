@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 const FieldStyles = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,6 +13,11 @@ const FieldStyles = styled.div`
 `;
 const Field = ({ className, children }) => {
   return <FieldStyles className={className}>{children}</FieldStyles>;
+};
+
+Field.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Field;
