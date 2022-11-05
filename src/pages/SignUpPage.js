@@ -3,11 +3,12 @@ import { IconEyeClosed, IconEyeOpen } from "components/Icon";
 import { Input } from "components/Input";
 import { Button } from "components/Button";
 import { Label } from "components/Label";
-
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
-import { LoadingSpinner } from "components/Loading";
+import { toast } from "react-toastify";
 const SignUpPageStyles = styled.div`
   background: #f2f2f2;
   min-height: 100vh;
@@ -36,18 +37,54 @@ const SignUpPageStyles = styled.div`
     font-size: 16px;
   }
 `;
+
+const schema = yup.object({
+  username: yup
+    .string()
+    .required("Please enter your username")
+    .max(30, "Your username should be less than 30 characters"),
+  email: yup
+    .string()
+    .required("Please enter your email address")
+    .email("Your email address is invalid, please enter another one"),
+  password: yup
+    .string()
+    .required("Please enter your password")
+    .min(8, "Your password must be at least 8 characters"),
+});
+
 const SignUpPage = () => {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-  } = useForm();
+    watch,
+    reset,
+  } = useForm({
+    mode: "onChange",
+    resolver: yupResolver(schema),
+  });
   const [hidePassword, setHidePassword] = useState(true);
   useEffect(() => {
     document.title = "Sign up to Unicorn Blog";
   }, []);
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: true,
+        closeOnClick: true,
+      });
+    }
+  }, [errors]);
   const handleSignUp = (values) => {
-    console.log(values);
+    if (!isValid) return;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+        console.log(errors);
+      }, 3000);
+    });
   };
   return (
     <SignUpPageStyles>
@@ -96,7 +133,11 @@ const SignUpPage = () => {
               )}
             </Input>
           </Field>
-          <Button type="submit" onClick={handleSignUp}>
+          <Button
+            type="submit"
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
             Sign up
           </Button>
         </form>
