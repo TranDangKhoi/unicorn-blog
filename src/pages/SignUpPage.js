@@ -9,6 +9,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "firebase-app/firebase-config";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "contexts/auth-context";
 const SignUpPageStyles = styled.div`
   background: #f2f2f2;
   min-height: 100vh;
@@ -54,6 +58,7 @@ const schema = yup.object({
 });
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -61,10 +66,11 @@ const SignUpPage = () => {
     watch,
     reset,
   } = useForm({
-    mode: "onChange",
+    mode: "onSubmit",
     resolver: yupResolver(schema),
   });
   const [hidePassword, setHidePassword] = useState(true);
+  const { userInfo, setUserInfo } = useAuth();
   useEffect(() => {
     document.title = "Sign up to Unicorn Blog";
   }, []);
@@ -77,14 +83,34 @@ const SignUpPage = () => {
       });
     }
   }, [errors]);
-  const handleSignUp = (values) => {
-    if (!isValid) return;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(errors);
-      }, 3000);
-    });
+  const handleSignUp = async (values) => {
+    try {
+      if (!isValid) return;
+      toast.success("Signing up, please wait...", {
+        hideProgressBar: true,
+      });
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      await updateProfile(auth.currentUser, {
+        displayName: values.username,
+      });
+      await setUserInfo(user);
+      await updateProfile(auth.currentUser, {
+        photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
+      });
+      toast.dismiss();
+      toast.success("Created account successfully!", { hideProgressBar: true });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.dismiss();
+      toast.error(
+        "This e-mail address has already been used, please pick another one!"
+      );
+    }
   };
   return (
     <SignUpPageStyles>
