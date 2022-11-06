@@ -4,6 +4,7 @@ import { useAuth } from "contexts/auth-context";
 import { auth } from "firebase-app/firebase-config";
 import { signOut } from "firebase/auth";
 import React from "react";
+import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 const menuLinks = [
@@ -76,22 +77,41 @@ const HeaderStyles = styled.header`
     align-items: center;
     column-gap: 10px;
   }
+  .user-display {
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 56px;
+    cursor: pointer;
+    column-gap: 7px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+  }
   .username {
     font-size: 16px;
     font-weight: 500;
   }
   .avatar {
     border-radius: 100rem;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
   }
 `;
-
+function getLastName(username) {
+  if (!username) return "User";
+  const length = username.split(" ").length;
+  return username.split(" ")[length - 1];
+}
 const Header = () => {
   const handleSignOut = () => {
     signOut(auth);
   };
-  const { userInfo } = useAuth();
+  const { userInfo, setUserInfo } = useAuth();
+  useEffect(() => {
+    setUserInfo(auth.currentUser);
+  }, [setUserInfo]);
   return (
     <HeaderStyles>
       <div className="container">
@@ -130,8 +150,13 @@ const Header = () => {
             </div>
             {userInfo ? (
               <div className="user">
-                <img src={userInfo.photoURL} alt="" className="avatar" />
-                <div className="username">{userInfo?.displayName}</div>
+                <div className="user-display">
+                  <img src={userInfo?.photoURL} alt="" className="avatar" />
+                  <div className="username">
+                    {getLastName(userInfo?.displayName)}
+                  </div>
+                  <i className="fa-solid fa-angle-down"></i>
+                </div>
                 <Button height="56px" to={"/sign-in"} onClick={handleSignOut}>
                   Sign out
                 </Button>

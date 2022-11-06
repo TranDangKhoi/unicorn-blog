@@ -9,7 +9,6 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Header></Header>
         <Routes>
           <Route path="/" element={<Homepage></Homepage>}></Route>
           <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>

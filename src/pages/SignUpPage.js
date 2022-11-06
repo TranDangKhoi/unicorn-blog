@@ -31,7 +31,7 @@ const schema = yup.object({
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const { userInfo } = useAuth();
+  const { userInfo, setUserInfo } = useAuth();
   const {
     control,
     handleSubmit,
@@ -62,22 +62,27 @@ const SignUpPage = () => {
   const handleSignUp = async (values) => {
     try {
       if (!isValid) return;
-      toast.success("Signing up, please wait...", {
+      toast.info("Signing up, please wait...", {
         hideProgressBar: true,
       });
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
       await updateProfile(auth.currentUser, {
         displayName: values.username,
       });
       await updateProfile(auth.currentUser, {
         photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
       });
+      setUserInfo(user);
       toast.dismiss();
       toast.success("Created account successfully!", { hideProgressBar: true });
       navigate("/");
+      window.location.reload(false);
     } catch (error) {
       console.log(error);
-      toast.dismiss();
       toast.error(
         "This e-mail address has already been used, please pick another one!"
       );

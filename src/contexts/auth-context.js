@@ -14,7 +14,7 @@ function AuthProvider(props) {
     onAuthStateChanged(auth, (user) => {
       setUserInfo(user);
     });
-  }, []);
+  }, [userInfo]);
   return <AuthContext.Provider value={value} {...props}></AuthContext.Provider>;
 }
 

@@ -1,20 +1,30 @@
 import { LoadingSpinner } from "components/Loading";
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ButtonStyles = styled.button`
   cursor: pointer;
   padding: 22px;
   line-height: 1;
-  color: white;
   border-radius: 8px;
-  background-image: linear-gradient(
-    to bottom right,
-    ${(props) => props.theme.primary},
-    ${(props) => props.theme.secondary}
-  );
+  ${(props) =>
+    props.kind === "primary" &&
+    css`
+      background-image: linear-gradient(
+        to bottom right,
+        ${(props) => props.theme.primary},
+        ${(props) => props.theme.secondary}
+      );
+      color: white;
+    `};
+  ${(props) =>
+    props.kind === "secondary" &&
+    css`
+      background-color: white;
+      color: ${(props) => props.theme.primary};
+    `};
   width: 100%;
   height: ${(props) => props.height};
   display: flex;
@@ -38,6 +48,7 @@ const Button = ({
   type = "button",
   onClick = () => {},
   children,
+  kind = "primary",
   height = "80px",
   ...props
 }) => {
@@ -46,14 +57,26 @@ const Button = ({
   if (to !== "" && typeof to === "string") {
     return (
       <NavLink to={to}>
-        <ButtonStyles height={height} type={type} onClick={onClick} {...props}>
+        <ButtonStyles
+          kind={kind}
+          height={height}
+          type={type}
+          onClick={onClick}
+          {...props}
+        >
           {child}
         </ButtonStyles>
       </NavLink>
     );
   }
   return (
-    <ButtonStyles height={height} type={type} onClick={onClick} {...props}>
+    <ButtonStyles
+      kind={kind}
+      height={height}
+      type={type}
+      onClick={onClick}
+      {...props}
+    >
       {child}
     </ButtonStyles>
   );
@@ -61,8 +84,8 @@ const Button = ({
 
 Button.propTypes = {
   type: PropTypes.oneOf(["button", "submit"]),
-  isLoading: PropTypes.bool,
   onClick: PropTypes.func,
+  kind: PropTypes.string,
   children: PropTypes.node,
   height: PropTypes.string,
 };
