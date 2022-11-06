@@ -7,40 +7,12 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import styled from "styled-components";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "firebase-app/firebase-config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/auth-context";
-const SignUpPageStyles = styled.div`
-  background: #f2f2f2;
-  min-height: 100vh;
-  padding: 40px;
-  .logo {
-    margin: 0 auto 20px;
-  }
-  .heading {
-    text-align: center;
-    color: ${(props) => props.theme.primary};
-    font-weight: bold;
-    font-size: 40px;
-    margin-bottom: 60px;
-  }
-  .form {
-    background: white;
-    border-radius: 12px;
-    padding: 40px;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .label {
-    color: ${(props) => props.theme.grayDark};
-    font-weight: 500;
-    font-size: 16px;
-  }
-`;
+import AuthenticationPage from "./AuthenticationPage";
 
 const schema = yup.object({
   username: yup
@@ -59,6 +31,7 @@ const schema = yup.object({
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const { userInfo } = useAuth();
   const {
     control,
     handleSubmit,
@@ -68,34 +41,34 @@ const SignUpPage = () => {
     resolver: yupResolver(schema),
   });
   const [hidePassword, setHidePassword] = useState(true);
-  const { setUserInfo } = useAuth();
-  useEffect(() => {
-    document.title = "Sign up to Unicorn Blog";
-  }, []);
+
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {
+      toast.dismiss(arrErrors.find((item) => item === 0));
       toast.error(arrErrors[0]?.message, {
         pauseOnHover: true,
         closeOnClick: true,
       });
     }
   }, [errors]);
+  useEffect(() => {
+    document.title = "Sign up to Unicorn Blog";
+    if (userInfo?.email) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo]);
   const handleSignUp = async (values) => {
     try {
       if (!isValid) return;
       toast.success("Signing up, please wait...", {
         hideProgressBar: true,
       });
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      );
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
       await updateProfile(auth.currentUser, {
         displayName: values.username,
       });
-      await setUserInfo(user);
       await updateProfile(auth.currentUser, {
         photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
       });
@@ -111,62 +84,58 @@ const SignUpPage = () => {
     }
   };
   return (
-    <SignUpPageStyles>
-      <div className="container">
-        <img srcSet="/blog-logo.png 1.5x" alt="unicorn-blog" className="logo" />
-        <h1 className="heading">Unicorn Blog</h1>
-        <form
-          className="form"
-          onSubmit={handleSubmit(handleSignUp)}
-          autoComplete="off"
-        >
-          <Field>
-            <Label htmlFor="username">Username</Label>
-            <Input
-              type="text"
-              name="username"
-              placeholder="Enter your username"
-              control={control}
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="email">Email address</Label>
-            <Input
-              type="text"
-              name="email"
-              placeholder="Enter your email"
-              control={control}
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type={hidePassword ? "password" : "text"}
-              name="password"
-              placeholder="Enter your password"
-              control={control}
-            >
-              {hidePassword ? (
-                <IconEyeClosed
-                  onClick={() => setHidePassword(false)}
-                ></IconEyeClosed>
-              ) : (
-                <IconEyeOpen
-                  onClick={() => setHidePassword(true)}
-                ></IconEyeOpen>
-              )}
-            </Input>
-          </Field>
-          <Button
-            type="submit"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
+    <AuthenticationPage>
+      <form
+        className="form"
+        onSubmit={handleSubmit(handleSignUp)}
+        autoComplete="off"
+      >
+        <Field>
+          <Label htmlFor="username">Username</Label>
+          <Input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            control={control}
+          ></Input>
+        </Field>
+        <Field>
+          <Label htmlFor="email">Email address</Label>
+          <Input
+            type="text"
+            name="email"
+            placeholder="Enter your email"
+            control={control}
+          ></Input>
+        </Field>
+        <Field>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type={hidePassword ? "password" : "text"}
+            name="password"
+            placeholder="Enter your password"
+            control={control}
           >
-            Sign up
-          </Button>
-        </form>
-      </div>
-    </SignUpPageStyles>
+            {hidePassword ? (
+              <IconEyeClosed
+                onClick={() => setHidePassword(false)}
+              ></IconEyeClosed>
+            ) : (
+              <IconEyeOpen onClick={() => setHidePassword(true)}></IconEyeOpen>
+            )}
+          </Input>
+        </Field>
+        <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
+          Sign up
+        </Button>
+        <div className="redirect">
+          Already had an account?{" "}
+          <Link className="redirect-link" to="/sign-in">
+            Sign in here
+          </Link>
+        </div>
+      </form>
+    </AuthenticationPage>
   );
 };
 
