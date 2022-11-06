@@ -149,5 +149,26 @@ const IconEyeOpen = ({ className = "", onClick = () => {} }) => {
 
 export default IconEyeOpen;
 
-
 ```
+
+- Cách bố trì files:
+
+- ![Ảnh bố trí files/folders](https://i.ibb.co/0hv83Ym/image.png)
+
+- public: Nhét ảnh logo, ảnh vặt vào đó, nếu muốn sử dụng cho thẻ img thì thay vì sử dụng `src` thì ta sẽ sử dụng `srcSet`
+
+- components: Chứa các components có thể tái sử dụng ở nhiều nơi
+
+- contexts: Cái này thì không cần nói nhiều, để `lưu giá trị state, props sử dụng ở nhiều nơi`
+
+- firebase-app: Đặt là `firebase` sẽ **bị trùng với 1 thứ gì đó** nên phải đổi thành `firebase-app`, **dùng để chứa config của firebase**
+
+- hooks: Chứa custom hooks để tái sử dụng ở nhiều nơi
+
+- module: Chứa các component của các page nhưng không mang tính chất có thể tái sử dụng ở nhiều nơi (VD: Chỉ ở trang homepage với có banner, các trang khác đều không có thì ta sẽ nhét cái đó vào đây)
+
+- pages: **Dùng để chứa layout của một page** và **trong page đó** sẽ **sử dụng các components từ folder components**
+
+- styles: Theo mình thấy thì sẽ xóa file App.scss đi, sử dụng chính trong file index.scss và import reset.css vào thui, nếu có styled-component thì thêm vào các global styles và global classess
+
+- utils: Chứa những mã màu để sử dụng với styled-components cho nhanh
