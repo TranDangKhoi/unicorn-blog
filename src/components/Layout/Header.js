@@ -1,5 +1,8 @@
 import { Button } from "components/Button";
 import IconSearch from "components/Icon/IconSearch";
+import { useAuth } from "contexts/auth-context";
+import { auth } from "firebase-app/firebase-config";
+import { signOut } from "firebase/auth";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -25,7 +28,7 @@ const HeaderStyles = styled.header`
   }
   .header-sub {
     margin-left: auto;
-    max-width: 420px;
+    max-width: 520px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -52,7 +55,8 @@ const HeaderStyles = styled.header`
     color: ${(props) => props.theme.primary};
   }
   .search {
-    padding: 10px;
+    padding: 15px;
+    height: 56px;
     border: 1px solid #cfcfcf;
     border-radius: 8px;
     font-size: 16px;
@@ -66,9 +70,28 @@ const HeaderStyles = styled.header`
     transform: translateY(-50%);
     color: #999;
   }
+  .user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+  }
+  .username {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .avatar {
+    border-radius: 100rem;
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const Header = () => {
+  const handleSignOut = () => {
+    signOut(auth);
+  };
+  const { userInfo } = useAuth();
   return (
     <HeaderStyles>
       <div className="container">
@@ -105,7 +128,19 @@ const Header = () => {
               />
               <IconSearch className="search-icon"></IconSearch>
             </div>
-            <Button height="100%">Sign up</Button>
+            {userInfo ? (
+              <div className="user">
+                <img src={userInfo.photoURL} alt="" className="avatar" />
+                <div className="username">{userInfo?.displayName}</div>
+                <Button height="56px" to={"/sign-in"} onClick={handleSignOut}>
+                  Sign out
+                </Button>
+              </div>
+            ) : (
+              <Button height="56px" to={"/sign-in"}>
+                Login to your account
+              </Button>
+            )}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "styled-components";
@@ -14,10 +14,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
     <GlobalStyles></GlobalStyles>
-    <BrowserRouter>
+    <HashRouter>
       <App />
       <ToastContainer></ToastContainer>
-    </BrowserRouter>
+    </HashRouter>
   </ThemeProvider>
 );
 
