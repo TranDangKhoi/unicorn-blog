@@ -1,3 +1,4 @@
+import { Header } from "components/Layout";
 import Homepage from "pages/Homepage";
 import LoginPage from "pages/LoginPage";
 import { Routes, Route } from "react-router-dom";
@@ -7,6 +8,7 @@ function App() {
   return (
     <>
       <AuthProvider>
+        <Header></Header>
         <Routes>
           <Route path="/" element={<Homepage></Homepage>}></Route>
           <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>

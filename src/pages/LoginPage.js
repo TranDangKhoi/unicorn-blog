@@ -25,7 +25,7 @@ const schema = yup.object({
 });
 
 const LoginPage = () => {
-  const { userInfo, setUserInfo } = useAuth();
+  const { userInfo } = useAuth();
   const navigate = useNavigate();
   const [hidePassword, setHidePassword] = useState(true);
   const {
@@ -111,7 +111,7 @@ const LoginPage = () => {
           Sign In
         </Button>
         <div className="redirect">
-          Don't have an account?
+          Don't have an account?{" "}
           <Link className="redirect-link" to="/sign-up">
             Sign up here
           </Link>
