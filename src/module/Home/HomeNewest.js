@@ -15,7 +15,7 @@ const HomeNewestStyles = styled.div`
   }
   .sidebar {
     padding: 28px 20px;
-    background-color: #f3edff;
+    background-color: ${(props) => props.theme.grayF1};
     border-radius: 16px;
   }
 `;

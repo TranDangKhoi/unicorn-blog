@@ -8,7 +8,7 @@ const HomeFeature = () => {
   return (
     <HomeFeatureStyles className="home-block">
       <div className="container">
-        <Heading>Popular</Heading>
+        <Heading>Featured</Heading>
         <div className="grid-layout">
           <PostFeatureItem></PostFeatureItem>
           <PostFeatureItem></PostFeatureItem>

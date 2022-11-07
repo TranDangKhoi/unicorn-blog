@@ -3,11 +3,14 @@ html {
 }
 
 body {
-  font-family: "Poppins", "roboto", sans-serif !important;
+  font-family: "Montserrat", "roboto", "Poppins", sans-serif !important;
   font-size: 1.6rem;
   line-height: 1.5;
 }
-
+a {
+  text-decoration: none;
+  display: block;
+}
 *,
 *::before,
 *::after {

@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -38,19 +40,7 @@ const PostFeatureItemStyles = styled.div`
       align-items: center;
       margin-bottom: 16px;
     }
-    &-category {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 8px;
-      color: #6b6b6b;
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      background-color: #f3f3f3;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100px;
-    }
+
     &-info {
       display: flex;
       align-items: center;
@@ -68,9 +58,6 @@ const PostFeatureItemStyles = styled.div`
       border-radius: 100rem;
     }
     &-title {
-      line-height: 1.5;
-      display: block;
-      font-size: 22px;
       color: white;
     }
   }
@@ -78,7 +65,7 @@ const PostFeatureItemStyles = styled.div`
     height: 272px;
   }
 `;
-const PostFeatureItem = () => {
+const PostFeatureItem = ({ to }) => {
   return (
     <PostFeatureItemStyles>
       <img
@@ -89,16 +76,16 @@ const PostFeatureItem = () => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          <span className="post-category">Inspiring</span>
+          <PostCategory kind="secondary">Inspiring</PostCategory>
           <div className="post-info">
             <span className="post-time">Mar 23</span>
             <span className="post-dot"></span>
             <span className="post-author">Khoi Tran</span>
           </div>
         </div>
-        <h3 className="post-title">
+        <PostTitle size="semi-normal">
           10 Ideas to Make Your Desk More Productive + Inspiring
-        </h3>
+        </PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

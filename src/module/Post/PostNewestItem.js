@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 const PostNewestItemStyles = styled.div`
   display: flex;
   align-items: center;
@@ -26,13 +28,6 @@ const PostNewestItemStyles = styled.div`
       }
     }
     &-category {
-      display: inline-block;
-      padding: 8px;
-      border-radius: 8px;
-      color: #6b6b6b;
-      font-size: 12px;
-      font-weight: 600;
-      background-color: white;
       margin-bottom: 8px;
     }
     &-info {
@@ -52,10 +47,6 @@ const PostNewestItemStyles = styled.div`
       border-radius: 100rem;
     }
     &-title {
-      font-weight: bold;
-      line-height: 1.5;
-      display: block;
-      font-size: 16px;
       margin-bottom: 8px;
     }
   }
@@ -70,8 +61,9 @@ const PostNewestItem = () => {
         />
       </div>
       <div className="post-content">
-        <span className="post-category">Relaxing</span>
-        <h3 className="post-title">10 lofi playlists to listen at night</h3>
+        <PostCategory kind="secondary">Relaxing</PostCategory>
+        <PostTitle size="small">10 lofi playlists to listen at night</PostTitle>
+        {/* <h3 className="post-title">10 lofi playlists to listen at night</h3> */}
         <div className="post-info">
           <span className="post-time">Mar 23</span>
           <span className="post-dot"></span>

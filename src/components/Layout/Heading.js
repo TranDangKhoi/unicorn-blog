@@ -6,17 +6,16 @@ const HeadingStyles = styled.h2`
   position: relative;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 10px;
-  text-align: center;
-  &:before {
+  margin-bottom: 20px;
+  display: inline-block;
+  &::before {
     content: "";
+    position: absolute;
     width: 50px;
     height: 4px;
-    background-color: ${(props) => props.theme.accent};
-    position: absolute;
-    top: 0;
+    top: 100%;
     left: 0;
-    transform: translate(0, -150%);
+    background-color: ${(props) => props.theme.primary};
   }
 `;
 const Heading = ({ className = "", children }) => {

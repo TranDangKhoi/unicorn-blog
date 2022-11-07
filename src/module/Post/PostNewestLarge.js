@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 const PostNewestLargeStyles = styled.div`
   .post {
     &-image {
@@ -13,16 +15,11 @@ const PostNewestLargeStyles = styled.div`
         border-radius: 16px;
       }
     }
+
     &-category {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 8px;
-      color: #6b6b6b;
-      font-size: 14px;
-      font-weight: 600;
-      background-color: #f3edff;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
+
     &-info {
       display: flex;
       align-items: center;
@@ -39,11 +36,8 @@ const PostNewestLargeStyles = styled.div`
       border-radius: 100rem;
     }
     &-title {
-      font-weight: bold;
-      line-height: 1.5;
-      display: block;
-      font-size: 22px;
-      margin-bottom: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
   }
 `;
@@ -57,8 +51,8 @@ const PostNewestLarge = () => {
           alt=""
         />
       </div>
-      <div className="post-category">Relaxing</div>
-      <h3 className="post-title">10 lofi playlists to listen at night</h3>
+      <PostCategory kind="secondary">Relaxing</PostCategory>
+      <PostTitle size="big">10 lofi playlists to listen at night</PostTitle>
       <div className="post-info">
         <span className="post-time">Mar 23</span>
         <span className="post-dot"></span>

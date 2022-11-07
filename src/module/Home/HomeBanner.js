@@ -37,10 +37,11 @@ const HomeBanner = () => {
           <div className="banner-content">
             <h1 className="banner-heading">Unicorn Blog</h1>
             <p className="banner-desc">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-              assumenda similique qui rerum? Ex maiores eveniet omnis ipsam
-              inventore! Doloremque eum recusandae aliquid dolorem. Dicta magni
-              obcaecati totam aperiam odit!
+              Share your story: a blog allows you to have a voice and be heard
+              so you may share your story with the entire world, one of the most
+              common ways blogs are used are as a diary where the blogger writes
+              about their daily experiences so that friends, family, and others
+              can all be a part of their lives.
             </p>
             <Button kind="secondary" to={"/sign-in"}>
               Get started
