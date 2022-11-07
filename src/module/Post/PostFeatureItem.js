@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
+import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
   position: relative;
+  overflow: hidden;
   height: 169px;
   .post {
     &-image {
@@ -49,11 +51,10 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = ({ to }) => {
   return (
     <PostFeatureItemStyles>
-      <img
+      <PostImage
         src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-        alt="PostImage"
-        className="post-image"
-      />
+        alt="Post-Image"
+      ></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">

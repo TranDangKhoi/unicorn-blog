@@ -50,9 +50,15 @@
 
 - v1.1:
 
+17. Dashboard
+
+18. Admin/User Authentication
+
+19. Tách code ra thành nhiều re-useable components nhất có thể
+
 # Những thứ rút ra được sau khi làm project
 
-- `Rút ngắn đường dẫn import giữa các file lại` = cách `add thêm file jsconfig.json nằm cùng cấp với folder src`, sau đó code vào bên trong là:
+I. `Rút ngắn đường dẫn import giữa các file lại` = cách `add thêm file jsconfig.json nằm cùng cấp với folder src`, sau đó code vào bên trong là:
 
 ```json
 {
@@ -151,7 +157,7 @@ export default IconEyeOpen;
 
 ```
 
-- Cách bố trì files:
+II. Cách bố trì files:
 
 - ![Ảnh bố trí files/folders](https://i.ibb.co/0hv83Ym/image.png)
 

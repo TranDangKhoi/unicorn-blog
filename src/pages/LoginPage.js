@@ -1,12 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Field } from "components/Field";
-import { IconEyeClosed, IconEyeOpen } from "components/Icon";
-import { Input } from "components/Input";
+import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
 import { useAuth } from "contexts/auth-context";
 import React from "react";
-import { useState } from "react";
 import { useEffect } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -27,7 +25,6 @@ const schema = yup.object({
 const LoginPage = () => {
   const { userInfo } = useAuth();
   const navigate = useNavigate();
-  const [hidePassword, setHidePassword] = useState(true);
   const {
     control,
     handleSubmit,
@@ -92,20 +89,7 @@ const LoginPage = () => {
         </Field>
         <Field>
           <Label htmlFor="password"></Label>
-          <Input
-            control={control}
-            type={hidePassword ? "password" : "text"}
-            name="password"
-            placeholder="Enter your password"
-          >
-            {hidePassword ? (
-              <IconEyeClosed
-                onClick={() => setHidePassword(false)}
-              ></IconEyeClosed>
-            ) : (
-              <IconEyeOpen onClick={() => setHidePassword(true)}></IconEyeOpen>
-            )}
-          </Input>
+          <InputPassword control={control}></InputPassword>
         </Field>
         <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
           Sign In
