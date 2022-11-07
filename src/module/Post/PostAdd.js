@@ -3,6 +3,7 @@ import { Dropdown } from "components/Dropdown";
 import { Field } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
+import { Heading } from "components/Layout";
 import { Radio } from "components/Radio";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -22,7 +23,7 @@ const PostAdd = () => {
   const watchCategory = watch("category");
   return (
     <PostAddNewStyles>
-      <h1 className="dashboard-heading">Add new post</h1>
+      <Heading>Write new post</Heading>
       <form>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
@@ -91,7 +92,7 @@ const PostAdd = () => {
           <Field></Field>
         </div>
         <Button type="submit" className="mx-auto">
-          Add new post
+          Publish
         </Button>
       </form>
     </PostAddNewStyles>

@@ -28,9 +28,12 @@ function App() {
             ></Route>
             <Route
               path="/manage/add-post"
+              element={<PostAdd></PostAdd>}
+            ></Route>
+            <Route
+              path="/manage/post"
               element={<PostManage></PostManage>}
             ></Route>
-            <Route path="/manage/post" element={<PostAdd></PostAdd>}></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
         </Routes>
