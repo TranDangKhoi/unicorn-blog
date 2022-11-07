@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 const PostAddNewStyles = styled.div``;
 
-const PostAddNew = () => {
+const PostAdd = () => {
   const { control, watch, setValue } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -98,4 +98,4 @@ const PostAddNew = () => {
   );
 };
 
-export default PostAddNew;
+export default PostAdd;

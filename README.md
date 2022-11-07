@@ -56,6 +56,12 @@
 
 19. Tách code ra thành nhiều re-useable components nhất có thể
 
+- v1.2:
+
+- Collection: Posts
+  - Add new post:
+  -
+
 # Những thứ rút ra được sau khi làm project
 
 I. `Rút ngắn đường dẫn import giữa các file lại` = cách `add thêm file jsconfig.json nằm cùng cấp với folder src`, sau đó code vào bên trong là:

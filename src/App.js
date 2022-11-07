@@ -1,3 +1,4 @@
+import DashboardLayout from "module/Dashboard/DashboardLayout";
 import PostAdd from "module/Post/PostAdd";
 import PostManage from "module/Post/PostManage";
 import DashboardPage from "pages/DashboardPage";
@@ -20,15 +21,17 @@ function App() {
             path="/:slug"
             element={<PostDetailsPage></PostDetailsPage>}
           ></Route>
-          <Route
-            path="/dashboard"
-            element={<DashboardPage></DashboardPage>}
-          ></Route>
-          <Route
-            path="/manage/add-post"
-            element={<PostManage></PostManage>}
-          ></Route>
-          <Route path="/manage/post" element={<PostAdd></PostAdd>}></Route>
+          <Route element={<DashboardLayout></DashboardLayout>}>
+            <Route
+              path="/dashboard"
+              element={<DashboardPage></DashboardPage>}
+            ></Route>
+            <Route
+              path="/manage/add-post"
+              element={<PostManage></PostManage>}
+            ></Route>
+            <Route path="/manage/post" element={<PostAdd></PostAdd>}></Route>
+          </Route>
           <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
         </Routes>
       </AuthProvider>

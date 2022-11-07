@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import DashboardHeader from "./DashboardHeader";
-import Sidebar from "./Sidebar";
+import DashboardSidebar from "./DashboardSidebar";
 const DashboardStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
@@ -28,7 +28,7 @@ const DashboardLayout = ({ children }) => {
     <DashboardStyles>
       <DashboardHeader></DashboardHeader>
       <div className="dashboard-main">
-        <Sidebar></Sidebar>
+        <DashboardSidebar></DashboardSidebar>
         <div className="dashboard-children">
           <Outlet></Outlet>
         </div>
