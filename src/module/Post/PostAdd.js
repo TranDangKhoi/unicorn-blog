@@ -9,7 +9,18 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import styled from "styled-components";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import { postStatus } from "utils/constants";
+import { toast } from "react-toastify";
+import { ImageUpload } from "components/Upload";
+import { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "firebase-app/firebase-config";
 const PostAddNewStyles = styled.div``;
 const PostAdd = () => {
   const { control, watch, setValue, handleSubmit } = useForm({
@@ -21,14 +32,86 @@ const PostAdd = () => {
       category: "",
     },
   });
-  const watchStatus = watch("status");
+  const [progress, setProgress] = useState(0);
+  const [imageURL, setImageURL] = useState("");
+  // Convert status sang number vì database trả dưới dạng number
+  const watchStatus = Number(watch("status"));
   const watchCategory = watch("category");
   const handleAddPost = async (values) => {
-    values.slug = slugify(
-      values.slug.toLowerCase() || values.title.toLowerCase()
+    const cloneValues = { ...values };
+    cloneValues.slug = slugify(
+      cloneValues.slug.toLowerCase() || cloneValues.title.toLowerCase()
     );
-    console.log(values);
+    cloneValues.status = Number(values.status);
+    console.log(cloneValues);
+    // handleUploadImage(cloneValues.image);
+    // const colRef = collection(db, "posts");
+    // await addDoc(colRef, {
+
+    // })
   };
+  const handleUploadImage = (file) => {
+    if (!file) return;
+    const storage = getStorage();
+    const storageRef = ref(storage, "images/" + file.name);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progressPercent =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progressPercent);
+        switch (snapshot.state) {
+          case "paused":
+            toast.info("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            console.log("Nothing at all");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            toast.error("You must login to use this feature", {
+              hideProgressBar: true,
+            });
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            toast.info("You have just cancelled the upload progress!");
+            break;
+
+          case "storage/unknown":
+            toast.error("Unknown error occurred, inspect error.serverResponse");
+            break;
+          default:
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setImageURL(downloadURL);
+        });
+      }
+    );
+  };
+  const handleSelectImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setValue("image", file);
+    handleUploadImage(file);
+  };
+
   return (
     <PostAddNewStyles>
       <Heading>Write new post</Heading>
@@ -53,8 +136,16 @@ const PostAdd = () => {
         </div>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
+            <Label htmlFor="image">Image</Label>
+            <ImageUpload
+              image={imageURL}
+              progress={progress}
+              onChange={handleSelectImage}
+            ></ImageUpload>
+          </Field>
+          <Field>
             <Label htmlFor="status">Status</Label>
-            <div className="flex items-center gap-x-5">
+            <div className="flex flex-col gap-y-[52px]">
               <Radio
                 name="status"
                 control={control}
@@ -86,11 +177,9 @@ const PostAdd = () => {
             <Input
               control={control}
               name="author"
-              placeholder="Find the author"
+              placeholder="Who's the author"
             ></Input>
           </Field>
-        </div>
-        <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label htmlFor="category">Category</Label>
             <Dropdown>
@@ -101,8 +190,8 @@ const PostAdd = () => {
               <Dropdown.Option>Developer</Dropdown.Option>
             </Dropdown>
           </Field>
-          <Field></Field>
         </div>
+        <div className="grid grid-cols-2 mb-10 gap-x-10"></div>
         <Button type="submit" className="mx-auto">
           Publish
         </Button>
