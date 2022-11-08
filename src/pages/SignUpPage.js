@@ -76,9 +76,10 @@ const SignUpPage = () => {
       });
       setUserInfo(user);
       toast.dismiss();
-      toast.success("Created account successfully!", { hideProgressBar: true });
+      toast.success("Created account successfully!", {
+        hideProgressBar: true,
+      });
       navigate("/");
-      window.location.reload(false);
     } catch (error) {
       console.log(error);
       toast.error(

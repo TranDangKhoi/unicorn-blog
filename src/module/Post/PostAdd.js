@@ -7,27 +7,35 @@ import { Heading } from "components/Layout";
 import { Radio } from "components/Radio";
 import React from "react";
 import { useForm } from "react-hook-form";
+import slugify from "slugify";
 import styled from "styled-components";
+import { postStatus } from "utils/constants";
 const PostAddNewStyles = styled.div``;
-
 const PostAdd = () => {
-  const { control, watch, setValue } = useForm({
+  const { control, watch, setValue, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
-      status: "",
+      title: "",
+      slug: "",
+      status: 2,
       category: "",
     },
   });
   const watchStatus = watch("status");
-  console.log("PostAddNew ~ watchStatus", watchStatus);
   const watchCategory = watch("category");
+  const handleAddPost = async (values) => {
+    values.slug = slugify(
+      values.slug.toLowerCase() || values.title.toLowerCase()
+    );
+    console.log(values);
+  };
   return (
     <PostAddNewStyles>
       <Heading>Write new post</Heading>
-      <form>
+      <form onSubmit={handleSubmit(handleAddPost)}>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
-            <Label>Title</Label>
+            <Label htmlFor="title">Title</Label>
             <Input
               control={control}
               placeholder="Enter your title"
@@ -35,7 +43,7 @@ const PostAdd = () => {
             ></Input>
           </Field>
           <Field>
-            <Label>Slug</Label>
+            <Label htmlFor="slug">Slug</Label>
             <Input
               control={control}
               placeholder="Enter your slug"
@@ -45,42 +53,46 @@ const PostAdd = () => {
         </div>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
-            <Label>Status</Label>
+            <Label htmlFor="status">Status</Label>
             <div className="flex items-center gap-x-5">
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === "approved"}
-                value="approved"
+                checked={watchStatus === postStatus.APPROVED}
+                value={1}
               >
                 Approved
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === "pending"}
-                value="pending"
+                checked={watchStatus === postStatus.PENDING}
+                value={2}
               >
                 Pending
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === "reject"}
-                value="reject"
+                checked={watchStatus === postStatus.REJECTED}
+                value={3}
               >
                 Reject
               </Radio>
             </div>
           </Field>
           <Field>
-            <Label>Author</Label>
-            <Input control={control} placeholder="Find the author"></Input>
+            <Label htmlFor="author">Author</Label>
+            <Input
+              control={control}
+              name="author"
+              placeholder="Find the author"
+            ></Input>
           </Field>
         </div>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
-            <Label>Category</Label>
+            <Label htmlFor="category">Category</Label>
             <Dropdown>
               <Dropdown.Option>Knowledge</Dropdown.Option>
               <Dropdown.Option>Blockchain</Dropdown.Option>

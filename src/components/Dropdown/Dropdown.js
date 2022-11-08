@@ -2,7 +2,7 @@ import { DropdownProvider } from "contexts/dropdown-context";
 import React, { useState } from "react";
 
 const Dropdown = ({
-  placeholder = "Please select an option",
+  placeholder = "Please select an category",
   children,
   ...props
 }) => {

@@ -12,6 +12,43 @@
 
 4. Viết auth-context để lưu trữ thông tin người dùng và dùng ở nhiều nơi
 
+# Phân tích database
+
+#### Collection: posts
+
+- id
+- title
+- slug
+- image
+- content
+- status (approved, pending, rejected)
+- userId (để lấy ra thông tin user đã viết bài viết đó)
+- categoryId (lấy ra thông tin danh mục)
+- createdAt
+- updatedAt
+
+#### Collection: Category
+
+- id
+- name
+- slug
+- status (approve, pending)
+
+#### Collection User
+
+- id
+- username
+- avatar
+- email
+- password
+- status (active, pending, banned)
+- role (admin,mod,user), trong đó:
+  - admin: Có mọi quyền của mod + thêm/sửa/xóa user
+  - mod: Có mọi quyền của user + duyệt bài viết, thêm/xóa/sửa bài viết của user
+  - user: thêm/xóa/sửa bài viết của chính mình
+  - Bình thường trong dự án thật sẽ ít ai làm như này, người ta sẽ tạo ra một trường là permissions, và permissions sẽ là mảng chứa các quyền ở trong đó. Nhưng làm như vậy sẽ khá phức tạp vì sẽ có hàng trăm quyền ở trong đó nên mình sẽ sử dụng role
+- createdAt
+
 # List những tasks/targets cần hoàn thành
 
 - v1.0:
@@ -59,8 +96,9 @@
 - v1.2:
 
 - Collection: Posts
-  - Add new post:
-  -
+  - Add new post
+  - Delete post
+  - Update post
 
 # Những thứ rút ra được sau khi làm project
 
@@ -184,3 +222,86 @@ II. Cách bố trì files:
 - styles: Theo mình thấy thì sẽ xóa file App.scss đi, sử dụng chính trong file index.scss và import reset.css vào thui, nếu có styled-component thì thêm vào các global styles và global classess
 
 - utils: Chứa những mã màu để sử dụng với styled-components cho nhanh
+
+# Nếu database trả về status của một đối tượng nào đó dưới dạng number thì sao
+
+- Đọc phần tiêu đề có thể bạn chưa hiểu mình đang muốn nói tới cái gì, thì bây giờ mình sẽ giải thích đei:
+
+  - Khi bạn **đăng một bài viết** lên một nhóm trên Facebook, thường thì **bạn sẽ phải đợi quản trị viên duyệt bài của bạn** thì **bài viết mới được hiển thị lên**
+  - Ta chia trạng thái bài viết cả bạn thành 3 trạng thái phổ biến như sau (Đã được duyệt bài thành công / Đang chờ để được duyệt bài / Bị từ chối duyệt bài)
+  - Lúc này, status của bài viết bạn nằm trong database thực ra là 3 con số tương ứng với các trạng thái trên
+    - 1: **Đã được duyệt bài thành công**
+    - 2: **Đang chờ để được duyệt bài**
+    - 3: **Bị từ chối duyệt bài**
+  - Vậy nên để code Front-End cho các dev khác hiểu, ta sẽ tạo ra một object nằm trong constants.js trong folder utils, ta không nên code như này:
+
+  ```js
+  <>
+    <Radio
+      name="status"
+      control={control}
+      checked={watchStatus === 1}
+      value={1}
+    >
+      Approved
+    </Radio>
+    <Radio
+      name="status"
+      control={control}
+      checked={watchStatus === 2}
+      value={2}
+    >
+      Pending
+    </Radio>
+    <Radio
+      name="status"
+      control={control}
+      checked={watchStatus === 3}
+      value={3}
+    >
+      Reject
+    </Radio>
+  </>
+  ```
+
+  - Các con số 1,2,3 kia là các magic number, nếu đọc mà không hiểu ý nhau thì sẽ gây mâu thuẫn, nên OK, ta sẽ tạo một object lưu trữ các con số 1,2,3 kia và định nghĩa ý nghĩa cho các con số đó luôn
+
+  ```js
+  // Bên file constants.js nằm trong folder utils thêm
+  export const postStatus = {
+    APPROVED: 1,
+    PENDING: 2,
+    REJECTED: 3,
+  };
+  ```
+
+  - Đó nhìn trông rất trực quan, giờ mình sẽ sửa lại đoạn code khó hiểu ở bên trên
+
+  ```js
+  <>
+    <Radio
+      name="status"
+      control={control}
+      checked={watchStatus === postStatus.APPROVED}
+      value={1}
+    >
+      Approved
+    </Radio>
+    <Radio
+      name="status"
+      control={control}
+      checked={watchStatus === postStatus.PENDING}
+      value={2}
+    >
+      Pending
+    </Radio>
+    <Radio
+      name="status"
+      control={control}
+      checked={watchStatus === postStatus.REJECTED}
+      value={3}
+    >
+      Reject
+    </Radio>
+  </>
+  ```
