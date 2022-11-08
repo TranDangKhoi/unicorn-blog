@@ -11,6 +11,7 @@ const ImageUpload = ({
 }) => {
   return (
     <label
+      htmlFor={name}
       className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed overflow-auto w-full max-h-[300px] h-full rounded-lg relative ${className}`}
     >
       <input
@@ -49,6 +50,7 @@ const ImageUpload = ({
         <div className="overflow-auto">
           <img src={image} className="object-cover w-full h-full" alt="" />
           <button
+            type="button"
             className="absolute z-10 flex items-center text-[24px] justify-center p-5 bg-white bg-opacity-80 rounded-full w-7 h-7 top-3 right-4 hover:bg-opacity-100"
             onClick={handleRemoveImage}
           >

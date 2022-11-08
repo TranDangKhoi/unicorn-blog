@@ -9,20 +9,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import styled from "styled-components";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+
 import { postStatus } from "utils/constants";
-import { toast } from "react-toastify";
 import { ImageUpload } from "components/Upload";
-import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "firebase-app/firebase-config";
-import { values } from "lodash";
 import useFirebaseImage from "hooks/useFirebaseImage";
 const PostAddNewStyles = styled.div``;
 const PostAdd = () => {
@@ -39,7 +28,6 @@ const PostAdd = () => {
     useFirebaseImage(setValue, getValues);
   // Convert status sang number vì database trả dưới dạng number
   const watchStatus = Number(watch("status"));
-  const watchCategory = watch("category");
   const handleAddPost = async (values) => {
     const cloneValues = { ...values };
     cloneValues.slug = slugify(

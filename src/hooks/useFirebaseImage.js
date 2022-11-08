@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 export default function useFirebaseImage(setValue, getValues) {
   const [progress, setProgress] = useState(0);
   const [imageURL, setImageURL] = useState("");
+  if (!setValue || !getValues) return;
   const handleUploadImage = (file) => {
     if (!file) return;
     const storage = getStorage();
@@ -68,10 +69,8 @@ export default function useFirebaseImage(setValue, getValues) {
   };
   const handleSelectImage = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    console.log(file);
     setValue("image_name", file.name);
-    console.log(progress);
-
     handleUploadImage(file);
   };
   const handleRemoveImage = () => {
