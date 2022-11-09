@@ -348,10 +348,7 @@ II. Cách bố trì files:
         password: values.password,
         userId: user.user.uid,
       });
-      toast.dismiss();
-      toast.success("Created account successfully!", {
-        hideProgressBar: true,
-      });
+
       navigate("/");
     } catch (error) {
       console.log(error);
