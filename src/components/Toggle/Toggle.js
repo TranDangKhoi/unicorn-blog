@@ -1,12 +1,12 @@
 import React from "react";
 
-const Toggle = (props) => {
-  const { on, onClick, ...rest } = props;
-
+const Toggle = ({ name, on, onClick, ...rest }) => {
   return (
     <label>
       <input
         type="checkbox"
+        name={name}
+        id={name}
         checked={on}
         onClick={onClick}
         className="hidden-input"
@@ -14,7 +14,7 @@ const Toggle = (props) => {
       />
       <div
         className={`inline-block w-[100px] h-[52px] relative cursor-pointer rounded-full p-1 transition-all ${
-          on ? "bg-purple-500" : "bg-gray-300"
+          on ? "bg-[#1DC071]" : "bg-gray-300"
         }`}
         {...rest}
       >

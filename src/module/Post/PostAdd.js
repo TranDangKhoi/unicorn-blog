@@ -14,6 +14,10 @@ import { postStatus } from "utils/constants";
 import { ImageUpload } from "components/Upload";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import { Toggle } from "components/Toggle";
+import { useEffect } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "firebase-app/firebase-config";
+import { useState } from "react";
 const PostAddNewStyles = styled.div``;
 const PostAdd = () => {
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
@@ -22,12 +26,15 @@ const PostAdd = () => {
       title: "",
       slug: "",
       status: 2,
-      category: "",
+      categoryId: "",
+      popular: false,
     },
   });
   const { imageURL, progress, handleRemoveImage, handleSelectImage } =
     useFirebaseImage(setValue, getValues);
+  const [categories, setCategories] = useState([]);
   // Convert status sang number vì database trả dưới dạng number
+  const watchPopular = watch("popular");
   const watchStatus = Number(watch("status"));
   const handleAddPost = async (values) => {
     const cloneValues = { ...values };
@@ -42,6 +49,22 @@ const PostAdd = () => {
 
     // })
   };
+  useEffect(() => {
+    async function getData() {
+      const colRef = collection(db, "categories");
+      const q = query(colRef, where("status", "==", 1));
+      const docs = await getDocs(q);
+      let yourCategories = [];
+      docs.forEach((doc) => {
+        yourCategories.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setCategories(yourCategories);
+    }
+    getData();
+  }, []);
 
   return (
     <PostAddNewStyles>
@@ -79,7 +102,7 @@ const PostAdd = () => {
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label htmlFor="status">Status</Label>
-            <div className="flex flex-col gap-y-[52px]">
+            <div className="flex items-center justify-between gap-x-5">
               <Radio
                 name="status"
                 control={control}
@@ -117,16 +140,27 @@ const PostAdd = () => {
           <Field>
             <Label htmlFor="category">Category</Label>
             <Dropdown>
-              <Dropdown.Option>Knowledge</Dropdown.Option>
-              <Dropdown.Option>Blockchain</Dropdown.Option>
-              <Dropdown.Option>Setup</Dropdown.Option>
-              <Dropdown.Option>Nature</Dropdown.Option>
-              <Dropdown.Option>Developer</Dropdown.Option>
+              <Dropdown.Select></Dropdown.Select>
+              <Dropdown.List>
+                {categories.length > 0 &&
+                  categories.map((item) => (
+                    <Dropdown.Option
+                      onClick={() => setValue("categoryId", item.id)}
+                      key={item.id}
+                    >
+                      {item.name}
+                    </Dropdown.Option>
+                  ))}
+              </Dropdown.List>
             </Dropdown>
           </Field>
           <Field>
-            <Label>Popular post</Label>
-            <Toggle></Toggle>
+            <Label htmlFor="popular">Popular post</Label>
+            <Toggle
+              name="popular"
+              on={watchPopular === true}
+              onClick={() => setValue("popular", !watchPopular)}
+            ></Toggle>
           </Field>
         </div>
         <Button type="submit" className="mx-auto">
