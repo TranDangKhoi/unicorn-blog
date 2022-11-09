@@ -51,7 +51,7 @@ const ImageUpload = ({
           <img src={image} className="object-cover w-full h-full" alt="" />
           <button
             type="button"
-            className="absolute z-10 flex items-center text-[24px] justify-center p-5 bg-white bg-opacity-80 rounded-full w-7 h-7 top-3 right-4 hover:bg-opacity-100"
+            className="absolute z-10 flex items-center text-[22px] justify-center p-5 bg-white bg-opacity-80 rounded-full w-6 h-6 top-6 right-4 hover:bg-opacity-100"
             onClick={handleRemoveImage}
           >
             <i className="fa-solid fa-xmark"></i>

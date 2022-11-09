@@ -13,6 +13,7 @@ import AuthenticationPage from "./AuthenticationPage";
 import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "firebase-app/firebase-config";
+import Homepage from "./Homepage";
 
 const schema = yup.object({
   email: yup
@@ -54,13 +55,10 @@ const LoginPage = () => {
       );
     }
   };
-  useEffect(() => {
-    document.title = "Login to Unicorn Blog";
-    if (userInfo?.email) {
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
+  // useEffect(() => {
+  //   document.title = "Login to Unicorn Blog";
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [userInfo]);
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {
@@ -71,6 +69,7 @@ const LoginPage = () => {
       });
     }
   }, [errors]);
+  if (userInfo) return <Homepage></Homepage>;
   return (
     <AuthenticationPage>
       <form

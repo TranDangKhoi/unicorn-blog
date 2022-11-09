@@ -1,3 +1,5 @@
+import { useAuth } from "contexts/auth-context";
+import LoginPage from "pages/LoginPage";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
@@ -23,7 +25,16 @@ const DashboardStyles = styled.div`
     }
   }
 `;
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
+  const { userInfo } = useAuth();
+  if (!userInfo) return <LoginPage></LoginPage>;
+  // useEffect(() => {
+  //   document.title = "Your dashboard";
+  //   if (!userInfo?.email) {
+  //     navigate("/sign-in");
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [userInfo]);
   return (
     <DashboardStyles>
       <DashboardHeader></DashboardHeader>

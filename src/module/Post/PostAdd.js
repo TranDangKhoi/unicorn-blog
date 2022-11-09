@@ -8,19 +8,26 @@ import { Radio } from "components/Radio";
 import React from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
-import styled from "styled-components";
-
 import { postStatus } from "utils/constants";
 import { ImageUpload } from "components/Upload";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import { Toggle } from "components/Toggle";
 import { useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
 import { useState } from "react";
-const PostAddNewStyles = styled.div``;
+import { useAuth } from "contexts/auth-context";
+import { toast } from "react-toastify";
 const PostAdd = () => {
-  const { control, watch, setValue, handleSubmit, getValues } = useForm({
+  const {
+    control,
+    reset,
+    watch,
+    setValue,
+    handleSubmit,
+    getValues,
+    formState: { isSubmitting },
+  } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
@@ -30,24 +37,41 @@ const PostAdd = () => {
       popular: false,
     },
   });
+  const { userInfo } = useAuth();
   const { imageURL, progress, handleRemoveImage, handleSelectImage } =
     useFirebaseImage(setValue, getValues);
   const [categories, setCategories] = useState([]);
+  const [selectCategory, setSelectCategory] = useState("");
   // Convert status sang number vì database trả dưới dạng number
   const watchPopular = watch("popular");
   const watchStatus = Number(watch("status"));
   const handleAddPost = async (values) => {
     const cloneValues = { ...values };
-    cloneValues.slug = slugify(
-      cloneValues.slug.toLowerCase() || cloneValues.title.toLowerCase()
-    );
+    cloneValues.slug = slugify(cloneValues.slug || cloneValues.title, {
+      lower: true,
+    });
     cloneValues.status = Number(values.status);
+    const colRef = collection(db, "posts");
+    await addDoc(colRef, {
+      ...cloneValues,
+      imageURL,
+      userId: userInfo.uid,
+    });
+    toast.success("Your blog has been posted successfully");
+    reset({
+      title: "",
+      slug: "",
+      status: 2,
+      categoryId: "",
+      imageURL: "",
+      popular: false,
+    });
     console.log(cloneValues);
-    // handleUploadImage(cloneValues.image);
-    // const colRef = collection(db, "posts");
-    // await addDoc(colRef, {
-
-    // })
+    setSelectCategory({});
+  };
+  const handleSelectOption = (item) => {
+    setValue("categoryId", item.id);
+    setSelectCategory(item);
   };
   useEffect(() => {
     async function getData() {
@@ -67,7 +91,7 @@ const PostAdd = () => {
   }, []);
 
   return (
-    <PostAddNewStyles>
+    <>
       <Heading>Write new post</Heading>
       <form onSubmit={handleSubmit(handleAddPost)}>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
@@ -145,7 +169,7 @@ const PostAdd = () => {
                 {categories.length > 0 &&
                   categories.map((item) => (
                     <Dropdown.Option
-                      onClick={() => setValue("categoryId", item.id)}
+                      onClick={() => handleSelectOption(item)}
                       key={item.id}
                     >
                       {item.name}
@@ -153,6 +177,11 @@ const PostAdd = () => {
                   ))}
               </Dropdown.List>
             </Dropdown>
+            {selectCategory?.name && (
+              <span className="inline-block p-4 text-sm bg-[#1DC071] text-white font-semibold rounded-lg">
+                {selectCategory?.name}
+              </span>
+            )}
           </Field>
           <Field>
             <Label htmlFor="popular">Popular post</Label>
@@ -163,11 +192,16 @@ const PostAdd = () => {
             ></Toggle>
           </Field>
         </div>
-        <Button type="submit" className="mx-auto">
+        <Button
+          type="submit"
+          className="mx-auto"
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+        >
           Publish
         </Button>
       </form>
-    </PostAddNewStyles>
+    </>
   );
 };
 

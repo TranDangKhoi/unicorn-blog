@@ -1,4 +1,5 @@
 import { Button } from "components/Button";
+import { useAuth } from "contexts/auth-context";
 import React from "react";
 import styled from "styled-components";
 
@@ -54,6 +55,7 @@ const HomeBannerStyles = styled.div`
 `;
 
 const HomeBanner = () => {
+  const { userInfo } = useAuth();
   return (
     <HomeBannerStyles>
       <div className="container">
@@ -67,7 +69,11 @@ const HomeBanner = () => {
               about their daily experiences so that friends, family, and others
               can all be a part of their lives.
             </p>
-            <Button to="/sign-up" kind="secondary" className="banner-button">
+            <Button
+              to={`${userInfo?.email ? "/dashboard" : "/sign-in"}`}
+              kind="secondary"
+              className="banner-button"
+            >
               Get started
             </Button>
           </div>

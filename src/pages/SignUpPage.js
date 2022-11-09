@@ -12,6 +12,7 @@ import { auth } from "firebase-app/firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/auth-context";
 import AuthenticationPage from "./AuthenticationPage";
+import Homepage from "./Homepage";
 
 const schema = yup.object({
   username: yup
@@ -50,13 +51,13 @@ const SignUpPage = () => {
       });
     }
   }, [errors]);
-  useEffect(() => {
-    document.title = "Sign up to Unicorn Blog";
-    if (userInfo?.email) {
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
+  // useEffect(() => {
+  //   document.title = "Sign up to Unicorn Blog";
+  //   if (userInfo?.email) {
+  //     navigate("/");
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [userInfo]);
   const handleSignUp = async (values) => {
     try {
       if (!isValid) return;
@@ -87,6 +88,8 @@ const SignUpPage = () => {
       );
     }
   };
+  if (userInfo) return <Homepage></Homepage>;
+
   return (
     <AuthenticationPage>
       <form
