@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/auth-context";
 import AuthenticationPage from "./AuthenticationPage";
 import Homepage from "./Homepage";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const schema = yup.object({
   username: yup
@@ -52,13 +52,7 @@ const SignUpPage = () => {
       });
     }
   }, [errors]);
-  // useEffect(() => {
-  //   document.title = "Sign up to Unicorn Blog";
-  //   if (userInfo?.email) {
-  //     navigate("/");
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [userInfo]);
+
   const handleSignUp = async (values) => {
     try {
       if (!isValid) return;
@@ -77,19 +71,14 @@ const SignUpPage = () => {
         photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
       });
       await setUserInfo(user);
-      // const userRef = collection(db, "users");
+
       await setDoc(doc(db, "users", auth.currentUser.uid), {
         username: values.username,
         email: values.email,
         password: values.password,
-        id: auth.currentUser.uid,
+        userId: auth.currentUser.uid,
       });
-      // await addDoc(userRef, {
-      //   username: values.username,
-      //   email: values.email,
-      //   password: values.password,
-      //   id: user.user.uid,
-      // });
+
       toast.dismiss();
       toast.success("Created account successfully!", {
         hideProgressBar: true,

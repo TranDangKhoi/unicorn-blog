@@ -1,5 +1,4 @@
 import { Layout } from "components/Layout";
-import { useAuth } from "contexts/auth-context";
 import HomeBanner from "module/Home/HomeBanner";
 import HomeFeature from "module/Home/HomeFeature";
 import HomeNewest from "module/Home/HomeNewest";

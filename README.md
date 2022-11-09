@@ -319,3 +319,130 @@ II. Cách bố trì files:
     </Radio>
   </>
   ```
+
+## Lưu ý khi thêm user vào database
+
+- Khi thêm user vào database thì ta nên sử dụng `setDoc` thay vì `addDoc`. Vì sao ư?
+
+- Nếu sử dụng firebase thì khi ta đăng kí một account bằng Firebase:
+
+  1. Account đó sẽ tự generate ra user id sau khi đăng kí
+  2. Sau đó, ta sử dụng addDoc để lưu user đó vào trong một document
+
+  - **ĐÂY CHÍNH LÀ NÓ** đã gây ra cho mình 1 cơn đau đầu đến gần trầm cảm cả tối, và nó mà mình nói tới ở đây chính là bản chất của câu lệnh `addDoc` này
+  - Nếu ta sử dụng `addDoc` thì document sẽ tự generate ra `ID` và lúc này `id giữa document và cái mà tự generate ra lúc tạo account` sẽ **KHÁC NHAU**.
+  - Mình sẽ ví dụ về một đoạn code khi đăng kí, ta sẽ sử dụng `addDoc` để `thêm users vào database`:
+
+  ```js
+  const handleSignUp = async (values) => {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const userRef = collection(db, "users");
+      await addDoc(userRef, {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        userId: user.user.uid,
+      });
+      toast.dismiss();
+      toast.success("Created account successfully!", {
+        hideProgressBar: true,
+      });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        "This e-mail address has already been used, please pick another one!"
+      );
+    }
+  };
+  ```
+
+  - Lúc này nếu mình code để lấy ra id người dùng như sau:
+
+  ```js
+  // props item ở đây là thông tin của một bài viết (tiêu đề, thông tin người viết bài, ảnh, ...v.v)
+  const PostFeatureItem = ({ item }) => {
+    const [user, setUser] = useState([]);
+    useEffect(() => {
+      async function getUser() {
+        // Lấy ra reference của doc có trùng userId với item.userId của prop item truyền vào
+        const docRef = doc(db, "users", item.userId);
+        // Lấy ra thông tin của doc
+        const docSnap = await getDoc(docRef);
+        // In ra màn hình thông tin của người dùng trùng với userId của người viết bài
+        console.log(docSnap.data());
+        // Truyền toàn bộ thông tin có được vào state user để sử dụng
+        setUser(docSnap.data());
+      }
+      // Invoke
+      getAuthor();
+    }, [item.user]);
+  };
+  ```
+
+  - Trông **code rất hoàn hảo**, nhưng bạn hãy cùng đoán xem ở màn hình console sẽ in ra gì. Mình cũng sốc lúc nhìn lắm ... Và trầm cảm lúc debug nữa vì không mò ra được bệnh
+  - Ouput hiển thị ra là `undefined`! Lúc đầu mình cũng bối rối lắm, rõ ràng code chuẩn chỉ như thế rồi, chả nhẽ sai ở đâu, sao không có lỗi đỏ, ...
+  - Sau khi mò mẫm một hồi thì mình nhận ra docRef này nó đang cố references tới một cái `item.userId` mà không hề trùng với `id của document chứa thông tin user`. OK, nói có thể hơi khó hiểu nhưng các bạn có thể hiểu như sau:
+
+  1. Như ở trên mình nói, khi sử dụng `addDoc` thì id của document sẽ đc `auto-generate`.
+  2. Khi `tạo tài khoản`,` id của tài khoản` cũng sẽ được `auto-generate`.
+  3. **VÀ ĐƯƠNG NHIÊN**, vì hai cái `id được generate của document` và `id của account được tạo` chả liên quan quái gì tới nhau cả nên id của chúng nó sẽ **KHÁC NHAU HOÀN TOÀN** (document chứa thông tin user có id một kiểu, userId mình lưu trữ trong authentication cũng có id một kiểu). Vậy nên bây giờ mọi thứ đều đã dễ hiểu, cái document này không có trùng id với user id nên nó không tìm được docReference -> output là `undefined`
+
+- Ok vậy ta đã tìm ra được bệnh rồi, giờ phải làm thế nào you may ask???
+- Thay vì sử dụng `addDoc`, mình sẽ sử dụng `setDoc` để set cho `ID CỦA DOCUMENT CHỨA THÔNG TIN CỦA USER GIỐNG VỚI ID CỦA USER` luôn (chú ý kĩ đoạn này nha)
+- Okay, giờ cùng bắt tay vào fix đoạn code ở `function handleSignUp` nha:
+
+```js
+const handleSignUp = async (values) => {
+  try {
+    if (!isValid) return;
+    toast.info("Signing up, please wait...", {
+      hideProgressBar: true,
+    });
+    const user = await createUserWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password
+    );
+    await updateProfile(auth.currentUser, {
+      displayName: values.username,
+    });
+    await updateProfile(auth.currentUser, {
+      photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
+    });
+    await setUserInfo(user);
+    // Đoạn code cũ
+    // const userRef = collection(db, "users");
+    // await addDoc(userRef, {
+    //   username: values.username,
+    //   email: values.email,
+    //   password: values.password,
+    //   userId: user.user.uid,
+    // });
+    // setDoc(doc(database, tên collection, id của doc))
+    // Đó như bạn thấy ở dưới đây thì id của doc mình đã set luôn cho
+    // nó thành auth.currentUser.uid rồi nên không có chuyện bị lỗi nữa
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      userId: auth.currentUser.uid,
+    });
+    toast.dismiss();
+    toast.success("Created account successfully!", {
+      hideProgressBar: true,
+    });
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+    toast.error(
+      "This e-mail address has already been used, please pick another one!"
+    );
+  }
+};
+```
