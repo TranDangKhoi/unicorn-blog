@@ -1,11 +1,20 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 const HeadingStyles = styled.h2`
   color: ${(props) => props.theme.primary};
   font-size: 28px;
   position: relative;
   font-weight: 700;
-  text-transform: uppercase;
+  ${(props) =>
+    props.uppercase === true &&
+    css`
+      text-transform: uppercase;
+    `};
+  text-transform: ${(props) =>
+    props.uppercase === false &&
+    css`
+      text-transform: none;
+    `};
   margin-bottom: 20px;
   display: inline-block;
   &::before {
@@ -18,8 +27,12 @@ const HeadingStyles = styled.h2`
     background-color: ${(props) => props.theme.primary};
   }
 `;
-const Heading = ({ className = "", children }) => {
-  return <HeadingStyles className={className}>{children}</HeadingStyles>;
+const Heading = ({ className = "", uppercase = true, children }) => {
+  return (
+    <HeadingStyles className={className} uppercase={uppercase}>
+      {children}
+    </HeadingStyles>
+  );
 };
 
 export default Heading;

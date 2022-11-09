@@ -1,3 +1,4 @@
+import { Heading } from "components/Layout";
 import { Pagination } from "components/Pagination";
 import { Table } from "components/Table";
 import React from "react";
@@ -5,7 +6,7 @@ import React from "react";
 const PostManage = () => {
   return (
     <div>
-      <h1 className="dashboard-heading">Manage post</h1>
+      <Heading>Manage posts</Heading>
       <div className="flex justify-end mb-10">
         <div className="w-full max-w-[300px]">
           <input
