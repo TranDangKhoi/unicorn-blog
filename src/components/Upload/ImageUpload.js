@@ -12,7 +12,7 @@ const ImageUpload = ({
   return (
     <label
       htmlFor={name}
-      className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed overflow-auto w-full max-h-[300px] h-full rounded-lg relative ${className}`}
+      className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed overflow-auto w-full min-h-[600px] rounded-lg relative ${className}`}
     >
       <input
         type="file"

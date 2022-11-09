@@ -27,6 +27,20 @@
 - createdAt
 - updatedAt
 
+UPDATED v1.3:
+
+- id
+- title
+- slug
+- image
+- content
+- status (approved, pending, rejected)
+- isPopular (true, false)
+- userId (để lấy ra thông tin user đã viết bài viết đó)
+- categoryId (lấy ra thông tin danh mục)
+- createdAt
+- updatedAt
+
 #### Collection: Category
 
 - id

@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { postStatus } from "utils/constants";
 import { ImageUpload } from "components/Upload";
 import useFirebaseImage from "hooks/useFirebaseImage";
+import { Toggle } from "components/Toggle";
 const PostAddNewStyles = styled.div``;
 const PostAdd = () => {
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
@@ -64,7 +65,7 @@ const PostAdd = () => {
             ></Input>
           </Field>
         </div>
-        <div className="grid grid-cols-2 mb-10 gap-x-10">
+        <div className="w-full h-full mb-10">
           <Field>
             <Label htmlFor="image">Image</Label>
             <ImageUpload
@@ -74,6 +75,8 @@ const PostAdd = () => {
               handleRemoveImage={handleRemoveImage}
             ></ImageUpload>
           </Field>
+        </div>
+        <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label htmlFor="status">Status</Label>
             <div className="flex flex-col gap-y-[52px]">
@@ -121,8 +124,11 @@ const PostAdd = () => {
               <Dropdown.Option>Developer</Dropdown.Option>
             </Dropdown>
           </Field>
+          <Field>
+            <Label>Popular post</Label>
+            <Toggle></Toggle>
+          </Field>
         </div>
-        <div className="grid grid-cols-2 mb-10 gap-x-10"></div>
         <Button type="submit" className="mx-auto">
           Publish
         </Button>
