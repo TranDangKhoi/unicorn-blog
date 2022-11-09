@@ -355,9 +355,6 @@ II. Cách bố trì files:
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error(
-        "This e-mail address has already been used, please pick another one!"
-      );
     }
   };
   ```
@@ -400,22 +397,12 @@ II. Cách bố trì files:
 ```js
 const handleSignUp = async (values) => {
   try {
-    if (!isValid) return;
-    toast.info("Signing up, please wait...", {
-      hideProgressBar: true,
-    });
     const user = await createUserWithEmailAndPassword(
       auth,
       values.email,
       values.password
     );
-    await updateProfile(auth.currentUser, {
-      displayName: values.username,
-    });
-    await updateProfile(auth.currentUser, {
-      photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
-    });
-    await setUserInfo(user);
+
     // Đoạn code cũ
     // const userRef = collection(db, "users");
     // await addDoc(userRef, {
@@ -433,16 +420,8 @@ const handleSignUp = async (values) => {
       password: values.password,
       userId: auth.currentUser.uid,
     });
-    toast.dismiss();
-    toast.success("Created account successfully!", {
-      hideProgressBar: true,
-    });
-    navigate("/");
   } catch (error) {
     console.log(error);
-    toast.error(
-      "This e-mail address has already been used, please pick another one!"
-    );
   }
 };
 ```
