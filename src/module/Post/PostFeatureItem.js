@@ -1,4 +1,15 @@
+import { db } from "firebase-app/firebase-config";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -28,7 +39,7 @@ const PostFeatureItemStyles = styled.div`
         rgba(255, 255, 255, 0) 99.8%
       );
       mix-blend-mode: multiply;
-      opacity: 0.6;
+      opacity: 0.5;
     }
     &-content {
       position: absolute;
@@ -48,22 +59,41 @@ const PostFeatureItemStyles = styled.div`
     height: 272px;
   }
 `;
-const PostFeatureItem = ({ to }) => {
+const PostFeatureItem = ({ item }) => {
+  const [categories, setCategories] = useState([]);
+  const [author, setAuthor] = useState([]);
+  console.log(item);
+  useEffect(() => {
+    async function getCategories() {
+      const docRef = doc(db, "categories", item.categoryId);
+      const docSnap = await getDoc(docRef);
+      console.log(docSnap.data());
+      setCategories(docSnap.data());
+    }
+    getCategories();
+  }, [item.categoryId]);
+  useEffect(() => {
+    async function getAuthor() {
+      const docRef = doc(db, "users", item.userId);
+      const docSnap = await getDoc(docRef);
+      console.log(docSnap.data());
+      setAuthor(docSnap.data());
+    }
+    getAuthor();
+  }, [item.userId]);
+  if (!item || !item.id) return null;
   return (
     <PostFeatureItemStyles>
-      <PostImage
-        src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-        alt="Post-Image"
-      ></PostImage>
+      <PostImage src={item.imageURL} alt="Post-Image"></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory kind="secondary">Inspiring</PostCategory>
-          <PostMeta></PostMeta>
+          {categories?.name && (
+            <PostCategory kind="secondary">{categories.name}</PostCategory>
+          )}
+          <PostMeta username={author?.username}></PostMeta>
         </div>
-        <PostTitle size="semi-normal">
-          10 Ideas to Make Your Desk More Productive + Inspiring
-        </PostTitle>
+        <PostTitle size="semi-normal">{item.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

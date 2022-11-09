@@ -10,8 +10,6 @@ const Homepage = () => {
   useEffect(() => {
     document.title = "Welcome to Unicorn Blog";
   }, []);
-  const { userInfo } = useAuth();
-  console.log(userInfo);
   return (
     <HomepageStyles>
       <Layout>

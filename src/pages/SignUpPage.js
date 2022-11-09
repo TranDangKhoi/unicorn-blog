@@ -8,11 +8,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "firebase-app/firebase-config";
+import { auth, db } from "firebase-app/firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/auth-context";
 import AuthenticationPage from "./AuthenticationPage";
 import Homepage from "./Homepage";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const schema = yup.object({
   username: yup
@@ -75,7 +76,20 @@ const SignUpPage = () => {
       await updateProfile(auth.currentUser, {
         photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
       });
-      setUserInfo(user);
+      await setUserInfo(user);
+      // const userRef = collection(db, "users");
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        id: auth.currentUser.uid,
+      });
+      // await addDoc(userRef, {
+      //   username: values.username,
+      //   email: values.email,
+      //   password: values.password,
+      //   id: user.user.uid,
+      // });
       toast.dismiss();
       toast.success("Created account successfully!", {
         hideProgressBar: true,
