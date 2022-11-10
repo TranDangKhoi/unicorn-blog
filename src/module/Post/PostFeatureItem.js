@@ -1,13 +1,13 @@
-import { db } from "firebase-app/firebase-config";
-import { doc, getDoc } from "firebase/firestore";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import styled from "styled-components";
-import PostCategory from "./PostCategory";
-import PostImage from "./PostImage";
-import PostMeta from "./PostMeta";
+import React from "react";
 import PostTitle from "./PostTitle";
+import PostMeta from "./PostMeta";
+import PostImage from "./PostImage";
+import PostCategory from "./PostCategory";
+import { useState } from "react";
+import { useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "firebase-app/firebase-config";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -73,6 +73,8 @@ const PostFeatureItem = ({ post }) => {
     }
     getAuthor();
   }, [post.userId]);
+  const releaseDate = new Date(post?.createdAt?.seconds * 1000);
+  const formattedDate = new Date(releaseDate).toLocaleDateString("vi-VI");
   if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>
@@ -88,6 +90,7 @@ const PostFeatureItem = ({ post }) => {
           <PostMeta
             to={author?.usernameSlug}
             username={author?.username}
+            date={formattedDate}
           ></PostMeta>
         </div>
         <PostTitle to={post.slug} size="semi-normal">

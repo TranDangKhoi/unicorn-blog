@@ -20,7 +20,7 @@ const PostMetaStyles = styled.div`
   }
 `;
 const PostMeta = ({
-  date = "Mar 23",
+  date = "Can't display",
   username = "",
   to = "",
   className = "",
