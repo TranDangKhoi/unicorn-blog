@@ -61,7 +61,7 @@ const HomeBanner = () => {
       <div className="container">
         <div className="banner">
           <div className="banner-content">
-            <h1 className="banner-heading">Monkey Blogging</h1>
+            <h1 className="banner-heading">Unicorn Blog</h1>
             <p className="banner-desc">
               Share your story: a blog allows you to have a voice and be heard
               so you may share your story with the entire world, one of the most

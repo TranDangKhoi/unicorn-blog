@@ -50,6 +50,7 @@ const Button = ({
   children,
   kind = "primary",
   height = "80px",
+  className = "",
   ...props
 }) => {
   const { isLoading, to } = props;
@@ -62,6 +63,7 @@ const Button = ({
           height={height}
           type={type}
           onClick={onClick}
+          className={className}
           {...props}
         >
           {child}
@@ -75,6 +77,7 @@ const Button = ({
       height={height}
       type={type}
       onClick={onClick}
+      className={className}
       {...props}
     >
       {child}

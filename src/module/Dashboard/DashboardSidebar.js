@@ -4,7 +4,7 @@ import styled from "styled-components";
 const SidebarStyles = styled.div`
   width: 300px;
   background: #ffffff;
-  box-shadow: 10px 10px 20px rgba(218, 213, 213, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px 0px;
   border-radius: 12px;
   .sidebar-logo {
     display: flex;
@@ -32,6 +32,12 @@ const SidebarStyles = styled.div`
       color: ${(props) => props.theme.primary};
     }
   }
+  @media screen and (max-width: 1023.98px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+  }
 `;
 const sidebarLinks = [
   {
@@ -56,7 +62,7 @@ const sidebarLinks = [
   },
   {
     title: "Post",
-    url: "/manage/post",
+    url: "/manage/posts",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -139,10 +145,6 @@ const sidebarLinks = [
 const DashboardSidebar = () => {
   return (
     <SidebarStyles className="sidebar">
-      <div className="sidebar-logo">
-        <img srcSet="/logo.png 2x" alt="" />
-        <span>Monkey Blogging</span>
-      </div>
       {sidebarLinks.map((link) => (
         <NavLink to={link.url} className="menu-item" key={link.title}>
           <span className="menu-icon">{link.icon}</span>

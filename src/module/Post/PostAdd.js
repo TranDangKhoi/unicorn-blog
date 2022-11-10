@@ -1,6 +1,6 @@
 import { Button } from "components/Button";
 import { Dropdown } from "components/Dropdown";
-import { Field } from "components/Field";
+import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Heading } from "components/Layout";
@@ -37,7 +37,7 @@ const schema = yup.object({
   categoryId: yup.string().required(),
   popular: yup.bool().required("Is this post a popular one?"),
 });
-const PostAdd = () => {
+const PostAddNew = () => {
   const {
     control,
     reset,
@@ -130,7 +130,7 @@ const PostAdd = () => {
   return (
     <>
       <Heading>Write new post</Heading>
-      <form onSubmit={handleSubmit(handleAddPost)}>
+      <form className="form-layout" onSubmit={handleSubmit(handleAddPost)}>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label htmlFor="title">Title</Label>
@@ -147,6 +147,36 @@ const PostAdd = () => {
               placeholder="Enter your slug"
               name="slug"
             ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="author">Author</Label>
+            <Input
+              control={control}
+              name="author"
+              placeholder="Who's the author"
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="category">Category</Label>
+            <Dropdown>
+              <Dropdown.Select></Dropdown.Select>
+              <Dropdown.List>
+                {categories.length > 0 &&
+                  categories.map((item) => (
+                    <Dropdown.Option
+                      onClick={() => handleSelectOption(item)}
+                      key={item.id}
+                    >
+                      {item.name}
+                    </Dropdown.Option>
+                  ))}
+              </Dropdown.List>
+            </Dropdown>
+            {selectCategory?.name && (
+              <span className="inline-block p-4 text-sm font-semibold text-white rounded-lg bg-primary">
+                {selectCategory?.name}
+              </span>
+            )}
           </Field>
         </div>
         <div className="w-full h-full mb-10">
@@ -190,36 +220,7 @@ const PostAdd = () => {
               </Radio>
             </div>
           </Field>
-          <Field>
-            <Label htmlFor="author">Author</Label>
-            <Input
-              control={control}
-              name="author"
-              placeholder="Who's the author"
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="category">Category</Label>
-            <Dropdown>
-              <Dropdown.Select></Dropdown.Select>
-              <Dropdown.List>
-                {categories.length > 0 &&
-                  categories.map((item) => (
-                    <Dropdown.Option
-                      onClick={() => handleSelectOption(item)}
-                      key={item.id}
-                    >
-                      {item.name}
-                    </Dropdown.Option>
-                  ))}
-              </Dropdown.List>
-            </Dropdown>
-            {selectCategory?.name && (
-              <span className="inline-block p-4 text-sm font-semibold text-white rounded-lg bg-primary">
-                {selectCategory?.name}
-              </span>
-            )}
-          </Field>
+
           <Field>
             <Label htmlFor="popular">Popular post</Label>
             <Toggle
@@ -242,4 +243,4 @@ const PostAdd = () => {
   );
 };
 
-export default PostAdd;
+export default PostAddNew;

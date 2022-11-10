@@ -9,8 +9,7 @@ import {
 } from "firebase/firestore";
 import PostFeatureItem from "module/Post/PostFeatureItem";
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 const HomeFeatureStyles = styled.div``;
 

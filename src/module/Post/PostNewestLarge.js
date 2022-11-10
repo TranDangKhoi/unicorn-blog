@@ -8,18 +8,20 @@ const PostNewestLargeStyles = styled.div`
   .post {
     &-image {
       display: block;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       height: 433px;
       border-radius: 16px;
     }
-
     &-category {
       margin-bottom: 10px;
     }
-
     &-title {
-      font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    @media screen and (max-width: 1023.98px) {
+      &-image {
+        height: 250px;
+      }
     }
   }
 `;

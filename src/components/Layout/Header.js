@@ -98,6 +98,32 @@ const HeaderStyles = styled.header`
     width: 35px;
     height: 35px;
   }
+  .sign-out {
+    display: block;
+  }
+  @media screen and (max-width: 1023.98px) {
+    .logo {
+      max-width: 50px;
+    }
+    .username {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .avatar {
+      border-radius: 100rem;
+      width: 30px;
+      height: 30px;
+    }
+    .sign-out {
+      display: none;
+    }
+    .menu,
+    .search,
+    .header-button,
+    .header-auth {
+      display: none;
+    }
+  }
 `;
 function getLastName(username) {
   if (!username) return "User";
@@ -157,7 +183,12 @@ const Header = () => {
                   </div>
                   <i className="fa-solid fa-angle-down"></i>
                 </div>
-                <Button height="56px" to={"/sign-in"} onClick={handleSignOut}>
+                <Button
+                  className="sign-out"
+                  height="56px"
+                  to={"/sign-in"}
+                  onClick={handleSignOut}
+                >
                   Sign out
                 </Button>
               </div>

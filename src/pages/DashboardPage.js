@@ -1,10 +1,17 @@
-import { Heading } from "components/Layout";
+import DashboardHeading from "module/Category/DashboardHeading";
 import React from "react";
+import { useEffect } from "react";
 
 const DashboardPage = () => {
+  useEffect(() => {
+    document.title = "Welcome to your dashboard";
+  }, []);
   return (
     <div>
-      <Heading>Welcome to dashboard page</Heading>
+      <DashboardHeading
+        title="Dashboard"
+        desc="Overview dashboard monitor"
+      ></DashboardHeading>
     </div>
   );
 };

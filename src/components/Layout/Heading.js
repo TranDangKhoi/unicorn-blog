@@ -26,6 +26,10 @@ const HeadingStyles = styled.h2`
     left: 0;
     background-color: ${(props) => props.theme.primary};
   }
+  @media screen and (max-width: 1023.98px) {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
 `;
 const Heading = ({ className = "", uppercase = true, children }) => {
   return (

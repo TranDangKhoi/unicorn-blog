@@ -5,20 +5,25 @@
 @layer base {
   body {
     line-height: 1.5;
-    // -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    font-family: "Montserrat", sans-serif;
+    font-family: "Epilogue", "Monserrat" sans-serif;
     font-size: 16px;
     color: #232323;
   }
 }
 .container {
   width: 100%;
-  max-width: 1510px;
+  max-width: 1260px;
   margin: 0 auto;
   padding: 0 20px;
 }
-
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.text-primary {
+  color: #a4d96c;
+}
 .grid-layout {
   display: grid;
   grid-auto-columns: 235px;
