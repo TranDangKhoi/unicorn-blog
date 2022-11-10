@@ -18,6 +18,18 @@ import { db } from "firebase-app/firebase-config";
 import { useState } from "react";
 import { useAuth } from "contexts/auth-context";
 import { toast } from "react-toastify";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+const schema = yup.object({
+  title: yup
+    .string()
+    .required("Please enter your post's title")
+    .min(8, "Your title must be longer than 8 characters"),
+  slug: yup.string(),
+  status: yup.number().oneOf([1, 2, 3]),
+  categoryId: yup.string().required(),
+  popular: yup.bool().required("Is this post a popular one?"),
+});
 const PostAdd = () => {
   const {
     control,
@@ -26,7 +38,7 @@ const PostAdd = () => {
     setValue,
     handleSubmit,
     getValues,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -36,6 +48,7 @@ const PostAdd = () => {
       categoryId: "",
       popular: false,
     },
+    resolver: yupResolver(schema),
   });
   const { userInfo } = useAuth();
   const { imageURL, progress, handleRemoveImage, handleSelectImage } =
@@ -89,7 +102,16 @@ const PostAdd = () => {
     }
     getData();
   }, []);
-
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.dismiss(arrErrors.find((item) => item === 0));
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: true,
+        closeOnClick: true,
+      });
+    }
+  }, [errors]);
   return (
     <>
       <Heading>Write new post</Heading>
