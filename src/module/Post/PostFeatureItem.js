@@ -52,41 +52,47 @@ const PostFeatureItemStyles = styled.div`
     height: 272px;
   }
 `;
-const PostFeatureItem = ({ item }) => {
+const PostFeatureItem = ({ post }) => {
   const [categories, setCategories] = useState([]);
   const [author, setAuthor] = useState([]);
-  console.log(item);
   useEffect(() => {
     async function getCategories() {
-      const docRef = doc(db, "categories", item.categoryId);
+      const docRef = doc(db, "categories", post.categoryId);
       const docSnap = await getDoc(docRef);
-      console.log(docSnap.data());
       setCategories(docSnap.data());
     }
     getCategories();
-  }, [item.categoryId]);
+  }, [post.categoryId]);
   useEffect(() => {
     async function getAuthor() {
-      const docRef = doc(db, "users", item.userId);
+      const docRef = doc(db, "users", post.userId);
       const docSnap = await getDoc(docRef);
-      console.log(docSnap.data());
-      setAuthor(docSnap.data());
+      if (docSnap.data) {
+        setAuthor(docSnap.data());
+      }
     }
     getAuthor();
-  }, [item.userId]);
-  if (!item || !item.id) return null;
+  }, [post.userId]);
+  if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>
-      <PostImage src={item.imageURL} alt="Post-Image"></PostImage>
+      <PostImage src={post.imageURL} alt="Post-Image"></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
           {categories?.name && (
-            <PostCategory kind="secondary">{categories.name}</PostCategory>
+            <PostCategory kind="secondary" to={categories.slug}>
+              {categories.name}
+            </PostCategory>
           )}
-          <PostMeta username={author?.username}></PostMeta>
+          <PostMeta
+            to={author?.usernameSlug}
+            username={author?.username}
+          ></PostMeta>
         </div>
-        <PostTitle size="semi-normal">{item.title}</PostTitle>
+        <PostTitle to={post.slug} size="semi-normal">
+          {post.title}
+        </PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

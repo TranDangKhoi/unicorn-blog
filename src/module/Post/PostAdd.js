@@ -13,7 +13,14 @@ import { ImageUpload } from "components/Upload";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import { Toggle } from "components/Toggle";
 import { useEffect } from "react";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
 import { useState } from "react";
 import { useAuth } from "contexts/auth-context";
@@ -40,7 +47,7 @@ const PostAdd = () => {
     getValues,
     formState: { isSubmitting, errors },
   } = useForm({
-    mode: "onChange",
+    mode: "onSubmit",
     defaultValues: {
       title: "",
       slug: "",
@@ -51,8 +58,13 @@ const PostAdd = () => {
     resolver: yupResolver(schema),
   });
   const { userInfo } = useAuth();
-  const { imageURL, progress, handleRemoveImage, handleSelectImage } =
-    useFirebaseImage(setValue, getValues);
+  const {
+    imageURL,
+    progress,
+    handleResetUploadAfterSubmit,
+    handleRemoveImage,
+    handleSelectImage,
+  } = useFirebaseImage(setValue, getValues);
   const [categories, setCategories] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
   // Convert status sang number vì database trả dưới dạng number
@@ -69,6 +81,7 @@ const PostAdd = () => {
       ...cloneValues,
       imageURL,
       userId: userInfo.uid,
+      createdAt: serverTimestamp(),
     });
     toast.success("Your blog has been posted successfully");
     reset({
@@ -79,13 +92,15 @@ const PostAdd = () => {
       imageURL: "",
       popular: false,
     });
-    console.log(cloneValues);
+    handleResetUploadAfterSubmit();
     setSelectCategory({});
   };
+
   const handleSelectOption = (item) => {
     setValue("categoryId", item.id);
     setSelectCategory(item);
   };
+
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
@@ -138,7 +153,7 @@ const PostAdd = () => {
           <Field>
             <Label htmlFor="image">Image</Label>
             <ImageUpload
-              image={imageURL}
+              imageURL={imageURL}
               progress={progress}
               onChange={handleSelectImage}
               handleRemoveImage={handleRemoveImage}

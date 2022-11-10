@@ -69,9 +69,12 @@ export default function useFirebaseImage(setValue, getValues) {
   };
   const handleSelectImage = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setValue("image_name", file.name);
     handleUploadImage(file);
+  };
+  const handleResetUploadAfterSubmit = () => {
+    setImageURL("");
+    setProgress(0);
   };
   const handleRemoveImage = () => {
     const storage = getStorage();
@@ -91,8 +94,11 @@ export default function useFirebaseImage(setValue, getValues) {
   };
   return {
     imageURL,
-    handleRemoveImage,
     progress,
+    setImageURL,
+    setProgress,
+    handleResetUploadAfterSubmit,
+    handleRemoveImage,
     handleSelectImage,
     handleUploadImage,
   };

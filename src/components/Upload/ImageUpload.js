@@ -5,7 +5,7 @@ const ImageUpload = ({
   name,
   className,
   progress = 0,
-  image = "",
+  imageURL = "",
   handleRemoveImage = () => {},
   ...props
 }) => {
@@ -22,13 +22,13 @@ const ImageUpload = ({
         onChange={() => {}}
         {...props}
       />
-      {progress !== 0 && !image && (
+      {progress !== 0 && !imageURL && (
         <LoadingSpinner
           borderColor="#1DC071"
           className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
         ></LoadingSpinner>
       )}
-      {!image && (
+      {!imageURL && (
         <>
           <div className="flex flex-col items-center text-center pointer-events-none">
             <img
@@ -46,9 +46,9 @@ const ImageUpload = ({
           ></div>
         </>
       )}
-      {image && (
+      {imageURL && (
         <div className="overflow-auto">
-          <img src={image} className="object-cover w-full h-full" alt="" />
+          <img src={imageURL} className="object-cover w-full h-full" alt="" />
           <button
             type="button"
             className="absolute z-10 flex items-center text-[22px] justify-center p-5 bg-white bg-opacity-80 rounded-full w-6 h-6 top-6 right-4 hover:bg-opacity-100"

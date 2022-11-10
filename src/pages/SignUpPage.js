@@ -14,6 +14,7 @@ import { useAuth } from "contexts/auth-context";
 import AuthenticationPage from "./AuthenticationPage";
 import Homepage from "./Homepage";
 import { doc, setDoc } from "firebase/firestore";
+import slugify from "slugify";
 
 const schema = yup.object({
   username: yup
@@ -76,6 +77,7 @@ const SignUpPage = () => {
         username: values.username,
         email: values.email,
         password: values.password,
+        usernameSlug: slugify(values.username, { lower: true }),
         userId: auth.currentUser.uid,
       });
 
