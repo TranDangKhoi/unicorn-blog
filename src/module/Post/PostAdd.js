@@ -215,7 +215,7 @@ const PostAdd = () => {
               </Dropdown.List>
             </Dropdown>
             {selectCategory?.name && (
-              <span className="inline-block p-4 text-sm bg-[#1DC071] text-white font-semibold rounded-lg">
+              <span className="inline-block p-4 text-sm font-semibold text-white rounded-lg bg-primary">
                 {selectCategory?.name}
               </span>
             )}

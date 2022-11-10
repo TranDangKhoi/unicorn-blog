@@ -14,7 +14,7 @@ const Toggle = ({ name, on, onClick, ...rest }) => {
       />
       <div
         className={`inline-block w-[100px] h-[52px] relative cursor-pointer rounded-full p-1 transition-all ${
-          on ? "bg-[#1DC071]" : "bg-gray-300"
+          on ? "bg-primary" : "bg-gray-300"
         }`}
         {...rest}
       >
