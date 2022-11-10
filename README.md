@@ -110,9 +110,24 @@ UPDATED v1.3:
 - v1.2:
 
 - Collection: Posts
+
   - Add new post
   - Delete post
   - Update post
+
+- v1.3:
+
+- Display(Pagination, Filter), Add, Update & Delete Category
+
+- Display(Pagination, Filter), Add, Update & Delete User
+
+- Display, Delete Post
+
+- Optimize source code(PropTypes, logic, error boundary)
+
+- Responsive and optimize UI UX
+
+- Update post with ckeditor
 
 # Những thứ rút ra được sau khi làm project
 
