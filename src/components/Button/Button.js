@@ -25,7 +25,17 @@ const ButtonStyles = styled.button`
       background-color: white;
       color: ${(props) => props.theme.primary};
     `};
-  width: 100%;
+  ${(props) =>
+    props.kind === "ghost" &&
+    css`
+      color: ${(props) => props.theme.primary};
+      background-color: rgba(29, 192, 113, 0.1);
+    `};
+  ${(props) =>
+    props.width === "full" &&
+    css`
+      width: 100%;
+    `};
   height: ${(props) => props.height};
   display: flex;
   justify-content: center;
@@ -50,6 +60,7 @@ const Button = ({
   children,
   kind = "primary",
   height = "80px",
+  width = "full",
   className = "",
   ...props
 }) => {
@@ -61,6 +72,7 @@ const Button = ({
         <ButtonStyles
           kind={kind}
           height={height}
+          width={width}
           type={type}
           onClick={onClick}
           className={className}
@@ -75,6 +87,7 @@ const Button = ({
     <ButtonStyles
       kind={kind}
       height={height}
+      width={width}
       type={type}
       onClick={onClick}
       className={className}

@@ -1,6 +1,11 @@
+import CategoryAddNew from "module/Category/CategoryAddNew";
+import CategoryManage from "module/Category/CategoryManage";
 import DashboardLayout from "module/Dashboard/DashboardLayout";
-import PostAddNew from "module/Post/PostAdd";
+import PostAddNew from "module/Post/PostAddNew";
 import PostManage from "module/Post/PostManage";
+import UserAddNew from "module/User/UserAddNew";
+import UserManage from "module/User/UserManage";
+import UserProfile from "module/User/UserProfile";
 import DashboardPage from "pages/DashboardPage";
 import Homepage from "pages/Homepage";
 import LoginPage from "pages/LoginPage";
@@ -27,12 +32,32 @@ function App() {
               element={<DashboardPage></DashboardPage>}
             ></Route>
             <Route
-              path="/manage/add-post"
-              element={<PostAddNew></PostAddNew>}
+              path="/profile"
+              element={<UserProfile></UserProfile>}
+            ></Route>
+            <Route
+              path="/manage/category"
+              element={<CategoryManage></CategoryManage>}
             ></Route>
             <Route
               path="/manage/posts"
               element={<PostManage></PostManage>}
+            ></Route>
+            <Route
+              path="/manage/add-post"
+              element={<PostAddNew></PostAddNew>}
+            ></Route>
+            <Route
+              path="/manage/add-category"
+              element={<CategoryAddNew></CategoryAddNew>}
+            ></Route>
+            <Route
+              path="/manage/user"
+              element={<UserManage></UserManage>}
+            ></Route>
+            <Route
+              path="/manage/add-user"
+              element={<UserAddNew></UserAddNew>}
             ></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>

@@ -3,7 +3,6 @@ import { Dropdown } from "components/Dropdown";
 import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
-import { Heading } from "components/Layout";
 import { Radio } from "components/Radio";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -27,6 +26,7 @@ import { useAuth } from "contexts/auth-context";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import DashboardHeading from "module/Category/DashboardHeading";
 const schema = yup.object({
   title: yup
     .string()
@@ -129,7 +129,10 @@ const PostAddNew = () => {
   }, [errors]);
   return (
     <>
-      <Heading>Write new post</Heading>
+      <DashboardHeading
+        title="Add new post"
+        desc="Share your stories with us ^o^"
+      ></DashboardHeading>
       <form className="form-layout" onSubmit={handleSubmit(handleAddPost)}>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
@@ -193,12 +196,12 @@ const PostAddNew = () => {
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label htmlFor="status">Status</Label>
-            <div className="flex items-center justify-between gap-x-5">
+            <FieldCheckbox>
               <Radio
                 name="status"
                 control={control}
                 checked={watchStatus === postStatus.APPROVED}
-                value={1}
+                value={postStatus.APPROVED}
               >
                 Approved
               </Radio>
@@ -206,7 +209,7 @@ const PostAddNew = () => {
                 name="status"
                 control={control}
                 checked={watchStatus === postStatus.PENDING}
-                value={2}
+                value={postStatus.PENDING}
               >
                 Pending
               </Radio>
@@ -214,11 +217,11 @@ const PostAddNew = () => {
                 name="status"
                 control={control}
                 checked={watchStatus === postStatus.REJECTED}
-                value={3}
+                value={postStatus.REJECTED}
               >
                 Reject
               </Radio>
-            </div>
+            </FieldCheckbox>
           </Field>
 
           <Field>

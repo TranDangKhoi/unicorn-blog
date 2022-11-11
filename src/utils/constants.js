@@ -22,7 +22,8 @@ export const postStatus = {
 
 export const categoryStatus = {
   APPROVED: 1,
-  UNAPPROVED: 2,
+  PENDING: 2,
+  DISAPPROVED: 3,
 };
 
 export const userStatus = {

@@ -144,7 +144,7 @@ const Header = () => {
         <div className="header-main">
           <Link to="/">
             <img
-              srcSet="/blog-logo.png 2x"
+              srcSet="/blog-logo.png 3x"
               alt="Unicorn-Blog"
               className="logo"
             />

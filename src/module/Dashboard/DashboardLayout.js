@@ -11,12 +11,12 @@ const DashboardStyles = styled.div`
   .dashboard {
     &-heading {
       font-weight: bold;
-      font-size: 25px;
+      font-size: 28px;
       margin-bottom: 5px;
       color: ${(props) => props.theme.black};
     }
     &-short-desc {
-      font-size: 14px;
+      font-size: 17px;
       color: ${(props) => props.theme.gray80};
     }
     &-main {

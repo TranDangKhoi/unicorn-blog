@@ -1,7 +1,7 @@
 import React from "react";
 
-const FieldCheckboxes = ({ children }) => {
-  return <div className="flex flex-wrap gap-5">{children}</div>;
+const FieldCheckbox = ({ children, className = "" }) => {
+  return <div className={`flex flex-wrap gap-5 ${className}`}>{children}</div>;
 };
 
-export default FieldCheckboxes;
+export default FieldCheckbox;

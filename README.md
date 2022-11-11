@@ -38,7 +38,7 @@ UPDATED v1.3:
 - isPopular (true, false)
 - userId (để lấy ra thông tin user đã viết bài viết đó)
 - categoryId (lấy ra thông tin danh mục)
-- createdAt
+- createdAt (serverTimeStamp)
 - updatedAt
 
 #### Collection: Category
@@ -46,7 +46,8 @@ UPDATED v1.3:
 - id
 - name
 - slug
-- status (approve, pending)
+- status (approved, disapproved)
+- createdAt (serverTimeStamp)
 
 #### Collection User
 
@@ -437,3 +438,25 @@ const handleSignUp = async (values) => {
   }
 };
 ```
+
+- Cập nhật lại README trong react-studying:
+
+  - setValue:
+
+    - Truyền vào 2 giá trị (name, values)
+    - Ví dụ khi check vào radio và muốn set lại value của status thì code như sau:
+
+    ```js
+    <Input
+      name="username"
+      control={control}
+      onClick={() => setValue("username", "something")}
+    ></Input>
+    ```
+
+    - watch: Lưu giữ value của input được truyền vào, ví dụ:
+
+    ```js
+    // Chuyển về number để chắc chắn khi set lại nó trả về 1 chứ không phải "1"
+    const watchStatus = Number(watch("status"));
+    ```

@@ -17,7 +17,7 @@ const Label = ({ htmlFor = "", children, ...props }) => {
 };
 
 Label.propTypes = {
-  htmlFor: PropTypes.string.isRequired,
+  htmlFor: PropTypes.string,
   children: PropTypes.node,
 };
 

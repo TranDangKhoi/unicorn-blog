@@ -8,7 +8,7 @@ const TableStyles = styled.div`
     width: 100%;
   }
   thead {
-    background-color: #f7f7f8;
+    background-color: #f1f1f1;
   }
   th,
   td {
@@ -16,13 +16,22 @@ const TableStyles = styled.div`
   }
   th {
     padding: 20px 30px;
-    font-weight: 600;
+    font-weight: 700;
     text-align: left;
   }
   td {
     padding: 15px 30px;
   }
   tbody {
+    background-color: #f8f8f8;
+  }
+  tbody td {
+    font-weight: 500;
+    font-size: 17px;
+  }
+  tbody tr {
+    border: 1px solid #ccc;
+    border-bottom-color: transparent;
   }
 `;
 const Table = ({ children }) => {
