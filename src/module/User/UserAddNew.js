@@ -1,9 +1,10 @@
-import { Button } from "components/button";
-import { Radio } from "components/checkbox";
-import { Field, FieldCheckboxes } from "components/field";
-import { Input } from "components/input";
-import { Label } from "components/label";
-import DashboardHeading from "module/dashboard/DashboardHeading";
+import { Button } from "components/Button";
+import { Field } from "components/Field";
+import FieldCheckboxes from "components/Field/FieldCheckbox";
+import { Input } from "components/Input";
+import { Label } from "components/Label";
+import { Radio } from "components/Radio";
+import DashboardHeading from "module/Category/DashboardHeading";
 import React from "react";
 import { useForm } from "react-hook-form";
 

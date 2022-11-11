@@ -1,9 +1,9 @@
-import { Button } from "components/button";
-import { Field } from "components/field";
-import ImageUpload from "components/image/ImageUpload";
-import { Input } from "components/input";
-import { Label } from "components/label";
-import DashboardHeading from "module/dashboard/DashboardHeading";
+import { Button } from "components/Button";
+import { Field } from "components/Field";
+import { Input } from "components/Input";
+import { Label } from "components/Label";
+import { ImageUpload } from "components/Upload";
+import DashboardHeading from "module/Category/DashboardHeading";
 import React from "react";
 import { useForm } from "react-hook-form";
 
