@@ -444,7 +444,7 @@ const handleSignUp = async (values) => {
   - setValue:
 
     - Truyền vào 2 giá trị (name, values)
-    - Ví dụ khi check vào radio và muốn set lại value của status thì code như sau:
+    - Ví dụ khi click vào input và muốn set lại value của username thì code như sau:
 
     ```js
     <Input
