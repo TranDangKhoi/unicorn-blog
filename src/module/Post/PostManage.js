@@ -50,7 +50,7 @@ const PostManage = () => {
               <span className="text-gray-500">Camera Gear</span>
             </td>
             <td>
-              <span className="text-gray-500">Evondev</span>
+              <span className="text-gray-500">Khoi</span>
             </td>
             <td>
               <div className="flex items-center text-gray-500 gap-x-3">

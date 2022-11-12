@@ -1,17 +1,21 @@
-import { ActionDelete, ActionEdit, ActionView } from "components/Action";
-import { Button } from "components/Button";
-import { LabelStatus } from "components/Label";
-import { Table } from "components/Table";
-import { db } from "firebase-app/firebase-config";
-import { collection, onSnapshot } from "firebase/firestore";
+import useDisplayDateBySeconds from "hooks/useDisplayDateBySeconds";
+import Swal from "sweetalert2";
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { categoryStatus, postStatus } from "utils/constants";
 import DashboardHeading from "./DashboardHeading";
+import { useState } from "react";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { Table } from "components/Table";
+import { LabelStatus } from "components/Label";
+import { db } from "firebase-app/firebase-config";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { categoryStatus } from "utils/constants";
+import { Button } from "components/Button";
+import { ActionDelete, ActionEdit, ActionView } from "components/Action";
 
 const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
+  const { displayDateBySeconds } = useDisplayDateBySeconds();
   useEffect(() => {
     const colRef = collection(db, "categories");
     onSnapshot(colRef, (snapshot) => {
@@ -25,6 +29,29 @@ const CategoryManage = () => {
       setCategoryList(categories);
     });
   }, []);
+  const handleDeleteCategory = async (docId) => {
+    try {
+      const docToBeDeletedRef = doc(db, "categories", docId);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#1DC071",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "NO STOP!",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteDoc(docToBeDeletedRef);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
+      console.log(docToBeDeletedRef);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
   return (
     <>
       <div className="flex justify-between db-heading-layout">
@@ -72,12 +99,14 @@ const CategoryManage = () => {
                       <LabelStatus type="disapproved">Disapproved</LabelStatus>
                     )}
                 </td>
-                <td>11/11/2022</td>
+                <td>{displayDateBySeconds(category?.createdAt?.seconds)}</td>
                 <td>
                   <div className="flex gap-5 text-gray-400">
                     <ActionView></ActionView>
                     <ActionEdit></ActionEdit>
-                    <ActionDelete></ActionDelete>
+                    <ActionDelete
+                      onClick={() => handleDeleteCategory(category.id)}
+                    ></ActionDelete>
                   </div>
                 </td>
               </tr>

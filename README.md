@@ -439,6 +439,13 @@ const handleSignUp = async (values) => {
 };
 ```
 
+# Chức năng sửa trong Firebase
+
+- Khi click vào nút sửa post/category, thì ta sẽ route sang trang sửa
+- Chạy qua trang /manage/update-category?id=foobar
+
+# Những thứ cần cập nhật để ghi nhớ
+
 - Cập nhật lại README trong react-studying:
 
   - setValue:

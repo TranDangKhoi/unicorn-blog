@@ -191,7 +191,7 @@ const PostDetailsPage = () => {
                 />
               </div>
               <div className="author-content">
-                <h3 className="author-name">Evondev</h3>
+                <h3 className="author-name">Khoi</h3>
                 <p className="author-desc">
                   Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                   Dignissimos non animi porro voluptates quibusdam optio nulla

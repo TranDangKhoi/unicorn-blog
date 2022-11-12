@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import DashboardHeading from "module/Category/DashboardHeading";
+import Swal from "sweetalert2";
 const schema = yup.object({
   title: yup
     .string()
@@ -34,7 +35,7 @@ const schema = yup.object({
     .min(8, "Your title must be longer than 8 characters"),
   slug: yup.string(),
   status: yup.number().oneOf([1, 2, 3]),
-  categoryId: yup.string().required(),
+  categoryId: yup.string().required("Please select an category"),
   popular: yup.bool().required("Is this post a popular one?"),
 });
 const PostAddNew = () => {
@@ -77,23 +78,47 @@ const PostAddNew = () => {
     });
     cloneValues.status = Number(values.status);
     const colRef = collection(db, "posts");
-    await addDoc(colRef, {
-      ...cloneValues,
-      imageURL,
-      userId: userInfo.uid,
-      createdAt: serverTimestamp(),
+    await Swal.fire({
+      title: "Are you sure you want to post this into your blog?",
+      text: "Feel free to re-check your contents!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#1DC071",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Wait, don't post this yet",
+      confirmButtonText: "Confirm, i want to post this",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await addDoc(colRef, {
+          ...cloneValues,
+          imageURL,
+          userId: userInfo.uid,
+          createdAt: serverTimestamp(),
+        });
+        toast.success("Your blog has been posted successfully");
+        Swal.fire({
+          title: "Success!",
+          text: "You can view your blog in the dashboard now",
+        });
+        reset({
+          title: "",
+          slug: "",
+          status: 2,
+          categoryId: "",
+          imageURL: "",
+          popular: false,
+        });
+        handleResetUploadAfterSubmit();
+        setSelectCategory({});
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          icon: "success",
+          iconColor: "#1DC071",
+          title: "You're safe!",
+          text: "Cancelled",
+        });
+      }
     });
-    toast.success("Your blog has been posted successfully");
-    reset({
-      title: "",
-      slug: "",
-      status: 2,
-      categoryId: "",
-      imageURL: "",
-      popular: false,
-    });
-    handleResetUploadAfterSubmit();
-    setSelectCategory({});
   };
 
   const handleSelectOption = (item) => {
@@ -136,7 +161,9 @@ const PostAddNew = () => {
       <form className="form-layout" onSubmit={handleSubmit(handleAddPost)}>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
-            <Label htmlFor="title">Title</Label>
+            <Label required={true} htmlFor="title">
+              Title
+            </Label>
             <Input
               control={control}
               placeholder="Enter your title"
@@ -160,7 +187,9 @@ const PostAddNew = () => {
             ></Input>
           </Field>
           <Field>
-            <Label htmlFor="category">Category</Label>
+            <Label required={true} htmlFor="category">
+              Category
+            </Label>
             <Dropdown>
               <Dropdown.Select></Dropdown.Select>
               <Dropdown.List>
@@ -184,7 +213,9 @@ const PostAddNew = () => {
         </div>
         <div className="w-full h-full mb-10">
           <Field>
-            <Label htmlFor="image">Image</Label>
+            <Label required={true} htmlFor="image">
+              Image
+            </Label>
             <ImageUpload
               imageURL={imageURL}
               progress={progress}
@@ -195,7 +226,9 @@ const PostAddNew = () => {
         </div>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
-            <Label htmlFor="status">Status</Label>
+            <Label required={true} htmlFor="status">
+              Status
+            </Label>
             <FieldCheckbox>
               <Radio
                 name="status"

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
+import useDisplayDateBySeconds from "hooks/useDisplayDateBySeconds";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -55,6 +56,7 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = ({ post }) => {
   const [categories, setCategories] = useState([]);
   const [author, setAuthor] = useState([]);
+  const { displayDateBySeconds } = useDisplayDateBySeconds();
   useEffect(() => {
     async function getCategories() {
       const docRef = doc(db, "categories", post.categoryId);
@@ -73,8 +75,7 @@ const PostFeatureItem = ({ post }) => {
     }
     getAuthor();
   }, [post.userId]);
-  const releaseDate = new Date(post?.createdAt?.seconds * 1000);
-  const formattedDate = new Date(releaseDate).toLocaleDateString("vi-VI");
+  const formattedDate = displayDateBySeconds(post?.createdAt?.seconds);
   if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>
