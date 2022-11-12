@@ -18,11 +18,9 @@ import {
 } from "firebase/firestore";
 import { categoryStatus } from "utils/constants";
 import { Button } from "components/Button";
-import { ActionDelete, ActionEdit, ActionView } from "components/Action";
+import { ActionDelete, ActionEdit } from "components/Action";
 import { useNavigate } from "react-router-dom";
 import { Field } from "components/Field";
-import { Input } from "components/Input";
-import { useRef } from "react";
 import { debounce } from "lodash";
 
 const CategoryManage = () => {
@@ -140,7 +138,6 @@ const CategoryManage = () => {
                 )}`}</td>
                 <td>
                   <div className="flex gap-5 text-gray-400">
-                    <ActionView></ActionView>
                     <ActionEdit
                       onClick={() =>
                         navigate(
