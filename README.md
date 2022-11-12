@@ -467,7 +467,7 @@ const handleSignUp = async (values) => {
     - Vậy nên ta phải sửa lại query của firebase như sau:
 
     ```js
-       const q = query( colRef, where("name", ">=", searchValue), where("name", "<=", searchValue) ); `
+    const q = query( colRef, where("name", ">=", searchValue), where("name", "<=", searchValue) ); `
     ```
 
     - Lấy ra số lượng document trong collection:
