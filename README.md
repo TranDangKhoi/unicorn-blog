@@ -466,37 +466,37 @@ const handleSignUp = async (values) => {
 
     - Vậy nên ta phải sửa lại query của firebase như sau:
 
-      ```js
+    ```js
        const q = query( colRef, where("name", ">=", searchValue), where("name", "<=", searchValue) ); `
-      ```
+    ```
 
-      - Lấy ra số lượng document trong collection:
+    - Lấy ra số lượng document trong collection:
 
-      ```js
-      //Small collection: Áp dụng khi số lượng docs <100 bản
-      onSnapshot(q, colRef, (snapshot) => {
-        console.log(snapshot.size);
+    ```js
+    //Small collection: Áp dụng khi số lượng docs <100 bản
+    onSnapshot(q, colRef, (snapshot) => {
+      console.log(snapshot.size);
+    });
+    // Medium collection: Áp dụng khi số lượng docs 100 < docs < 1000
+    // Cloud function:
+    db.collection("...")
+      .get()
+      .then((snap) => {
+        res.status(200).send({
+          length: snap.size,
+        });
       });
-      // Medium collection: Áp dụng khi số lượng docs 100 < docs < 1000
-      // Cloud function:
-      db.collection("...")
-        .get()
-        .then((snap) => {
-          res.status(200).send({
-            length: snap.size,
-          });
-        });
-      // Front-End:
-      yourHttpClient
-        .post(yourCloudFunctionUrl)
-        .toPromise()
-        .then((snap) => {
-          size = snap.length; // will return the collection size
-        });
-      ```
+    // Front-End:
+    yourHttpClient
+      .post(yourCloudFunctionUrl)
+      .toPromise()
+      .then((snap) => {
+        size = snap.length; // will return the collection size
+      });
+    ```
 
-      - Nếu muốn xem thêm cả large collection > 1000 bản thì có thể tìm hiểu thêm tại đây
-        [Cloud Firestore Collection Count](https://stackoverflow.com/questions/46554091/cloud-firestore-collection-count)
+    - Nếu muốn xem thêm cả large collection > 1000 bản thì có thể tìm hiểu thêm tại đây
+      [Cloud Firestore Collection Count](https://stackoverflow.com/questions/46554091/cloud-firestore-collection-count)
 
   #### REACT-HOOK-FORM
 
