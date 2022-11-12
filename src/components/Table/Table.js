@@ -17,7 +17,7 @@ const TableStyles = styled.div`
   th {
     padding: 20px 30px;
     font-weight: 700;
-    text-align: left;
+    text-align: center;
   }
   td {
     padding: 15px 30px;

@@ -3,82 +3,63 @@ import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
-import { categoryStatus } from "utils/constants";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import slugify from "slugify";
-import * as yup from "yup";
-import DashboardHeading from "./DashboardHeading";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import React from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { yupResolver } from "@hookform/resolvers/yup";
-const schema = yup.object({
-  name: yup
-    .string()
-    .required("Please enter category's name")
-    .max(20, "Your category must be less than 20 characters"),
-  slug: yup.string(),
-  status: yup.number().oneOf([1, 2]),
-});
-const CategoryAddNew = () => {
+import slugify from "slugify";
+import { categoryStatus } from "utils/constants";
+import DashboardHeading from "./DashboardHeading";
+
+const CategoryUpdate = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const {
     control,
-    handleSubmit,
-    watch,
     reset,
+    watch,
+    handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
-    defaultValues: {
-      name: "",
-      slug: "",
-      status: 1,
-      createdAt: new Date(),
-    },
-    resolver: yupResolver(schema),
   });
-  const watchStatus = Number(watch("status"));
+  const categoryId = searchParams.get("id");
+  const categoryName = searchParams.get("name");
   useEffect(() => {
-    const arrErrors = Object.values(errors);
-    if (arrErrors.length > 0) {
-      toast.dismiss(arrErrors.find((item) => item === 0));
-      toast.error(arrErrors[0]?.message, {
-        pauseOnHover: true,
-        closeOnClick: true,
+    async function getCurrentCategoryValue() {
+      const docRef = doc(db, "categories", categoryId);
+      await getDoc(docRef).then((doc) => {
+        reset(doc.data());
       });
     }
-  }, [errors]);
-  const handleAddCategory = async (values) => {
+    getCurrentCategoryValue();
+  }, [categoryId, reset]);
+  const watchStatus = Number(watch("status"));
+  const handleUpdateCategory = async (values) => {
     const cloneValues = { ...values };
-    cloneValues.slug = slugify(cloneValues.name, {
-      lower: true,
+    const docRef = doc(db, "categories", categoryId);
+    await updateDoc(docRef, {
+      name: cloneValues.name,
+      slug: slugify(cloneValues.name, { lower: true }),
+      status: Number(cloneValues.status),
     });
-    const colRef = collection(db, "categories");
-    try {
-      await addDoc(colRef, {
-        ...cloneValues,
-        createdAt: serverTimestamp(),
-      });
-      toast.success("Created new category successfully");
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      reset({
-        name: "",
-        slug: "",
-        status: 1,
-        createdAt: new Date(),
-      });
-    }
+    toast.success("Update category successfully", {
+      closeOnClick: true,
+    });
+    navigate("/manage/category");
   };
+  if (!categoryId) return null;
   return (
     <div>
       <DashboardHeading
-        title="New category"
-        desc="Add new category"
+        title={`Things always need to be updated huh?
+        `}
+        desc={`Updating category: ${categoryName}`}
       ></DashboardHeading>
-      <form onSubmit={handleSubmit(handleAddCategory)} autoComplete="off">
+      <form onSubmit={handleSubmit(handleUpdateCategory)} autoComplete="off">
         <div className="form-layout">
           <Field>
             <Label>Name</Label>
@@ -123,15 +104,14 @@ const CategoryAddNew = () => {
         <Button
           type="submit"
           kind="primary"
-          className="mx-auto"
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Add new category
+          {`Update ${categoryName} Category`}
         </Button>
       </form>
     </div>
   );
 };
 
-export default CategoryAddNew;
+export default CategoryUpdate;

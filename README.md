@@ -448,6 +448,32 @@ const handleSignUp = async (values) => {
 
 - Cập nhật lại README trong react-studying:
 
+  #### FIREBASE
+
+  - Query:
+
+    - Cách để query trả về giá trị gần giống, chứ không cần giống hoàn toàn:
+
+      - query trong firebase nếu ta dùng toán tử `==` thì nó sẽ chỉ trả cho ta về giá trị giống y hệt với những gì ta nhập vào ô search, ví dụ như sau:
+      - Ta có 1 list tên học sinh gồm: "Khôi, Nam, Việt, Minh". Bây giờ ta muốn tìm học sinh tên Khôi, thông thường chỉ cần nhập vào `K` hoặc `Kh`, kết quả query cũng sẽ vẫn hiển thị ra "Khôi", nhưng trong firebase thì không như vậ.
+      - Nếu ta sử dụng `==` thì nó sẽ tìm kết quả y hệt những gì ta nhập vào ô search nên ta phải nhập hẳn từ `Khôi` vào thì nó mới hiển thị cho ta thông tin học sinh `Khôi`.
+
+      ```js
+      const q = query(colRef, where("name", "==", searchValue));
+      ```
+
+      vậy nên ta phải sửa lại query của firebase như sau:
+
+      ```js
+      const q = query(
+        colRef,
+        where("name", ">=", searchValue),
+        where("name", "<=", searchValue)
+      );
+      ```
+
+  #### REACT-HOOK-FORM
+
   - setValue:
 
     - Truyền vào 2 giá trị (name, values)

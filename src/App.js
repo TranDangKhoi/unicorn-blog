@@ -1,5 +1,6 @@
 import CategoryAddNew from "module/Category/CategoryAddNew";
 import CategoryManage from "module/Category/CategoryManage";
+import CategoryUpdate from "module/Category/CategoryUpdate";
 import DashboardLayout from "module/Dashboard/DashboardLayout";
 import PostAddNew from "module/Post/PostAddNew";
 import PostManage from "module/Post/PostManage";
@@ -50,6 +51,10 @@ function App() {
             <Route
               path="/manage/add-category"
               element={<CategoryAddNew></CategoryAddNew>}
+            ></Route>
+            <Route
+              path="/manage/update-category"
+              element={<CategoryUpdate></CategoryUpdate>}
             ></Route>
             <Route
               path="/manage/user"
