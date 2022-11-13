@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const LabelStatusStyles = styled.span`
+const LabelRoleStyles = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,35 +11,40 @@ const LabelStatusStyles = styled.span`
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
+  i {
+    margin-left: 5px;
+  }
 `;
 /**
  *
- * @param type - "default" "approved" "pending" "reject"
+ * @param type - "default" "admin" "mod" "user"
  * @returns
  */
-const LabelStatus = ({ children, type = "default" }) => {
+const LabelRole = ({ children, type = "default" }) => {
   let styleClassName = "text-gray-500 bg-gray-100";
   switch (type) {
-    case "approved":
-      styleClassName = "text-green-500 bg-green-100";
+    case "admin":
+      styleClassName = "text-yellow-600 bg-yellow-200";
       break;
-    case "pending":
-      styleClassName = "text-orange-500 bg-orange-100";
+    case "mod":
+      styleClassName = "text-blue-500 bg-blue-200";
       break;
-    case "reject":
-      styleClassName = "text-red-500 bg-red-100";
+    case "user":
+      styleClassName = "text-gray-500 bg-gray-200";
       break;
 
     default:
       break;
   }
   return (
-    <LabelStatusStyles className={styleClassName}>{children}</LabelStatusStyles>
+    <LabelRoleStyles className={styleClassName}>{children}</LabelRoleStyles>
   );
 };
-LabelStatus.propTypes = {
+
+LabelRole.propTypes = {
   children: PropTypes.node,
   type: PropTypes.oneOf(["default", "approved", "pending", "reject"])
     .isRequired,
 };
-export default LabelStatus;
+
+export default LabelRole;

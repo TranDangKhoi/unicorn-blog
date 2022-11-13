@@ -46,7 +46,7 @@ UPDATED v1.3:
 - id
 - name
 - slug
-- status (approved, disapproved)
+- status (approved, reject)
 - createdAt (serverTimeStamp)
 
 #### Collection User

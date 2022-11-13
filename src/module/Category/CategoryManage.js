@@ -20,7 +20,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { categoryStatus } from "utils/constants";
+import { categoryStatus, userStatus } from "utils/constants";
 import { Button } from "components/Button";
 import { ActionDelete, ActionEdit } from "components/Action";
 import { useNavigate } from "react-router-dom";
@@ -131,7 +131,18 @@ const CategoryManage = () => {
       toast.error(err.message);
     }
   };
-
+  const renderLabelStatus = (status) => {
+    switch (status) {
+      case categoryStatus.APPROVED:
+        return <LabelStatus type="approved">Active</LabelStatus>;
+      case categoryStatus.PENDING:
+        return <LabelStatus type="pending">Pending</LabelStatus>;
+      case categoryStatus.REJECTED:
+        return <LabelStatus type="reject">Rejected</LabelStatus>;
+      default:
+        break;
+    }
+  };
   return (
     <>
       <div className="flex justify-between">
@@ -177,7 +188,7 @@ const CategoryManage = () => {
                   </span>
                 </td>
                 <td>
-                  {category?.status &&
+                  {/* {category?.status &&
                     category?.status === categoryStatus.APPROVED && (
                       <LabelStatus type="approved">Approved</LabelStatus>
                     )}
@@ -186,9 +197,10 @@ const CategoryManage = () => {
                       <LabelStatus type="pending">Pending</LabelStatus>
                     )}
                   {category?.status &&
-                    category?.status === categoryStatus.DISAPPROVED && (
-                      <LabelStatus type="disapproved">Disapproved</LabelStatus>
-                    )}
+                    category?.status === categoryStatus.REJECTED && (
+                      <LabelStatus type="reject">Reject</LabelStatus>
+                    )} */}
+                  {renderLabelStatus(category?.status)}
                 </td>
                 <td>
                   {displayLocalTimeAndDateBySeconds(

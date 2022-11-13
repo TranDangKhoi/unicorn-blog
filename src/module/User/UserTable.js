@@ -1,11 +1,13 @@
 import { ActionDelete, ActionEdit, ActionView } from "components/Action";
+import { LabelRole, LabelStatus } from "components/Label";
 import { Table } from "components/Table";
 import { db } from "firebase-app/firebase-config";
 import { collection, onSnapshot } from "firebase/firestore";
 import useTableDisplay from "hooks/useTableDisplay";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { userRole, userStatus } from "utils/constants";
 
 const UserTable = () => {
   const [userList, setUserList] = useState([]);
@@ -25,6 +27,43 @@ const UserTable = () => {
       setUserList(results);
     });
   }, []);
+
+  const renderLabelStatus = (status) => {
+    switch (status) {
+      case userStatus.ACTIVE:
+        return <LabelStatus type="approved">Active</LabelStatus>;
+      case userStatus.PENDING:
+        return <LabelStatus type="pending">Pending</LabelStatus>;
+      case userStatus.BANNED:
+        return <LabelStatus type="reject">Banned</LabelStatus>;
+      default:
+        break;
+    }
+  };
+  const renderUserRole = (role) => {
+    switch (role) {
+      case userRole.ADMIN:
+        return (
+          <LabelRole type="admin">
+            Admin<i class="fa-solid fa-crown"></i>
+          </LabelRole>
+        );
+      case userRole.MOD:
+        return (
+          <LabelRole type="mod">
+            Mod <i class="fa-solid fa-user-tie"></i>
+          </LabelRole>
+        );
+      case userRole.USER:
+        return (
+          <LabelRole type="user">
+            User <i class="fa-solid fa-user"></i>
+          </LabelRole>
+        );
+      default:
+        break;
+    }
+  };
   return (
     <div>
       <Table>
@@ -56,11 +95,11 @@ const UserTable = () => {
                 </td>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
-                <td>{}</td>
+                <td>{renderLabelStatus(user?.status)}</td>
                 <td>
                   {displayLocalTimeAndDateBySeconds(user?.createdAt?.seconds)}
                 </td>
-                <td></td>
+                <td>{renderUserRole(user?.role)}</td>
                 <td>
                   <div className="flex gap-5 text-gray-400">
                     <ActionView></ActionView>

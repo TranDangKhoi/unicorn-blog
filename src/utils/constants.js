@@ -23,13 +23,13 @@ export const postStatus = {
 export const categoryStatus = {
   APPROVED: 1,
   PENDING: 2,
-  DISAPPROVED: 3,
+  REJECTED: 3,
 };
 
 export const userStatus = {
   ACTIVE: 1,
   PENDING: 2,
-  BAN: 3,
+  BANNED: 3,
 };
 
 export const userRole = {

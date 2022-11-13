@@ -112,10 +112,10 @@ const CategoryAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === categoryStatus.DISAPPROVED}
-                value={categoryStatus.DISAPPROVED}
+                checked={watchStatus === categoryStatus.REJECTED}
+                value={categoryStatus.REJECTED}
               >
-                Disapproved
+                Reject
               </Radio>
             </FieldCheckbox>
           </FieldCheckbox>

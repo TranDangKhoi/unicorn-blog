@@ -15,6 +15,7 @@ import AuthenticationPage from "./AuthenticationPage";
 import Homepage from "./Homepage";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import slugify from "slugify";
+import { userRole, userStatus } from "utils/constants";
 
 const schema = yup.object({
   username: yup
@@ -86,8 +87,8 @@ const SignUpPage = () => {
         email: values.email,
         password: values.password,
         createdAt: serverTimestamp(),
-        status: 1,
-        role: 3,
+        status: userStatus.ACTIVE,
+        role: userRole.USER,
         usernameSlug: slugify(values.username, { lower: true }),
         userId: auth.currentUser.uid,
       });
