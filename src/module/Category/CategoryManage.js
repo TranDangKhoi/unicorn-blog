@@ -12,8 +12,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
+  limit,
   onSnapshot,
+  orderBy,
   query,
+  startAfter,
   where,
 } from "firebase/firestore";
 import { categoryStatus } from "utils/constants";
@@ -23,32 +27,82 @@ import { useNavigate } from "react-router-dom";
 import { Field } from "components/Field";
 import { debounce } from "lodash";
 
+const CATEGORIES_PER_PAGE = 8;
+
 const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
   const { displayDateBySeconds } = useDisplayDateBySeconds();
   const [filter, setFilter] = useState("");
+  const [lastDoc, setLastDoc] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    const colRef = collection(db, "categories");
-    const q = filter
-      ? query(
-          colRef,
-          where("name", ">=", filter),
-          where("name", "<=", filter + "utf8")
-        )
-      : colRef;
+    async function getCategories() {
+      const colRef = collection(db, "categories");
+      const q = filter
+        ? query(
+            colRef,
+            where("name", ">=", filter),
+            where("name", "<=", filter + "utf8"),
+            orderBy("createdAt", "desc")
+          )
+        : query(
+            colRef,
+            limit(CATEGORIES_PER_PAGE),
+            orderBy("createdAt", "desc")
+          );
+      // Lấy ra toàn bộ docs
+      const documentSnapshots = await getDocs(q);
+      // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI
+      const lastVisible =
+        documentSnapshots.docs[documentSnapshots.docs.length - 1];
+      //  Hiển thị các docs lấy được ra màn hình
+      onSnapshot(q, colRef, (snapshot) => {
+        const results = [];
+        snapshot.docs.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setCategoryList(results);
+      });
+      // Gán cái thằng lastVisible (thằng doc cuối cùng của page hiện tại) kia cho một state là lastDoc để xử lí sau này
+      setLastDoc(lastVisible);
+    }
+    getCategories();
+  }, [filter]);
 
-    onSnapshot(q, colRef, (snapshot) => {
-      const categories = [];
+  const handleFilter = debounce((e) => {
+    setFilter(e.target.value);
+  }, 1000);
+
+  const handleLoadMoreCategories = async () => {
+    // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
+    const nextQuery = query(
+      collection(db, "categories"),
+      startAfter(lastDoc || 0),
+      limit(CATEGORIES_PER_PAGE)
+    );
+    // Nhét query vào đây và setCategoryList là thông tin của page trước concat với page mới
+    onSnapshot(nextQuery, (snapshot) => {
+      const results = [];
       snapshot.docs.forEach((doc) => {
-        categories.push({
+        results.push({
           id: doc.id,
           ...doc.data(),
         });
       });
-      setCategoryList(categories);
+      setCategoryList([...categoryList, ...results]);
     });
-  }, [filter]);
+    // Ok giờ, lấy ra tất cả docs của page mới
+    const documentSnapshots = await getDocs(nextQuery);
+    // Lấy doc cuối cùng của page mới
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    // set cho state lastDoc = thông tin của thằng doc cuối cùng của page mới đó, rồi lại quay trở lại chạy vào useEffect
+    setLastDoc(lastVisible);
+  };
+
   const handleDeleteCategory = async (docId) => {
     try {
       const docToBeDeletedRef = doc(db, "categories", docId);
@@ -72,12 +126,10 @@ const CategoryManage = () => {
       toast.error(err.message);
     }
   };
-  const handleFilter = debounce((e) => {
-    setFilter(e.target.value);
-  }, 1000);
+
   return (
     <>
-      <div className="flex justify-between db-heading-layout">
+      <div className="flex justify-between">
         <DashboardHeading
           title="Categories"
           desc="Manage your category"
@@ -154,6 +206,9 @@ const CategoryManage = () => {
             ))}
         </tbody>
       </Table>
+      <div className="mt-10">
+        <Button onClick={handleLoadMoreCategories}>Load more</Button>
+      </div>
     </>
   );
 };
