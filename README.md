@@ -514,6 +514,9 @@ const handleSignUp = async (values) => {
     ```
 
     - watch: Lưu giữ value của input được truyền vào, ví dụ:
+    - Truyền vào status của một món hàng chẳng hạn, thường món hàng sẽ có 2 status chính là: Còn hàng / Hết hàng, ta sẽ coi:
+      - Hết hàng = 1
+      - Còn hàng = 2
 
     ```js
     // Chuyển về number để chắc chắn khi set lại nó trả về 1 chứ không phải "1"
