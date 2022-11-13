@@ -1,8 +1,8 @@
 import React from "react";
 
-const DashboardHeading = ({ title = "", desc = "" }) => {
+const DashboardHeading = ({ className = "", title = "", desc = "" }) => {
   return (
-    <div className="">
+    <div className={className}>
       <div>
         <h1 className="dashboard-heading">{title}</h1>
         <p className="dashboard-short-desc">{desc}</p>

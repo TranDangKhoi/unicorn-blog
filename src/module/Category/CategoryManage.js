@@ -33,12 +33,42 @@ const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
   const { displayDateBySeconds } = useDisplayDateBySeconds();
   const [filter, setFilter] = useState("");
-  const [lastDoc, setLastDoc] = useState({});
+  const [lastDoc, setLastDoc] = useState();
+  const [isEmpty, setIsEmpty] = useState(false);
   const navigate = useNavigate();
+  const handleLoadMoreCategories = async () => {
+    // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
+    const nextQuery = query(
+      collection(db, "categories"),
+      orderBy("createdAt", "desc"),
+      startAfter(lastDoc || 0),
+      limit(CATEGORIES_PER_PAGE)
+    );
+    // Nhét query vào đây và setCategoryList là thông tin của page trước concat với page mới
+    onSnapshot(nextQuery, (snapshot) => {
+      let results = [];
+      snapshot.docs.forEach((doc) => {
+        results.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      const isCollectionEmpty = snapshot.size === 0;
+      setIsEmpty(isCollectionEmpty);
+      setCategoryList([...categoryList, ...results]);
+    });
+    // Ok giờ, lấy ra tất cả docs của page mới
+    const documentSnapshots = await getDocs(nextQuery);
+    // Lấy doc cuối cùng của page mới
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    // set cho state lastDoc = thông tin của thằng doc cuối cùng của page mới đó, rồi lại quay trở lại chạy vào useEffect
+    setLastDoc(lastVisible);
+  };
   useEffect(() => {
     async function getCategories() {
       const colRef = collection(db, "categories");
-      const q = filter
+      const firstQuery = filter
         ? query(
             colRef,
             where("name", ">=", filter),
@@ -51,13 +81,14 @@ const CategoryManage = () => {
             orderBy("createdAt", "desc")
           );
       // Lấy ra toàn bộ docs
-      const documentSnapshots = await getDocs(q);
+      const documentSnapshots = await getDocs(firstQuery);
       // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI
       const lastVisible =
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
       //  Hiển thị các docs lấy được ra màn hình
-      onSnapshot(q, colRef, (snapshot) => {
-        const results = [];
+      onSnapshot(firstQuery, colRef, (snapshot) => {
+        let results = [];
         snapshot.docs.forEach((doc) => {
           results.push({
             id: doc.id,
@@ -75,33 +106,6 @@ const CategoryManage = () => {
   const handleFilter = debounce((e) => {
     setFilter(e.target.value);
   }, 1000);
-
-  const handleLoadMoreCategories = async () => {
-    // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
-    const nextQuery = query(
-      collection(db, "categories"),
-      startAfter(lastDoc || 0),
-      limit(CATEGORIES_PER_PAGE)
-    );
-    // Nhét query vào đây và setCategoryList là thông tin của page trước concat với page mới
-    onSnapshot(nextQuery, (snapshot) => {
-      const results = [];
-      snapshot.docs.forEach((doc) => {
-        results.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-      setCategoryList([...categoryList, ...results]);
-    });
-    // Ok giờ, lấy ra tất cả docs của page mới
-    const documentSnapshots = await getDocs(nextQuery);
-    // Lấy doc cuối cùng của page mới
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    // set cho state lastDoc = thông tin của thằng doc cuối cùng của page mới đó, rồi lại quay trở lại chạy vào useEffect
-    setLastDoc(lastVisible);
-  };
 
   const handleDeleteCategory = async (docId) => {
     try {
@@ -206,9 +210,17 @@ const CategoryManage = () => {
             ))}
         </tbody>
       </Table>
-      <div className="mt-10">
-        <Button onClick={handleLoadMoreCategories}>Load more</Button>
-      </div>
+      {!isEmpty ? (
+        <div className="mt-10">
+          <Button onClick={handleLoadMoreCategories}>Load more</Button>
+        </div>
+      ) : (
+        <DashboardHeading
+          className="italic text-center"
+          desc="The end."
+          title="No more data"
+        ></DashboardHeading>
+      )}
     </>
   );
 };
