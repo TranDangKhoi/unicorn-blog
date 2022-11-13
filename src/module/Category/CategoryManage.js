@@ -1,4 +1,4 @@
-import useDisplayDateBySeconds from "hooks/useDisplayDateBySeconds";
+import useDisplayDateBySeconds from "hooks/useTableDisplay";
 import Swal from "sweetalert2";
 import React from "react";
 import DashboardHeading from "./DashboardHeading";
@@ -31,7 +31,8 @@ const CATEGORIES_PER_PAGE = 8;
 
 const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
-  const { displayDateBySeconds } = useDisplayDateBySeconds();
+  const { displayTruncatedID, displayLocalTimeAndDateBySeconds } =
+    useDisplayDateBySeconds();
   const [filter, setFilter] = useState("");
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
@@ -166,7 +167,9 @@ const CategoryManage = () => {
           {categoryList.length > 0 &&
             categoryList.map((category) => (
               <tr key={category.id}>
-                <td>{category.id}</td>
+                <td title={category.id}>
+                  {displayTruncatedID(category.id, 8)}
+                </td>
                 <td>{category.name}</td>
                 <td>
                   <span className="italic font-normal text-gray-500">
@@ -187,11 +190,11 @@ const CategoryManage = () => {
                       <LabelStatus type="disapproved">Disapproved</LabelStatus>
                     )}
                 </td>
-                <td>{`${new Date(
-                  category?.createdAt?.seconds * 1000
-                ).toLocaleTimeString("vi-VI")} ${displayDateBySeconds(
-                  category?.createdAt?.seconds
-                )}`}</td>
+                <td>
+                  {displayLocalTimeAndDateBySeconds(
+                    category?.createdAt?.seconds
+                  )}
+                </td>
                 <td>
                   <div className="flex gap-5 text-gray-400">
                     <ActionEdit

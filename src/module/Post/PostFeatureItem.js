@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
-import useDisplayDateBySeconds from "hooks/useDisplayDateBySeconds";
+import useDisplayDateBySeconds from "hooks/useTableDisplay";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;

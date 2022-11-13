@@ -3,14 +3,14 @@ import React from "react";
 import { useState } from "react";
 import Input from "./Input";
 
-const InputPassword = ({ control }) => {
+const InputPassword = ({ name = "password", control }) => {
   const [hidePassword, setHidePassword] = useState(true);
   if (!control) return null;
   return (
     <>
       <Input
         type={hidePassword ? "password" : "text"}
-        name="password"
+        name={name}
         placeholder="Enter your password"
         control={control}
       >

@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/auth-context";
 import AuthenticationPage from "./AuthenticationPage";
 import Homepage from "./Homepage";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import slugify from "slugify";
 
 const schema = yup.object({
@@ -29,6 +29,13 @@ const schema = yup.object({
     .string()
     .required("Please enter your password")
     .min(8, "Your password must be at least 8 characters"),
+  confirmPassword: yup
+    .string()
+    .required("Please re-confirm your password")
+    .oneOf(
+      [yup.ref("password"), null],
+      "Your confirm password doesn't match your password, please re-check!"
+    ),
 });
 
 const SignUpPage = () => {
@@ -42,7 +49,7 @@ const SignUpPage = () => {
     mode: "onSubmit",
     resolver: yupResolver(schema),
   });
-
+  useEffect(() => {});
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {
@@ -75,8 +82,12 @@ const SignUpPage = () => {
 
       await setDoc(doc(db, "users", auth.currentUser.uid), {
         username: values.username,
+        avatar: auth.currentUser.photoURL,
         email: values.email,
         password: values.password,
+        createdAt: serverTimestamp(),
+        status: 1,
+        role: 3,
         usernameSlug: slugify(values.username, { lower: true }),
         userId: auth.currentUser.uid,
       });
@@ -123,6 +134,13 @@ const SignUpPage = () => {
         <Field>
           <Label htmlFor="password">Password</Label>
           <InputPassword control={control}></InputPassword>
+        </Field>
+        <Field>
+          <Label htmlFor="confirmPassword">Re-confirm password</Label>
+          <InputPassword
+            name="confirmPassword"
+            control={control}
+          ></InputPassword>
         </Field>
         <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
           Sign up

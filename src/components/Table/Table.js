@@ -13,6 +13,7 @@ const TableStyles = styled.div`
   th,
   td {
     vertical-align: middle;
+    text-align: center;
   }
   th {
     padding: 20px 30px;
@@ -32,6 +33,14 @@ const TableStyles = styled.div`
   tbody tr {
     border: 1px solid #ccc;
     border-bottom-color: transparent;
+  }
+  @media screen and (max-width: 1279.98px) {
+    thead th {
+      font-size: 16px;
+    }
+    tbody td {
+      font-size: 14px;
+    }
   }
 `;
 const Table = ({ children }) => {
