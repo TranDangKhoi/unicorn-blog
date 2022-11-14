@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
-import useDisplayDateBySeconds from "hooks/useTableDisplay";
+import useTableDisplay from "hooks/useTableDisplay";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -56,7 +56,8 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = ({ post }) => {
   const [categories, setCategories] = useState([]);
   const [author, setAuthor] = useState([]);
-  const { displayDateBySeconds } = useDisplayDateBySeconds();
+  const { displayLocaleDateBySeconds } = useTableDisplay();
+
   useEffect(() => {
     async function getCategories() {
       const docRef = doc(db, "categories", post.categoryId);
@@ -75,7 +76,7 @@ const PostFeatureItem = ({ post }) => {
     }
     getAuthor();
   }, [post.userId]);
-  const formattedDate = displayDateBySeconds(post?.createdAt?.seconds);
+  const formattedDate = displayLocaleDateBySeconds(post?.createdAt?.seconds);
   if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>

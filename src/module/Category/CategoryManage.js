@@ -20,7 +20,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { categoryStatus, userStatus } from "utils/constants";
+import { categoryStatus } from "utils/constants";
 import { Button } from "components/Button";
 import { ActionDelete, ActionEdit } from "components/Action";
 import { useNavigate } from "react-router-dom";

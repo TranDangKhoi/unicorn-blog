@@ -21,15 +21,7 @@ const UserProfile = () => {
         <div className="mb-10 text-center">
           <ImageUpload className="w-[200px] h-[200px] !rounded-full min-h-0 mx-auto"></ImageUpload>
         </div>
-        <div className="form-layout">
-          <Field>
-            <Label>Fullname</Label>
-            <Input
-              control={control}
-              name="fullname"
-              placeholder="Enter your fullname"
-            ></Input>
-          </Field>
+        <div className="form-layout-2">
           <Field>
             <Label>Username</Label>
             <Input
@@ -38,8 +30,17 @@ const UserProfile = () => {
               placeholder="Enter your username"
             ></Input>
           </Field>
+          <Field>
+            <Label>Email</Label>
+            <Input
+              control={control}
+              name="email"
+              type="email"
+              placeholder="Enter your e-mail address"
+            ></Input>
+          </Field>
         </div>
-        <div className="form-layout">
+        <div className="form-layout-2">
           <Field>
             <Label>Date of Birth</Label>
             <Input
@@ -57,26 +58,24 @@ const UserProfile = () => {
             ></Input>
           </Field>
         </div>
+
         <div className="form-layout">
           <Field>
-            <Label>Email</Label>
-            <Input
-              control={control}
-              name="email"
-              type="email"
-              placeholder="Enter your email address"
-            ></Input>
-          </Field>
-          <Field></Field>
-        </div>
-        <div className="form-layout">
-          <Field>
-            <Label>New Password</Label>
+            <Label>Old Password</Label>
             <Input
               control={control}
               name="password"
               type="password"
-              placeholder="Enter your password"
+              placeholder="Enter your old password"
+            ></Input>
+          </Field>
+          <Field>
+            <Label>New Password</Label>
+            <Input
+              control={control}
+              name="newPassword"
+              type="password"
+              placeholder="Enter your new password"
             ></Input>
           </Field>
           <Field>

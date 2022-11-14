@@ -1,5 +1,6 @@
 import { LoadingSpinner } from "components/Loading";
 import React from "react";
+import PropTypes from "prop-types";
 
 const ImageUpload = ({
   name,
@@ -60,6 +61,14 @@ const ImageUpload = ({
       )}
     </label>
   );
+};
+
+ImageUpload.propTypes = {
+  name: PropTypes.string,
+  className: PropTypes.string,
+  progress: PropTypes.number,
+  imageURL: PropTypes.string,
+  handleRemoveImage: PropTypes.func,
 };
 
 export default ImageUpload;

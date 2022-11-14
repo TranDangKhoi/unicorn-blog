@@ -66,7 +66,7 @@ const UserTable = () => {
   };
   return (
     <div>
-      <Table>
+      <Table className="mt-10">
         <thead>
           <tr>
             <th>ID</th>
@@ -82,7 +82,7 @@ const UserTable = () => {
         <tbody>
           {userList.length > 0 &&
             userList.map((user) => (
-              <tr>
+              <tr key={user.id}>
                 <td title={user.id}>{displayTruncatedID(user.userId, 8)}</td>
                 <td>
                   <a href={user.avatar} target="_blank" rel="noreferrer">

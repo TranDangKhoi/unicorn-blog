@@ -85,8 +85,7 @@ export default function useFirebaseImage(setValue, getValues) {
     deleteObject(imageRef)
       .then(() => {
         console.log("Uploaded image removed successfully!");
-        setImageURL("");
-        setProgress(0);
+        handleResetUploadAfterSubmit();
       })
       .catch((error) => {
         console.log("Failed to remove image");

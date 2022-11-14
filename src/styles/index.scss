@@ -121,3 +121,7 @@ a {
 .form-layout {
   @apply grid grid-cols-1 lg:gap-x-10 mb-5 lg:mb-10;
 }
+
+.form-layout-2 {
+  @apply grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 mb-5 lg:mb-3;
+}

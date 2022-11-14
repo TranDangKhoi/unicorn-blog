@@ -4,11 +4,29 @@ const TableStyles = styled.div`
   overflow-x: auto;
   background-color: white;
   border-radius: 10px;
+  &::-webkit-scrollbar {
+    width: 5px; // set width cho scrollbar
+    border-radius: 100rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 5px; // set width cho scrollbar
+
+    background: #ccc; // set background cho scrollbar track (các phần có màu ghi chưa được kéo tới)
+    border-radius: 100rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 5px; // set width cho scrollbar
+    background: ${(props) =>
+      props.theme.primary}; // setback ground cho chính thanh scrollbar
+    border-radius: 100rem;
+  }
   table {
     width: 100%;
   }
   thead {
-    background-color: #f1f1f1;
+    background-color: #f0f0f0;
   }
   th,
   td {
@@ -22,6 +40,7 @@ const TableStyles = styled.div`
   }
   td {
     padding: 15px 30px;
+    white-space: nowrap;
   }
   tbody {
     background-color: #f8f8f8;
@@ -31,7 +50,6 @@ const TableStyles = styled.div`
     font-size: 17px;
   }
   tbody tr {
-    border: 1px solid #ccc;
     border-bottom-color: transparent;
   }
   @media screen and (max-width: 1279.98px) {
@@ -43,9 +61,9 @@ const TableStyles = styled.div`
     }
   }
 `;
-const Table = ({ children }) => {
+const Table = ({ children, className = "" }) => {
   return (
-    <TableStyles>
+    <TableStyles className={className}>
       <table>{children}</table>
     </TableStyles>
   );

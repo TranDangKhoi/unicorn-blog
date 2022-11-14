@@ -43,8 +43,7 @@ const LabelRole = ({ children, type = "default" }) => {
 
 LabelRole.propTypes = {
   children: PropTypes.node,
-  type: PropTypes.oneOf(["default", "approved", "pending", "reject"])
-    .isRequired,
+  type: PropTypes.oneOf(["default", "admin", "mod", "user"]).isRequired,
 };
 
 export default LabelRole;

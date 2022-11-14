@@ -177,9 +177,13 @@ const Header = () => {
             {userInfo ? (
               <div className="user">
                 <div className="user-display">
-                  <img src={userInfo?.photoURL} alt="" className="avatar" />
+                  <img
+                    src={auth?.currentUser?.photoURL}
+                    alt=""
+                    className="avatar"
+                  />
                   <div className="username">
-                    {getLastName(userInfo?.displayName)}
+                    {getLastName(auth?.currentUser?.displayName)}
                   </div>
                   <i className="fa-solid fa-angle-down"></i>
                 </div>

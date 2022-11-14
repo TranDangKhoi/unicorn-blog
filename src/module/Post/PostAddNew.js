@@ -158,7 +158,10 @@ const PostAddNew = () => {
         title="Add new post"
         desc="Share your stories with us ^o^"
       ></DashboardHeading>
-      <form className="form-layout" onSubmit={handleSubmit(handleAddPost)}>
+      <form
+        className="mt-10 form-layout"
+        onSubmit={handleSubmit(handleAddPost)}
+      >
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label required={true} htmlFor="title">
@@ -214,7 +217,7 @@ const PostAddNew = () => {
         <div className="w-full h-full mb-10">
           <Field>
             <Label required={true} htmlFor="image">
-              Image
+              Your thumbnail
             </Label>
             <ImageUpload
               imageURL={imageURL}

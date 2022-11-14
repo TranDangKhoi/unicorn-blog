@@ -1,33 +1,145 @@
 import { Button } from "components/Button";
 import { Field } from "components/Field";
 import FieldCheckboxes from "components/Field/FieldCheckbox";
-import { Input } from "components/Input";
+import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
+import { ImageUpload } from "components/Upload";
+import { auth, db } from "firebase-app/firebase-config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import slugify from "slugify";
+import Swal from "sweetalert2";
+import { userRole, userStatus } from "utils/constants";
 
 const UserAddNew = () => {
-  const { control } = useForm({
+  const {
+    control,
+    reset,
+    getValues,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({
     mode: "onChange",
+    defaultValues: {
+      username: "",
+      avatar: "",
+      email: "",
+      password: "",
+      createdAt: new Date(),
+      status: userStatus.ACTIVE,
+      role: userRole.USER,
+    },
   });
+  const watchUserStatus = Number(watch("status"));
+  const watchUserRole = Number(watch("role"));
+  const {
+    imageURL,
+    progress,
+    setImageURL,
+    handleSelectImage,
+    handleResetUploadAfterSubmit,
+    handleRemoveImage,
+    handleUploadImage,
+  } = useFirebaseImage(setValue, getValues);
+  const handleCreateNewUser = async (values) => {
+    Swal.fire({
+      title: "Are you sure you want to create this user?",
+      html: `
+      <div>Username: ${values.username}</div>
+      <div>E-mail address: ${values.email}</div>
+      <div>Password: ${values.password}</div>
+      <div>Status: ${values.status}</div>
+      <div>Role: ${values.role}</div>
+      `,
+      icon: "question",
+      showConfirmButton: true,
+      confirmButtonText: "Confirm",
+      confirmButtonColor: "#1DC071",
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+      cancelButtonText: "No, cancel!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await createUserWithEmailAndPassword(
+            auth,
+            values.email,
+            values.password
+          );
+          await updateProfile(auth.currentUser, {
+            displayName: values.username,
+            photoURL: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
+          });
+          await addDoc(collection(db, "users"), {
+            username: values.username,
+            avatar: `https://ui-avatars.com/api/?background=random&name=${values.username}`,
+            email: values.email,
+            password: values.password,
+            createdAt: serverTimestamp(),
+            status: Number(values.status),
+            role: Number(values.role),
+            usernameSlug: slugify(values.username, { lower: true }),
+            userId: auth.currentUser.uid,
+          });
+          reset({
+            username: "",
+            avatar: "",
+            email: "",
+            password: "",
+            createdAt: new Date(),
+            status: userStatus.ACTIVE,
+            role: userRole.USER,
+          });
+          Swal.fire({
+            icon: "success",
+            iconColor: "#1DC071",
+            title: "Created user successfully",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        } catch (err) {
+          toast.error("Failed to create new user", {
+            autoClose: 1500,
+          });
+          console.log(err);
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          icon: "success",
+          iconColor: "#1DC071",
+          title: "Cancelled creating user successfully",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    });
+    handleResetUploadAfterSubmit();
+  };
   return (
     <div>
       <DashboardHeading
         title="New user"
         desc="Add new user to system"
       ></DashboardHeading>
-      <form>
+      <form onSubmit={handleSubmit(handleCreateNewUser)}>
+        <div className="mb-10 text-center">
+          <ImageUpload
+            className="w-[200px] h-[200px] !rounded-full min-h-0 mx-auto"
+            onChange={handleSelectImage}
+            handleRemoveImage={handleRemoveImage}
+            imageURL={imageURL}
+            progress={progress}
+          ></ImageUpload>
+        </div>
         <div className="form-layout">
-          <Field>
-            <Label>Fullname</Label>
-            <Input
-              name="fullname"
-              placeholder="Enter your fullname"
-              control={control}
-            ></Input>
-          </Field>
           <Field>
             <Label>Username</Label>
             <Input
@@ -42,32 +154,47 @@ const UserAddNew = () => {
             <Label>Email</Label>
             <Input
               name="email"
-              placeholder="Enter your email"
+              placeholder="Enter your email address"
               control={control}
               type="email"
             ></Input>
           </Field>
           <Field>
             <Label>Password</Label>
-            <Input
+            <InputPassword
               name="password"
               placeholder="Enter your password"
               control={control}
               type="password"
-            ></Input>
+            ></InputPassword>
           </Field>
         </div>
         <div className="form-layout">
           <Field>
             <Label>Status</Label>
             <FieldCheckboxes>
-              <Radio name="status" control={control}>
+              <Radio
+                name="status"
+                control={control}
+                checked={watchUserStatus === userStatus.ACTIVE}
+                value={userStatus.ACTIVE}
+              >
                 Active
               </Radio>
-              <Radio name="status" control={control}>
+              <Radio
+                name="status"
+                control={control}
+                checked={watchUserStatus === userStatus.PENDING}
+                value={userStatus.PENDING}
+              >
                 Pending
               </Radio>
-              <Radio name="status" control={control}>
+              <Radio
+                name="status"
+                control={control}
+                checked={watchUserStatus === userStatus.BANNED}
+                value={userStatus.BANNED}
+              >
                 Banned
               </Radio>
             </FieldCheckboxes>
@@ -75,22 +202,40 @@ const UserAddNew = () => {
           <Field>
             <Label>Role</Label>
             <FieldCheckboxes>
-              <Radio name="role" control={control}>
+              <Radio
+                name="role"
+                control={control}
+                checked={watchUserRole === userRole.ADMIN}
+                value={userRole.ADMIN}
+              >
                 Admin
               </Radio>
-              <Radio name="role" control={control}>
+              <Radio
+                name="role"
+                control={control}
+                checked={watchUserRole === userRole.MOD}
+                value={userRole.MOD}
+              >
                 Moderator
               </Radio>
-              <Radio name="role" control={control}>
-                Editor
-              </Radio>
-              <Radio name="role" control={control}>
+              <Radio
+                name="role"
+                control={control}
+                checked={watchUserRole === userRole.USER}
+                value={userRole.USER}
+              >
                 User
               </Radio>
             </FieldCheckboxes>
           </Field>
         </div>
-        <Button kind="primary" className="mx-auto w-[200px]">
+        <Button
+          kind="primary"
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+          className="mx-auto w-[200px]"
+        >
           Add new user
         </Button>
       </form>
