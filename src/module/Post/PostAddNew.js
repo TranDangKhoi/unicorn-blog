@@ -1,17 +1,14 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Dropdown } from "components/Dropdown";
 import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
-import React from "react";
-import { useForm } from "react-hook-form";
-import slugify from "slugify";
-import { postStatus } from "utils/constants";
-import { ImageUpload } from "components/Upload";
-import useFirebaseImage from "hooks/useFirebaseImage";
 import { Toggle } from "components/Toggle";
-import { useEffect } from "react";
+import { ImageUpload } from "components/Upload";
+import { useAuth } from "contexts/auth-context";
+import { db } from "firebase-app/firebase-config";
 import {
   addDoc,
   collection,
@@ -20,24 +17,16 @@ import {
   serverTimestamp,
   where,
 } from "firebase/firestore";
-import { db } from "firebase-app/firebase-config";
-import { useState } from "react";
-import { useAuth } from "contexts/auth-context";
-import { toast } from "react-toastify";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { postAddNewSchema } from "schema/schema";
+import slugify from "slugify";
 import Swal from "sweetalert2";
-const schema = yup.object({
-  title: yup
-    .string()
-    .required("Please enter your post's title")
-    .min(8, "Your title must be longer than 8 characters"),
-  slug: yup.string(),
-  status: yup.number().oneOf([1, 2, 3]),
-  categoryId: yup.string().required("Please select an category"),
-  popular: yup.bool().required("Is this post a popular one?"),
-});
+import { postStatus } from "utils/constants";
+
 const PostAddNew = () => {
   const {
     control,
@@ -56,7 +45,7 @@ const PostAddNew = () => {
       categoryId: "",
       popular: false,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(postAddNewSchema),
   });
   const { userInfo } = useAuth();
   const {

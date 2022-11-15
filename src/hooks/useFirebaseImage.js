@@ -11,12 +11,15 @@ import { toast } from "react-toastify";
 export default function useFirebaseImage(setValue, getValues) {
   const [progress, setProgress] = useState(0);
   const [imageURL, setImageURL] = useState("");
+  const metadata = {
+    contentType: "image/png",
+  };
   if (!setValue || !getValues) return;
   const handleUploadImage = (file) => {
     if (!file) return;
     const storage = getStorage();
     const storageRef = ref(storage, "images/" + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(
       "state_changed",

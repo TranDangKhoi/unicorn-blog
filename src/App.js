@@ -7,12 +7,13 @@ import PostManage from "module/Post/PostManage";
 import UserAddNew from "module/User/UserAddNew";
 import UserManage from "module/User/UserManage";
 import UserProfile from "module/User/UserProfile";
+import UserUpdate from "module/User/UserUpdate";
 import DashboardPage from "pages/DashboardPage";
 import Homepage from "pages/Homepage";
 import LoginPage from "pages/LoginPage";
 import NotFoundPage from "pages/NotFoundPage";
 import PostDetailsPage from "pages/PostDetailsPage";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/auth-context";
 import SignUpPage from "./pages/SignUpPage";
 function App() {
@@ -63,6 +64,10 @@ function App() {
             <Route
               path="/manage/add-user"
               element={<UserAddNew></UserAddNew>}
+            ></Route>
+            <Route
+              path="/manage/update-user"
+              element={<UserUpdate></UserUpdate>}
             ></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>

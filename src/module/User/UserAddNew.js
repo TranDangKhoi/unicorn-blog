@@ -10,7 +10,6 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import slugify from "slugify";
@@ -69,7 +68,7 @@ const UserAddNew = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await createUserWithEmailAndPassword(
+          const user = await createUserWithEmailAndPassword(
             auth,
             values.email,
             values.password
@@ -86,8 +85,8 @@ const UserAddNew = () => {
             createdAt: serverTimestamp(),
             status: Number(values.status),
             role: Number(values.role),
+            userId: user.user.uid,
             usernameSlug: slugify(values.username, { lower: true }),
-            userId: auth.currentUser.uid,
           });
           reset({
             username: "",

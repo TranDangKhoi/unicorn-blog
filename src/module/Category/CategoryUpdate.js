@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
@@ -5,11 +6,11 @@ import { Label } from "components/Label";
 import { Radio } from "components/Radio";
 import { db } from "firebase-app/firebase-config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import React from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { categoryUpdateSchema } from "schema/schema";
 import slugify from "slugify";
 import { categoryStatus } from "utils/constants";
 import DashboardHeading from "./DashboardHeading";
@@ -25,9 +26,20 @@ const CategoryUpdate = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
+    resolver: yupResolver(categoryUpdateSchema),
   });
   const categoryId = searchParams.get("id");
   const categoryName = searchParams.get("name");
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.dismiss(arrErrors.find((item) => item === 0));
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: true,
+        closeOnClick: true,
+      });
+    }
+  }, [errors]);
   useEffect(() => {
     async function getCurrentCategoryValue() {
       const docRef = doc(db, "categories", categoryId);

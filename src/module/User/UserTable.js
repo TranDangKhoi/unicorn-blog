@@ -2,11 +2,11 @@ import { ActionDelete, ActionEdit, ActionView } from "components/Action";
 import { LabelRole, LabelStatus } from "components/Label";
 import { Table } from "components/Table";
 import { db } from "firebase-app/firebase-config";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import useTableDisplay from "hooks/useTableDisplay";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { userRole, userStatus } from "utils/constants";
 
 const UserTable = () => {
@@ -64,6 +64,28 @@ const UserTable = () => {
         break;
     }
   };
+  const handleDeleteUser = async (user) => {
+    const colRef = doc(db, "users", user.userId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1DC071",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // Không xóa được trong authen
+        await deleteDoc(colRef);
+        Swal.fire({
+          icon: "success",
+          title: "Deleted user successfully",
+          timer: 1500,
+        });
+      }
+    });
+  };
   return (
     <div>
       <Table className="mt-10">
@@ -108,7 +130,9 @@ const UserTable = () => {
                         navigate(`/manage/update-user?id=${user.userId}`)
                       }
                     ></ActionEdit>
-                    <ActionDelete></ActionDelete>
+                    <ActionDelete
+                      onClick={() => handleDeleteUser(user)}
+                    ></ActionDelete>
                   </div>
                 </td>
               </tr>

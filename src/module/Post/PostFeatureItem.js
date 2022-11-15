@@ -1,14 +1,12 @@
-import styled from "styled-components";
-import React from "react";
-import PostTitle from "./PostTitle";
-import PostMeta from "./PostMeta";
-import PostImage from "./PostImage";
-import PostCategory from "./PostCategory";
-import { useState } from "react";
-import { useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
+import { doc, getDoc } from "firebase/firestore";
 import useTableDisplay from "hooks/useTableDisplay";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import PostCategory from "./PostCategory";
+import PostImage from "./PostImage";
+import PostMeta from "./PostMeta";
+import PostTitle from "./PostTitle";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;

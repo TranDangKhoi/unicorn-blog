@@ -3,7 +3,6 @@ import IconSearch from "components/Icon/IconSearch";
 import { useAuth } from "contexts/auth-context";
 import { auth } from "firebase-app/firebase-config";
 import { signOut } from "firebase/auth";
-import React from "react";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";

@@ -1,6 +1,5 @@
-import React from "react";
-import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
 
 const LabelStyles = styled.label`
   color: ${(props) => props.theme.grayDark};

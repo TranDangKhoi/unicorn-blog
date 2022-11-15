@@ -1,43 +1,21 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "components/Button";
 import { Field } from "components/Field";
 import { Input, InputPassword } from "components/Input";
-import { Button } from "components/Button";
 import { Label } from "components/Label";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "firebase-app/firebase-config";
-import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/auth-context";
-import AuthenticationPage from "./AuthenticationPage";
-import Homepage from "./Homepage";
+import { auth, db } from "firebase-app/firebase-config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { signUpSchema } from "schema/schema";
 import slugify from "slugify";
 import { userRole, userStatus } from "utils/constants";
-
-const schema = yup.object({
-  username: yup
-    .string()
-    .required("Please enter your username")
-    .max(24, "Your username should be less than 30 characters"),
-  email: yup
-    .string()
-    .required("Please enter your email address")
-    .email("Your email address is invalid, please enter another one"),
-  password: yup
-    .string()
-    .required("Please enter your password")
-    .min(8, "Your password must be at least 8 characters"),
-  confirmPassword: yup
-    .string()
-    .required("Please re-confirm your password")
-    .oneOf(
-      [yup.ref("password"), null],
-      "Your confirm password doesn't match your password, please re-check!"
-    ),
-});
+import AuthenticationPage from "./AuthenticationPage";
+import Homepage from "./Homepage";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -48,9 +26,8 @@ const SignUpPage = () => {
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onSubmit",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(signUpSchema),
   });
-  useEffect(() => {});
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {

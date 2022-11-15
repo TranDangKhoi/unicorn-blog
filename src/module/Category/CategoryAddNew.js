@@ -1,26 +1,19 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
-import { categoryStatus } from "utils/constants";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import slugify from "slugify";
-import * as yup from "yup";
-import DashboardHeading from "./DashboardHeading";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "firebase-app/firebase-config";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { yupResolver } from "@hookform/resolvers/yup";
-const schema = yup.object({
-  name: yup
-    .string()
-    .required("Please enter category's name")
-    .max(20, "Your category must be less than 20 characters"),
-  slug: yup.string(),
-  status: yup.number().oneOf([1, 2]),
-});
+import { categoryAddNewSchema } from "schema/schema";
+import slugify from "slugify";
+import { categoryStatus } from "utils/constants";
+import DashboardHeading from "./DashboardHeading";
+
 const CategoryAddNew = () => {
   const {
     control,
@@ -36,7 +29,7 @@ const CategoryAddNew = () => {
       status: 1,
       createdAt: new Date(),
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(categoryAddNewSchema),
   });
   const watchStatus = Number(watch("status"));
   useEffect(() => {

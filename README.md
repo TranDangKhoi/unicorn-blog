@@ -522,3 +522,7 @@ const handleSignUp = async (values) => {
     // Chuyển về number để chắc chắn khi set lại nó trả về 1 chứ không phải "1"
     const watchStatus = Number(watch("status"));
     ```
+
+# Xóa users ra khỏi authentication
+
+- Muốn xóa users ra khỏi Authentication của Firebase thì khá phức tạp, ta phải sử dụng Firebase Admin và phải có 1 con server riêng nữa, configs cũng rất phức tạp.

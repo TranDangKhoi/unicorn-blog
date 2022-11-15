@@ -9,7 +9,7 @@ export default function useTableDisplay() {
 
   function displayLocalTimeAndDateBySeconds(seconds) {
     return `${new Date(seconds * 1000).toLocaleTimeString("vi-VI")} ${new Date(
-      seconds
+      seconds * 1000
     ).toLocaleDateString("vi-VI")}`;
   }
 

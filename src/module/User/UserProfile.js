@@ -4,7 +4,6 @@ import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { ImageUpload } from "components/Upload";
 import DashboardHeading from "module/Category/DashboardHeading";
-import React from "react";
 import { useForm } from "react-hook-form";
 
 const UserProfile = () => {

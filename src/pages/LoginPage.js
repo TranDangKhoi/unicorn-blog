@@ -4,24 +4,15 @@ import { Field } from "components/Field";
 import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
 import { useAuth } from "contexts/auth-context";
-import React from "react";
+import { auth } from "firebase-app/firebase-config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect } from "react";
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import AuthenticationPage from "./AuthenticationPage";
 import { toast } from "react-toastify";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "firebase-app/firebase-config";
+import { loginSchema } from "schema/schema";
+import AuthenticationPage from "./AuthenticationPage";
 import Homepage from "./Homepage";
-
-const schema = yup.object({
-  email: yup
-    .string()
-    .required("Please enter your email address")
-    .email("Your email address is invalid, enter another one"),
-  password: yup.string().required("Please enter your password"),
-});
 
 const LoginPage = () => {
   const { userInfo } = useAuth();
@@ -32,7 +23,7 @@ const LoginPage = () => {
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onSubmit",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
   });
   const handleLogin = async (values) => {
     if (!isValid) return;
