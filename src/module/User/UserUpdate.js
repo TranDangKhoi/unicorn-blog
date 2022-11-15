@@ -1,7 +1,17 @@
-import { ImageUpload } from "components/Upload";
+import { Button } from "components/Button";
+import { Field, FieldCheckbox } from "components/Field";
+import { Input, InputPassword } from "components/Input";
+import { Label } from "components/Label";
+import { Radio } from "components/Radio";
+import { db } from "firebase-app/firebase-config";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import DashboardHeading from "module/Category/DashboardHeading";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import slugify from "slugify";
+import { userRole, userStatus } from "utils/constants";
 
 const UserUpdate = () => {
   const [searchParams] = useSearchParams();
@@ -14,9 +24,38 @@ const UserUpdate = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
+    defaultValues: {
+      status: userStatus.ACTIVE,
+    },
   });
   const userId = searchParams.get("userId");
-  const handleUpdateUser = () => {};
+  const watchUserStatus = Number(watch("status"));
+  const watchUserRole = Number(watch("role"));
+  useEffect(() => {
+    async function getCurrentUserValue() {
+      if (!userId) return;
+      const docRef = doc(db, "users", userId);
+      await getDoc(docRef).then((doc) => {
+        reset(doc.data());
+      });
+    }
+    getCurrentUserValue();
+  }, [userId, reset]);
+  const handleUpdateUser = async (values) => {
+    const cloneValues = { ...values };
+    const docRef = doc(db, "users", userId);
+    await updateDoc(docRef, {
+      ...cloneValues,
+      usernameSlug: slugify(cloneValues.username, { lower: true }),
+      status: Number(cloneValues.status),
+      role: Number(cloneValues.role),
+    });
+    toast.success("Update user successfully", {
+      closeOnClick: true,
+    });
+    navigate("/manage/user");
+  };
+  if (!userId) return null;
   return (
     <div>
       <DashboardHeading
@@ -25,15 +64,15 @@ const UserUpdate = () => {
       ></DashboardHeading>
       <form onSubmit={handleSubmit(handleUpdateUser)}>
         <div className="mb-10 text-center">
-          <ImageUpload
+          {/* <ImageUpload
             className="w-[200px] h-[200px] !rounded-full min-h-0 mx-auto"
             onChange={handleSelectImage}
             handleRemoveImage={handleRemoveImage}
             imageURL={imageURL}
             progress={progress}
-          ></ImageUpload>
+          ></ImageUpload> */}
         </div>
-        <div className="form-layout">
+        <div className="form-layout-2">
           <Field>
             <Label>Username</Label>
             <Input
@@ -42,8 +81,6 @@ const UserUpdate = () => {
               control={control}
             ></Input>
           </Field>
-        </div>
-        <div className="form-layout">
           <Field>
             <Label>Email</Label>
             <Input
@@ -53,20 +90,11 @@ const UserUpdate = () => {
               type="email"
             ></Input>
           </Field>
-          <Field>
-            <Label>Password</Label>
-            <InputPassword
-              name="password"
-              placeholder="Enter your password"
-              control={control}
-              type="password"
-            ></InputPassword>
-          </Field>
         </div>
         <div className="form-layout">
           <Field>
             <Label>Status</Label>
-            <FieldCheckboxes>
+            <FieldCheckbox>
               <Radio
                 name="status"
                 control={control}
@@ -91,11 +119,11 @@ const UserUpdate = () => {
               >
                 Banned
               </Radio>
-            </FieldCheckboxes>
+            </FieldCheckbox>
           </Field>
           <Field>
             <Label>Role</Label>
-            <FieldCheckboxes>
+            <FieldCheckbox>
               <Radio
                 name="role"
                 control={control}
@@ -120,7 +148,7 @@ const UserUpdate = () => {
               >
                 User
               </Radio>
-            </FieldCheckboxes>
+            </FieldCheckbox>
           </Field>
         </div>
         <Button
@@ -130,7 +158,7 @@ const UserUpdate = () => {
           disabled={isSubmitting}
           className="mx-auto w-[200px]"
         >
-          Add new user
+          Update user
         </Button>
       </form>
     </div>

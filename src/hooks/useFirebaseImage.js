@@ -1,3 +1,5 @@
+import { auth } from "firebase-app/firebase-config";
+import { updateProfile } from "firebase/auth";
 import {
   deleteObject,
   getDownloadURL,
@@ -94,6 +96,24 @@ export default function useFirebaseImage(setValue, getValues) {
         console.log("Failed to remove image");
       });
   };
+  const handleRemoveAvatar = () => {
+    const storage = getStorage();
+
+    // Create a reference to the file to delete
+    const imageRef = ref(storage, "images/" + getValues("image_name"));
+    // Delete the file
+    deleteObject(imageRef)
+      .then(async () => {
+        console.log("Uploaded image removed successfully!");
+        await updateProfile(auth.currentUser, {
+          photoURL: `https://ui-avatars.com/api/?background=random&name=${auth.currentUser.displayName}`,
+        });
+        handleResetUploadAfterSubmit();
+      })
+      .catch((error) => {
+        console.log("Failed to remove image");
+      });
+  };
   return {
     imageURL,
     progress,
@@ -101,6 +121,7 @@ export default function useFirebaseImage(setValue, getValues) {
     setProgress,
     handleResetUploadAfterSubmit,
     handleRemoveImage,
+    handleRemoveAvatar,
     handleSelectImage,
     handleUploadImage,
   };

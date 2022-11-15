@@ -211,6 +211,7 @@ const PostAddNew = () => {
             <ImageUpload
               imageURL={imageURL}
               progress={progress}
+              minHeight={"600"}
               onChange={handleSelectImage}
               handleRemoveImage={handleRemoveImage}
             ></ImageUpload>

@@ -1,6 +1,5 @@
 import { Button } from "components/Button";
-import { Field } from "components/Field";
-import FieldCheckboxes from "components/Field/FieldCheckbox";
+import { Field, FieldCheckbox } from "components/Field";
 import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
@@ -42,11 +41,9 @@ const UserAddNew = () => {
   const {
     imageURL,
     progress,
-    setImageURL,
-    handleSelectImage,
     handleResetUploadAfterSubmit,
     handleRemoveImage,
-    handleUploadImage,
+    handleSelectImage,
   } = useFirebaseImage(setValue, getValues);
   const handleCreateNewUser = async (values) => {
     Swal.fire({
@@ -129,11 +126,13 @@ const UserAddNew = () => {
         desc="Add new user to system"
       ></DashboardHeading>
       <form onSubmit={handleSubmit(handleCreateNewUser)}>
-        <div className="mb-10 text-center">
+        <div className="w-[250px] h-[250px] mx-auto rounded-full mb-10">
           <ImageUpload
-            className="w-[200px] h-[200px] !rounded-full min-h-0 mx-auto"
+            className="h-full rounded-full"
             onChange={handleSelectImage}
             handleRemoveImage={handleRemoveImage}
+            scrollable={false}
+            centeredCloseIcon={true}
             imageURL={imageURL}
             progress={progress}
           ></ImageUpload>
@@ -171,7 +170,7 @@ const UserAddNew = () => {
         <div className="form-layout">
           <Field>
             <Label>Status</Label>
-            <FieldCheckboxes>
+            <FieldCheckbox>
               <Radio
                 name="status"
                 control={control}
@@ -196,11 +195,11 @@ const UserAddNew = () => {
               >
                 Banned
               </Radio>
-            </FieldCheckboxes>
+            </FieldCheckbox>
           </Field>
           <Field>
             <Label>Role</Label>
-            <FieldCheckboxes>
+            <FieldCheckbox>
               <Radio
                 name="role"
                 control={control}
@@ -225,7 +224,7 @@ const UserAddNew = () => {
               >
                 User
               </Radio>
-            </FieldCheckboxes>
+            </FieldCheckbox>
           </Field>
         </div>
         <Button

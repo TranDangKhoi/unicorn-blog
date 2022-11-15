@@ -1,10 +1,12 @@
 import { LoadingSpinner } from "components/Loading";
-import React from "react";
 import PropTypes from "prop-types";
 
 const ImageUpload = ({
   name,
   className,
+  minHeight,
+  centeredCloseIcon = false,
+  scrollable = true,
   progress = 0,
   imageURL = "",
   handleRemoveImage = () => {},
@@ -13,7 +15,11 @@ const ImageUpload = ({
   return (
     <label
       htmlFor={name}
-      className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed overflow-auto w-full min-h-[600px] rounded-lg relative ${className}`}
+      className={`cursor-pointer w-full flex items-center justify-center bg-gray-100 border border-dashed group ${
+        scrollable ? "overflow-auto" : "overflow-hidden"
+      } ${
+        minHeight ? `min-h-[${minHeight}px]` : ""
+      } rounded-lg relative ${className}`}
     >
       <input
         type="file"
@@ -48,16 +54,20 @@ const ImageUpload = ({
         </>
       )}
       {imageURL && (
-        <div className="overflow-auto">
+        <>
           <img src={imageURL} className="object-cover w-full h-full" alt="" />
           <button
             type="button"
-            className="absolute z-10 flex items-center text-[22px] justify-center p-5 bg-white bg-opacity-80 rounded-full w-6 h-6 top-6 right-4 hover:bg-opacity-100"
+            className={`${
+              !centeredCloseIcon
+                ? "absolute z-10 flex items-center text-[22px] justify-center p-5 opacity-0 invisible bg-white rounded-full w-6 h-6 top-6 right-4 group-hover:opacity-100 group-hover:visible"
+                : "absolute z-10 flex items-center text-[22px] justify-center p-5 opacity-0 invisible bg-white rounded-full w-6 h-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100 group-hover:visible"
+            }`}
             onClick={handleRemoveImage}
           >
             <i className="fa-solid fa-xmark"></i>
           </button>
-        </div>
+        </>
       )}
     </label>
   );

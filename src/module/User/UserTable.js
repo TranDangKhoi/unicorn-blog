@@ -127,7 +127,7 @@ const UserTable = () => {
                     <ActionView></ActionView>
                     <ActionEdit
                       onClick={() =>
-                        navigate(`/manage/update-user?id=${user.userId}`)
+                        navigate(`/manage/update-user?userId=${user.userId}`)
                       }
                     ></ActionEdit>
                     <ActionDelete
