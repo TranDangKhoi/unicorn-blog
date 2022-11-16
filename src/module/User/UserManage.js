@@ -1,7 +1,7 @@
 import { Button } from "components/Button";
+
 import DashboardHeading from "module/Category/DashboardHeading";
 import UserTable from "./UserTable";
-
 const UserManage = () => {
   return (
     <>

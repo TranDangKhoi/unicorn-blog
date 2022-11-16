@@ -22,10 +22,10 @@
 - image
 - content
 - status (approved, pending, rejected)
-- userId (để lấy ra thông tin user đã viết bài viết đó)
-- categoryId (lấy ra thông tin danh mục)
+- user: {id, username, avatar, bio, ...} (để lấy ra thông tin user đã viết bài viết đó)
+- <s> categoryId (lấy ra thông tin danh mục)</s>
+- category: {id, name, slug}
 - createdAt
-- updatedAt
 
 UPDATED v1.3:
 

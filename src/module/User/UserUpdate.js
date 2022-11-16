@@ -1,11 +1,14 @@
 import { Button } from "components/Button";
 import { Field, FieldCheckbox } from "components/Field";
-import { Input, InputPassword } from "components/Input";
+import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
+import { ImageUpload } from "components/Upload";
 import { db } from "firebase-app/firebase-config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -21,6 +24,8 @@ const UserUpdate = () => {
     reset,
     watch,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
@@ -31,6 +36,16 @@ const UserUpdate = () => {
   const userId = searchParams.get("userId");
   const watchUserStatus = Number(watch("status"));
   const watchUserRole = Number(watch("role"));
+  const avatarURL = getValues("avatar");
+  const imageRegex = /%2F(\S+)\?/gm.exec(avatarURL);
+  const imageName = imageRegex?.length > 0 ? imageRegex[1] : "";
+  const {
+    handleRemoveImage,
+    setImageURL,
+    imageURL,
+    handleSelectImage,
+    progress,
+  } = useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
   useEffect(() => {
     async function getCurrentUserValue() {
       if (!userId) return;
@@ -44,17 +59,33 @@ const UserUpdate = () => {
   const handleUpdateUser = async (values) => {
     const cloneValues = { ...values };
     const docRef = doc(db, "users", userId);
-    await updateDoc(docRef, {
-      ...cloneValues,
-      usernameSlug: slugify(cloneValues.username, { lower: true }),
-      status: Number(cloneValues.status),
-      role: Number(cloneValues.role),
-    });
-    toast.success("Update user successfully", {
-      closeOnClick: true,
-    });
-    navigate("/manage/user");
+    try {
+      await updateDoc(docRef, {
+        ...cloneValues,
+        avatar: imageURL,
+        usernameSlug: slugify(cloneValues.username, { lower: true }),
+        status: Number(cloneValues.status),
+        role: Number(cloneValues.role),
+      });
+      toast.success("Update user successfully", {
+        closeOnClick: true,
+      });
+      navigate("/manage/user");
+    } catch (err) {
+      console.log(err);
+    }
   };
+  async function deleteAvatar() {
+    const docRef = doc(db, "users", userId);
+    const docData = await getDoc(docRef);
+    const userData = docData.data();
+    await updateDoc(docRef, {
+      avatar: `https://ui-avatars.com/api/?background=random&name=${userData.username}`,
+    });
+  }
+  useEffect(() => {
+    setImageURL(avatarURL);
+  }, [avatarURL, setImageURL]);
   if (!userId) return null;
   return (
     <div>
@@ -63,14 +94,16 @@ const UserUpdate = () => {
         desc="Update user's information"
       ></DashboardHeading>
       <form onSubmit={handleSubmit(handleUpdateUser)}>
-        <div className="mb-10 text-center">
-          {/* <ImageUpload
-            className="w-[200px] h-[200px] !rounded-full min-h-0 mx-auto"
+        <div className="w-[250px] h-[250px] mx-auto rounded-full mb-10">
+          <ImageUpload
+            className="h-full rounded-full"
             onChange={handleSelectImage}
             handleRemoveImage={handleRemoveImage}
+            scrollable={false}
+            centeredCloseIcon={true}
             imageURL={imageURL}
             progress={progress}
-          ></ImageUpload> */}
+          ></ImageUpload>
         </div>
         <div className="form-layout-2">
           <Field>
