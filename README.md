@@ -543,4 +543,7 @@ const handleSignUp = async (values) => {
 
   - Firebase, Authentication, Firestore Database là 3 thứ tách biệt nên khi cập nhật ở nơi này thì nơi khác không được cập nhật theo, khá là cùi bắp
 
-- Muốn xóa users ra khỏi Authentication của Firebase thì khá phức tạp, ta phải sử dụng Firebase Admin và phải có 1 con server riêng nữa, configs cũng rất phức tạp.
+  - Muốn xóa users ra khỏi Authentication của Firebase thì khá phức tạp, ta phải sử dụng Firebase Admin và phải có 1 con server riêng nữa, configs cũng rất phức tạp.
+
+<br>
+<font size="17">=> Chốt lại là Firebase chỉ hợp làm dự án đơn giản, các chức năng authen của nó cũng khá bình thường và không hỗ trợ nhiều thứ</font>
