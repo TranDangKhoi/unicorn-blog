@@ -19,7 +19,7 @@
 - id
 - title
 - slug
-- image
+- thumbnail
 - content
 - status (approved, pending, rejected)
 - user: {id, username, avatar, bio, ...} (để lấy ra thông tin user đã viết bài viết đó)
@@ -28,18 +28,6 @@
 - createdAt
 
 UPDATED v1.3:
-
-- id
-- title
-- slug
-- image
-- content
-- status (approved, pending, rejected)
-- isPopular (true, false)
-- userId (để lấy ra thông tin user đã viết bài viết đó)
-- categoryId (lấy ra thông tin danh mục)
-- createdAt (serverTimeStamp)
-- updatedAt
 
 #### Collection: Category
 
