@@ -39,7 +39,7 @@ const PostManage = () => {
     // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
     const nextQuery = query(
       collection(db, "posts"),
-      orderBy("createdAt", "desc"),
+      orderBy("name", "desc"),
       startAfter(lastDoc || 0),
       limit(POSTS_PER_PAGE)
     );
@@ -68,7 +68,7 @@ const PostManage = () => {
             colRef,
             where("name", ">=", filter),
             where("name", "<=", filter + "utf8"),
-            orderBy("createdAt", "desc")
+            orderBy("name", "desc")
           )
         : query(colRef, limit(POSTS_PER_PAGE), orderBy("createdAt", "desc"));
       // Lấy ra toàn bộ docs
@@ -142,6 +142,7 @@ const PostManage = () => {
             type="text"
             className="w-full p-4 border border-gray-300 border-solid rounded-lg"
             placeholder="Search post..."
+            onChange={handleFilter}
           />
         </div>
       </div>
@@ -172,7 +173,7 @@ const PostManage = () => {
                   </div>
                 </td>
                 <td className="!text-left">
-                  <div className="flex-1">
+                  <div className="flex flex-col items-center justify-center">
                     <h3 className="font-semibold max-w-[300px] whitespace-pre-wrap line-clamp">
                       {post.title}
                     </h3>

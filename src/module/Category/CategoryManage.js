@@ -41,7 +41,7 @@ const CategoryManage = () => {
     // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
     const nextQuery = query(
       collection(db, "categories"),
-      orderBy("createdAt", "desc"),
+      orderBy("name", "desc"),
       startAfter(lastDoc || 0),
       limit(CATEGORIES_PER_PAGE)
     );
@@ -74,13 +74,9 @@ const CategoryManage = () => {
             colRef,
             where("name", ">=", filter),
             where("name", "<=", filter + "utf8"),
-            orderBy("createdAt", "desc")
+            orderBy("name", "desc")
           )
-        : query(
-            colRef,
-            limit(CATEGORIES_PER_PAGE),
-            orderBy("createdAt", "desc")
-          );
+        : query(colRef, limit(CATEGORIES_PER_PAGE), orderBy("name", "desc"));
       // Lấy ra toàn bộ docs
       const documentSnapshots = await getDocs(firstQuery);
       // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI

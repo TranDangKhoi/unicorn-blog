@@ -36,7 +36,7 @@ const UserTable = () => {
   const handleLoadMoreUsers = async () => {
     const nextQuery = query(
       collection(db, "users"),
-      orderBy("createdAt", "desc"),
+      orderBy("username", "desc"),
       startAfter(lastDoc || 0),
       limit(USERS_PER_PAGE)
     );
@@ -70,14 +70,11 @@ const UserTable = () => {
             where("username", "<=", filter + "utf8"),
             orderBy("username", "desc")
           )
-        : query(colRef, limit(USERS_PER_PAGE), orderBy("createdAt", "desc"));
-      // Lấy ra toàn bộ docs
+        : query(colRef, limit(USERS_PER_PAGE), orderBy("username", "desc"));
       const documentSnapshots = await getDocs(firstQuery);
-      // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI
       const lastVisible =
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-      //  Hiển thị các docs lấy được ra màn hình
       onSnapshot(firstQuery, colRef, (snapshot) => {
         let results = [];
         snapshot.docs.forEach((doc) => {
@@ -88,7 +85,6 @@ const UserTable = () => {
         });
         setUserList(results);
       });
-      // Gán cái thằng lastVisible (thằng doc cuối cùng của page hiện tại) kia cho một state là lastDoc để xử lí sau này
       setLastDoc(lastVisible);
     }
     getUsers();

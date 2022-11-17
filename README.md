@@ -523,6 +523,24 @@ const handleSignUp = async (values) => {
     const watchStatus = Number(watch("status"));
     ```
 
-# Xóa users ra khỏi authentication
+# Những ưu điểm - khuyết điểm của Firebase
+
+- Ưu điểm:
+
+  - Không cần giỏi back-end
+
+  - Dễ setup vì có hướng dẫn hết rồi
+
+  - Syntax dễ học, dễ tiếp cận không có khó khăn gì về config access_token, lưu access_token, config APIs, ...v.v
+
+  - CRUD trong Firestore cũng rất dễ dàng, không có gì cầu kì quá mức khó học cả
+
+- Khuyết điểm:
+
+  - Query không hỗ trợ chức năng "query gần giống" hoàn toàn, mà phải giống y hệt thì mới search ra được kết quả
+
+  - Nếu sử dụng trick >=,<= trong query thì sẽ bị giới hạn chức năng orderBy, không cho set orderBy theo field khác, vì query có 2 compound queries trong 1 field
+
+  - Firebase, Authentication, Firestore Database là 3 thứ tách biệt nên khi cập nhật ở nơi này thì nơi khác không được cập nhật theo, khá là cùi bắp
 
 - Muốn xóa users ra khỏi Authentication của Firebase thì khá phức tạp, ta phải sử dụng Firebase Admin và phải có 1 con server riêng nữa, configs cũng rất phức tạp.
