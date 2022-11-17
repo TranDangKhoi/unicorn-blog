@@ -8,10 +8,12 @@ import { Radio } from "components/Radio";
 import { Toggle } from "components/Toggle";
 import { ImageUpload } from "components/Upload";
 import { useAuth } from "contexts/auth-context";
-import { db } from "firebase-app/firebase-config";
+import { auth, db } from "firebase-app/firebase-config";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -42,76 +44,91 @@ const PostAddNew = () => {
       title: "",
       slug: "",
       status: 2,
-      categoryId: "",
+      category: {},
       popular: false,
     },
     resolver: yupResolver(postAddNewSchema),
   });
   const { userInfo } = useAuth();
-  const {
-    imageURL,
-    progress,
-    handleResetUploadAfterSubmit,
-    handleRemoveImage,
-    handleSelectImage,
-  } = useFirebaseImage(setValue, getValues);
+  const [userDetails, setUserDetails] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
+  useEffect(() => {
+    async function fetchUserData() {
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      const docData = await getDoc(docRef);
+      setValue("users", {
+        id: docData.id,
+        ...docData.data(),
+      });
+    }
+    fetchUserData();
+  }, [setValue, userInfo.uid]);
+  const { imageURL, progress, handleRemoveImage, handleSelectImage } =
+    useFirebaseImage(setValue, getValues);
   const [categories, setCategories] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
   // Convert status sang number vì database trả dưới dạng number
   const watchPopular = watch("popular");
   const watchStatus = Number(watch("status"));
   const handleAddPost = async (values) => {
-    const cloneValues = { ...values };
-    cloneValues.slug = slugify(cloneValues.slug || cloneValues.title, {
-      lower: true,
-    });
-    cloneValues.status = Number(values.status);
-    const colRef = collection(db, "posts");
-    await Swal.fire({
-      title: "Are you sure you want to post this into your blog?",
-      text: "Feel free to re-check your contents!",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#1DC071",
-      cancelButtonColor: "#d33",
-      cancelButtonText: "Wait, don't post this yet",
-      confirmButtonText: "Confirm, i want to post this",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await addDoc(colRef, {
-          ...cloneValues,
-          imageURL,
-          userId: userInfo.uid,
-          createdAt: serverTimestamp(),
-        });
-        toast.success("Your blog has been posted successfully");
-        Swal.fire({
-          title: "Success!",
-          text: "You can view your blog in the dashboard now",
-        });
-        reset({
-          title: "",
-          slug: "",
-          status: 2,
-          categoryId: "",
-          imageURL: "",
-          popular: false,
-        });
-        handleResetUploadAfterSubmit();
-        setSelectCategory({});
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          icon: "success",
-          iconColor: "#1DC071",
-          title: "You're safe!",
-          text: "Cancelled",
-        });
-      }
-    });
+    console.log(values);
+    // const cloneValues = { ...values };
+    // cloneValues.slug = slugify(cloneValues.slug || cloneValues.title, {
+    //   lower: true,
+    // });
+    // cloneValues.status = Number(values.status);
+    // const colRef = collection(db, "posts");
+    // await Swal.fire({
+    //   title: "Are you sure you want to post this into your blog?",
+    //   text: "Feel free to re-check your contents!",
+    //   icon: "question",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#1DC071",
+    //   cancelButtonColor: "#d33",
+    //   cancelButtonText: "Wait, don't post this yet",
+    //   confirmButtonText: "Confirm, i want to post this",
+    // }).then(async (result) => {
+    //   if (result.isConfirmed) {
+    //     await addDoc(colRef, {
+    //       ...cloneValues,
+    //       imageURL,
+    //       userId: userInfo.uid,
+    //       createdAt: serverTimestamp(),
+    //     });
+    //     toast.success("Your blog has been posted successfully");
+    //     Swal.fire({
+    //       title: "Success!",
+    //       text: "You can view your blog in the dashboard now",
+    //     });
+    //     reset({
+    //       title: "",
+    //       slug: "",
+    //       status: 2,
+    //       category: {},
+    //       imageURL: "",
+    //       popular: false,
+    //     });
+    //     handleResetUploadAfterSubmit();
+    // setSelectCategory({});
+    //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+    //     Swal.fire({
+    //       icon: "success",
+    //       iconColor: "#1DC071",
+    //       title: "You're safe!",
+    //       text: "Cancelled",
+    //     });
+    //   }
+    // });
   };
 
-  const handleSelectOption = (item) => {
-    setValue("categoryId", item.id);
+  const handleSelectOption = async (item) => {
+    const docRef = doc(db, "categories", item.id);
+    const docData = await getDoc(docRef);
+    setValue("category", {
+      id: docData.id,
+      ...docData.data(),
+    });
+    // setValue("categoryId", item.id);
     setSelectCategory(item);
   };
 
@@ -211,7 +228,7 @@ const PostAddNew = () => {
             <ImageUpload
               imageURL={imageURL}
               progress={progress}
-              minHeight={"600"}
+              minHeight="600"
               onChange={handleSelectImage}
               handleRemoveImage={handleRemoveImage}
             ></ImageUpload>

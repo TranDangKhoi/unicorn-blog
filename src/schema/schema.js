@@ -36,7 +36,7 @@ export const postAddNewSchema = yup.object({
     .min(8, "Your title must be longer than 8 characters"),
   slug: yup.string(),
   status: yup.number().oneOf([1, 2, 3]),
-  categoryId: yup.string().required("Please select an category"),
+  category: yup.object().required("Please select an category"),
   popular: yup.bool().required("Is this post a popular one?"),
 });
 

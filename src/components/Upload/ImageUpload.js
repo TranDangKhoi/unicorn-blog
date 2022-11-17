@@ -18,7 +18,7 @@ const ImageUpload = ({
       className={`cursor-pointer w-full flex items-center justify-center bg-gray-100 border border-dashed group ${
         scrollable ? "overflow-auto" : "overflow-hidden"
       } ${
-        minHeight ? `min-h-[${minHeight}px]` : ""
+        minHeight ? `min-h-[${minHeight}]` : ""
       } rounded-lg relative ${className}`}
     >
       <input
