@@ -187,7 +187,7 @@ const UserTable = () => {
             <th>Username</th>
             <th>Email</th>
             <th>Status</th>
-            <th>Created at</th>
+
             <th>Role</th>
             <th>Action</th>
           </tr>
@@ -206,12 +206,19 @@ const UserTable = () => {
                     />
                   </a>
                 </td>
-                <td>{user.username}</td>
+                <td>
+                  <div className="flex-1">
+                    <h3 className="font-semibold max-w-[200px] whitespace-pre-wrap">
+                      {user.username}
+                    </h3>
+                    <time className="text-sm text-gray-500">
+                      Created at:{" "}
+                      {displayLocalTimeAndDateBySeconds(user.createdAt.seconds)}
+                    </time>
+                  </div>
+                </td>
                 <td>{user.email}</td>
                 <td>{renderLabelStatus(user?.status)}</td>
-                <td>
-                  {displayLocalTimeAndDateBySeconds(user?.createdAt?.seconds)}
-                </td>
                 <td>{renderUserRole(user?.role)}</td>
                 <td>
                   <div className="flex gap-5 text-gray-400">

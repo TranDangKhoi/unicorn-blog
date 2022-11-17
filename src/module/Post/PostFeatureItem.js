@@ -1,7 +1,4 @@
-import { db } from "firebase-app/firebase-config";
-import { doc, getDoc } from "firebase/firestore";
 import useTableDisplay from "hooks/useTableDisplay";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -52,29 +49,7 @@ const PostFeatureItemStyles = styled.div`
   }
 `;
 const PostFeatureItem = ({ post }) => {
-  const [categories, setCategories] = useState([]);
-  const [author, setAuthor] = useState([]);
   const { displayLocaleDateBySeconds } = useTableDisplay();
-
-  useEffect(() => {
-    async function getCategories() {
-      const docRef = doc(db, "categories", post.categoryId);
-      const docSnap = await getDoc(docRef);
-      setCategories(docSnap.data());
-    }
-    getCategories();
-  }, [post.categoryId]);
-  useEffect(() => {
-    async function getAuthor() {
-      const docRef = doc(db, "users", post.userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.data) {
-        setAuthor(docSnap.data());
-      }
-    }
-    getAuthor();
-  }, [post.userId]);
-  const formattedDate = displayLocaleDateBySeconds(post?.createdAt?.seconds);
   if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>
@@ -82,15 +57,15 @@ const PostFeatureItem = ({ post }) => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          {categories?.name && (
-            <PostCategory kind="secondary" to={categories.slug}>
-              {categories.name}
+          {post?.category?.name && (
+            <PostCategory kind="secondary" to={post?.category?.slug}>
+              {post?.category?.name}
             </PostCategory>
           )}
           <PostMeta
-            to={author?.usernameSlug}
-            username={author?.username}
-            date={formattedDate}
+            to={post?.user?.usernameSlug}
+            username={post?.user?.username}
+            date={displayLocaleDateBySeconds(post?.createdAt?.seconds)}
           ></PostMeta>
         </div>
         <PostTitle to={post.slug} size="semi-normal">

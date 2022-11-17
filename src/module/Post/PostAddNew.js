@@ -30,6 +30,7 @@ import Swal from "sweetalert2";
 import { postStatus } from "utils/constants";
 
 const PostAddNew = () => {
+  const { userInfo } = useAuth();
   const {
     control,
     reset,
@@ -45,26 +46,29 @@ const PostAddNew = () => {
       slug: "",
       status: 2,
       category: {},
+      user: {},
       popular: false,
     },
     resolver: yupResolver(postAddNewSchema),
   });
-  const { userInfo } = useAuth();
-  const [userDetails, setUserDetails] = useState({});
-  const [categoryDetails, setCategoryDetails] = useState({});
   useEffect(() => {
     async function fetchUserData() {
       const docRef = doc(db, "users", auth.currentUser.uid);
       const docData = await getDoc(docRef);
-      setValue("users", {
+      setValue("user", {
         id: docData.id,
         ...docData.data(),
       });
     }
     fetchUserData();
   }, [setValue, userInfo.uid]);
-  const { imageURL, progress, handleRemoveImage, handleSelectImage } =
-    useFirebaseImage(setValue, getValues);
+  const {
+    imageURL,
+    progress,
+    handleResetUploadAfterSubmit,
+    handleRemoveImage,
+    handleSelectImage,
+  } = useFirebaseImage(setValue, getValues);
   const [categories, setCategories] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
   // Convert status sang number vì database trả dưới dạng number
@@ -72,53 +76,53 @@ const PostAddNew = () => {
   const watchStatus = Number(watch("status"));
   const handleAddPost = async (values) => {
     console.log(values);
-    // const cloneValues = { ...values };
-    // cloneValues.slug = slugify(cloneValues.slug || cloneValues.title, {
-    //   lower: true,
-    // });
-    // cloneValues.status = Number(values.status);
-    // const colRef = collection(db, "posts");
-    // await Swal.fire({
-    //   title: "Are you sure you want to post this into your blog?",
-    //   text: "Feel free to re-check your contents!",
-    //   icon: "question",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#1DC071",
-    //   cancelButtonColor: "#d33",
-    //   cancelButtonText: "Wait, don't post this yet",
-    //   confirmButtonText: "Confirm, i want to post this",
-    // }).then(async (result) => {
-    //   if (result.isConfirmed) {
-    //     await addDoc(colRef, {
-    //       ...cloneValues,
-    //       imageURL,
-    //       userId: userInfo.uid,
-    //       createdAt: serverTimestamp(),
-    //     });
-    //     toast.success("Your blog has been posted successfully");
-    //     Swal.fire({
-    //       title: "Success!",
-    //       text: "You can view your blog in the dashboard now",
-    //     });
-    //     reset({
-    //       title: "",
-    //       slug: "",
-    //       status: 2,
-    //       category: {},
-    //       imageURL: "",
-    //       popular: false,
-    //     });
-    //     handleResetUploadAfterSubmit();
-    // setSelectCategory({});
-    //   } else if (result.dismiss === Swal.DismissReason.cancel) {
-    //     Swal.fire({
-    //       icon: "success",
-    //       iconColor: "#1DC071",
-    //       title: "You're safe!",
-    //       text: "Cancelled",
-    //     });
-    //   }
-    // });
+    const cloneValues = { ...values };
+    cloneValues.slug = slugify(cloneValues.slug || cloneValues.title, {
+      lower: true,
+    });
+    cloneValues.status = Number(values.status);
+    const colRef = collection(db, "posts");
+    await Swal.fire({
+      title: "Are you sure you want to post this into your blog?",
+      text: "Feel free to re-check your contents!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#1DC071",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Wait, don't post this yet",
+      confirmButtonText: "Confirm, i want to post this",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await addDoc(colRef, {
+          ...cloneValues,
+          imageURL,
+          createdAt: serverTimestamp(),
+        });
+        toast.success("Your blog has been posted successfully");
+        Swal.fire({
+          title: "Success!",
+          text: "You can view your blog in the dashboard now",
+        });
+        reset({
+          title: "",
+          slug: "",
+          status: 2,
+          category: {},
+          imageURL: "",
+          popular: false,
+          user: {},
+        });
+        handleResetUploadAfterSubmit();
+        setSelectCategory({});
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          icon: "success",
+          iconColor: "#1DC071",
+          title: "You're safe!",
+          text: "Cancelled",
+        });
+      }
+    });
   };
 
   const handleSelectOption = async (item) => {
@@ -228,7 +232,7 @@ const PostAddNew = () => {
             <ImageUpload
               imageURL={imageURL}
               progress={progress}
-              minHeight="600"
+              minHeight="600px"
               onChange={handleSelectImage}
               handleRemoveImage={handleRemoveImage}
             ></ImageUpload>
