@@ -541,7 +541,7 @@ const handleSignUp = async (values) => {
 
   - Nếu sử dụng trick >=,<= trong query thì sẽ bị giới hạn chức năng orderBy, không cho set orderBy theo field khác, vì query có 2 compound queries trong 1 field
 
-  - Firebase, Authentication, Firestore Database là 3 thứ tách biệt nên khi cập nhật ở nơi này thì nơi khác không được cập nhật theo, khá là cùi bắp
+  - Storage, Authentication, Firestore Database là 3 thứ tách biệt nên khi cập nhật ở nơi này thì nơi khác không được cập nhật theo, khá là cùi bắp
 
   - Muốn xóa users ra khỏi Authentication của Firebase thì khá phức tạp, ta phải sử dụng Firebase Admin và phải có 1 con server riêng nữa, configs cũng rất phức tạp.
 
