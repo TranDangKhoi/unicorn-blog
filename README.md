@@ -8,8 +8,6 @@
 
 ### 1. Go to blog-project-firebase - Overview - Firebase console
 
-![Go to blog-project-firebase - Overview - Firebase console](https://console.firebase.google.com/u/0/project/blog-project-firebase-30183/overview)
-
 ### 2. Click on Firestore Database
 
 ![Step 2 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/26056d58-8ff0-40fd-900f-e24f85ecac10/2bb89c5d-04bf-4326-8114-ab59287087d2.png?crop=focalpoint&fit=crop&fp-x=0.0620&fp-y=0.2023&fp-z=2.7666&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
