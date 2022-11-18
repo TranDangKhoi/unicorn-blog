@@ -1,30 +1,88 @@
+# How to run this project
+
+**DATE**: 11/18/2022
+
+I. First of all, after cloning this project you should open it and type `npm install` in the terminal (**Make sure you are on the right directory**), the directory should be ...\unicorn-blog
+
+II. Now let's config the Firebase :fire::
+
+### 1. [Go to Firebase console](https://console.firebase.google.com/u/0/)
+
+### 2. Click on Add project
+
+![Step 2 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/5477d2a9-27e0-4a26-a235-01de6e61013c/e92ceacf-fdce-4c31-9bfb-28cb27669df8.png?crop=focalpoint&fit=crop&fp-x=0.3333&fp-y=0.2890&fp-z=1.9431&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 3. Type "some-random-name" for your project
+
+![Step 3 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/b56475ec-3627-48a3-8f70-b8496d16aa60/91e9e718-0c9c-4869-a405-0ce167a91dfb.png?crop=focalpoint&fit=crop&fp-x=0.2250&fp-y=0.4236&fp-z=1.6327&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 4. Click on Continue
+
+![Step 4 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/818d2d4b-c97e-4ef1-840f-f71085f2d31d/6c8a4e12-1948-494e-9f08-62b6f5563576.png?crop=focalpoint&fit=crop&fp-x=0.1250&fp-y=0.6120&fp-z=2.4242&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 5. Disable Google Analytics for this project cuz we don't need it
+
+![Step 5 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/1a49ef45-fe9f-4d5e-8e53-509f140394db/3e1ba551-d2c4-42c7-8c78-116abd50f5d1.png?crop=focalpoint&fit=crop&fp-x=0.0823&fp-y=0.7327&fp-z=3.2323&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 6. Click on Create project
+
+![Step 6 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/bf59733a-624f-4921-b858-2c5de0de077d/d52fcb31-be8d-4859-9bcc-ffdcc924cda1.png?crop=focalpoint&fit=crop&fp-x=0.3750&fp-y=0.8452&fp-z=2.4242&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 7. Click on Web
+
+![Step 7 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/b1ab650e-2beb-4a1f-aeff-daeaa7a32eca/fe663a93-ee93-44fc-b15a-4b1befba327b.png?crop=focalpoint&fit=crop&fp-x=0.3979&fp-y=0.4417&fp-z=2.8609&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 8. Type your web app nickname
+
+![Step 8 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/b598380d-abe1-4d76-9110-a1dc8605097d/bdc2b71b-081d-45ef-a4d1-aa1b9df39b78.png?crop=focalpoint&fit=crop&fp-x=0.2120&fp-y=0.2518&fp-z=1.9876&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 9. Click on Register app
+
+![Step 9 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/cc74e00b-debd-4b9e-ae08-46279e6393a4/27cb4236-c95b-418f-969d-d2487b3ee092.png?crop=focalpoint&fit=crop&fp-x=0.1401&fp-y=0.4164&fp-z=2.9179&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 10. Click on Copy Firebase Web SDK integration code
+
+![Step 10 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/8e42663b-8eaa-48b2-8330-7bf912fefe93/08dc2e29-ca50-4bd5-a63c-bcd08058f27d.png?crop=focalpoint&fit=crop&fp-x=0.4458&fp-y=0.8545&fp-z=3.2000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 11. Copy this "npm install firebase" command for later
+
+![Step 11 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/16cd77e6-df31-46fe-b080-816a7aba4916/e3f9f3f7-934d-481d-b728-27234837ca11.png?crop=focalpoint&fit=crop&fp-x=0.2847&fp-y=0.4111&fp-z=2.5296&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 12. Open the unicorn-blog project to config firebase
+
+### 13. Navigate to the following directory src/firebase-app/firebase-config.js, copy and paste the code you got from step 10 into the firebase-config.js file
+
+![Step 10 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/8e42663b-8eaa-48b2-8330-7bf912fefe93/08dc2e29-ca50-4bd5-a63c-bcd08058f27d.png?crop=focalpoint&fit=crop&fp-x=0.4458&fp-y=0.8545&fp-z=3.2000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 14. Now you should setup Authentication, Firestore Database, Cloud Storage, make sure your start it in PRODUCTION MODE and select the right region of your country
+
+![Step 14 screenshot](https://i.ibb.co/d09SZht/image.png)
+
+III. Now to the Rules config part:
+
+### 1. Click on Firestore Database
+
+![Step 1 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/26056d58-8ff0-40fd-900f-e24f85ecac10/2bb89c5d-04bf-4326-8114-ab59287087d2.png?crop=focalpoint&fit=crop&fp-x=0.0620&fp-y=0.2023&fp-z=2.7666&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 2. Click on Rules tab
+
+![Step 2 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/63b04c7e-a9bc-4f62-8a52-f92fdeffa7cf/2eb3a703-a2e3-4144-9ab8-e3361c50dccd.png?crop=focalpoint&fit=crop&fp-x=0.1880&fp-y=0.1218&fp-z=3.1373&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 3. Paste "allow read, write: if true;" into text area
+
+![Step 3 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/6536dc05-c0c0-4e3a-82c6-6b1edeb3c0de/8d75cdcc-a418-445c-bb2f-805d89025b76.png?crop=focalpoint&fit=crop&fp-x=0.7182&fp-y=0.3932&fp-z=1.8426&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 4. The same apply to Storage
+
+- Read more at: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
+
 # Setup dự án
 
 1. Cài đặt đầy đủ packages cần thiết nhất (như firebase, react-router-dom, styled-components), setup sao cho tất cả chạy đều ổn áp
 
-2. Thiết lập Firebase :fire: **(LƯU Ý): Khi start in production mode thì ta sẽ có một số luật để có thể tác động vào database, nên ta sẽ phải chỉnh sửa rules trong từng mục như sau:**
+2. Thiết lập Routes
 
-- Firestore Database:
-
-### 1. Go to blog-project-firebase - Overview - Firebase console
-
-### 2. Click on Firestore Database
-
-![Step 2 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/26056d58-8ff0-40fd-900f-e24f85ecac10/2bb89c5d-04bf-4326-8114-ab59287087d2.png?crop=focalpoint&fit=crop&fp-x=0.0620&fp-y=0.2023&fp-z=2.7666&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
-
-### 3. Click on Rules tab
-
-![Step 3 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/63b04c7e-a9bc-4f62-8a52-f92fdeffa7cf/2eb3a703-a2e3-4144-9ab8-e3361c50dccd.png?crop=focalpoint&fit=crop&fp-x=0.1880&fp-y=0.1218&fp-z=3.1373&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
-
-### 4. Paste "allow read, write: if true;" into text area
-
-![Step 4 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/6536dc05-c0c0-4e3a-82c6-6b1edeb3c0de/8d75cdcc-a418-445c-bb2f-805d89025b76.png?crop=focalpoint&fit=crop&fp-x=0.7182&fp-y=0.3932&fp-z=1.8426&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
-
-- Biết rõ thêm tại: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
-
-3. Thiết lập Routes
-
-4. Viết auth-context để lưu trữ thông tin người dùng và dùng ở nhiều nơi
+3. Viết auth-context để lưu trữ thông tin người dùng và dùng ở nhiều nơi
 
 # Phân tích database
 
