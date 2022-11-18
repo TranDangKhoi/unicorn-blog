@@ -609,7 +609,7 @@ const handleSignUp = async (values) => {
 
 - Ưu điểm:
 
-  - Không cần giỏi back-end
+  - Không cần giỏi back-end, SQL, các chuẩn 1NF -> 3NF bởi nó cũng na ná NoSQL
 
   - Dễ setup vì có hướng dẫn hết rồi
 

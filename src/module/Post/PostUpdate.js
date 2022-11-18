@@ -1,12 +1,3 @@
-import { Button } from "components/Button";
-import { Dropdown } from "components/Dropdown";
-import { Field, FieldCheckbox } from "components/Field";
-import { Input } from "components/Input";
-import { Label } from "components/Label";
-import { Radio } from "components/Radio";
-import { Toggle } from "components/Toggle";
-import { ImageUpload } from "components/Upload";
-import { db } from "firebase-app/firebase-config";
 import {
   collection,
   doc,
@@ -16,20 +7,33 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import useFirebaseImage from "hooks/useFirebaseImage";
-import DashboardHeading from "module/Category/DashboardHeading";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import ReactQuill from "react-quill";
 import { useSearchParams } from "react-router-dom";
+
+import { Button } from "components/Button";
+import { Dropdown } from "components/Dropdown";
+import { Field, FieldCheckbox } from "components/Field";
+import { Input } from "components/Input";
+import { Label } from "components/Label";
+import { Radio } from "components/Radio";
+import { Toggle } from "components/Toggle";
+import { ImageUpload } from "components/Upload";
+import { db } from "firebase-app/firebase-config";
+import useFirebaseImage from "hooks/useFirebaseImage";
+import DashboardHeading from "module/Category/DashboardHeading";
 import { postStatus } from "utils/constants";
+
+import "react-quill/dist/quill.snow.css";
 
 const PostUpdate = () => {
   const [searchParams] = useSearchParams();
   const postId = searchParams.get("id");
   const [categories, setCategories] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
-
+  const [content, setContent] = useState("");
   const {
     handleSubmit,
     control,
@@ -173,6 +177,9 @@ const PostUpdate = () => {
         </div>
         <div className="mb-10">
           <Label required={true}>Edit your post's content:</Label>
+          <div>
+            <ReactQuill theme="snow" value={content} onChange={setContent} />
+          </div>
         </div>
         <div className="w-full h-full mb-10">
           <Field>
