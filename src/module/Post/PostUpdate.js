@@ -1,7 +1,246 @@
-import React from "react";
+import { Button } from "components/Button";
+import { Dropdown } from "components/Dropdown";
+import { Field, FieldCheckbox } from "components/Field";
+import { Input } from "components/Input";
+import { Label } from "components/Label";
+import { Radio } from "components/Radio";
+import { Toggle } from "components/Toggle";
+import { ImageUpload } from "components/Upload";
+import { db } from "firebase-app/firebase-config";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import useFirebaseImage from "hooks/useFirebaseImage";
+import DashboardHeading from "module/Category/DashboardHeading";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
+import { postStatus } from "utils/constants";
 
 const PostUpdate = () => {
-  return <div></div>;
+  const [searchParams] = useSearchParams();
+  const postId = searchParams.get("id");
+  const [categories, setCategories] = useState([]);
+  const [selectCategory, setSelectCategory] = useState("");
+
+  const {
+    handleSubmit,
+    control,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    formState: { isSubmitting, errors },
+  } = useForm({
+    mode: "onSubmit",
+  });
+  const watchStatus = Number(watch("status"));
+  const watchPopular = Number(watch("popular"));
+  const thumbnailImageURL = getValues("imageURL");
+  const thumbnailImageName = getValues("image_name");
+  const {
+    handleRemoveImage,
+    setImageURL,
+    imageURL,
+    handleSelectImage,
+    progress,
+  } = useFirebaseImage(
+    setValue,
+    getValues,
+    thumbnailImageName,
+    deleteThumbnail
+  );
+
+  useEffect(() => {
+    async function getPost() {
+      if (!postId) return;
+      const docRef = doc(db, "posts", postId);
+      const docSnapshot = await getDoc(docRef);
+      if (docSnapshot.data()) {
+        reset(docSnapshot.data());
+        setSelectCategory(docSnapshot.data()?.category || "");
+      }
+    }
+    getPost();
+  }, [postId, reset]);
+  useEffect(() => {
+    async function getCategories() {
+      const colRef = collection(db, "categories");
+      const q = query(colRef, where("status", "==", 1));
+      const docs = await getDocs(q);
+      let yourCategories = [];
+      docs.forEach((doc) => {
+        yourCategories.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setCategories(yourCategories);
+    }
+    getCategories();
+  }, []);
+  useEffect(() => {
+    setImageURL(thumbnailImageURL);
+  }, [thumbnailImageURL, setImageURL]);
+
+  async function deleteThumbnail() {}
+  const handleUpdatePost = (values) => {};
+  async function deleteAvatar() {
+    const docRef = doc(db, "posts", postId);
+    await updateDoc(docRef, {
+      imageURL: "",
+    });
+  }
+  const handleSelectOption = async (item) => {
+    const docRef = doc(db, "categories", item.id);
+    const docData = await getDoc(docRef);
+    setValue("category", {
+      id: docData.id,
+      ...docData.data(),
+    });
+    // setValue("categoryId", item.id);
+    setSelectCategory(item);
+  };
+  if (!postId) return null;
+  return (
+    <>
+      <DashboardHeading
+        title="Update your post"
+        desc="Update post's contents"
+      ></DashboardHeading>
+      <form
+        className="mt-10 form-layout"
+        onSubmit={handleSubmit(handleUpdatePost)}
+      >
+        <div className="grid grid-cols-2 mb-10 gap-x-10">
+          <Field>
+            <Label required={true} htmlFor="title">
+              Title
+            </Label>
+            <Input
+              control={control}
+              placeholder="Enter your title"
+              name="title"
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="slug">Slug</Label>
+            <Input
+              control={control}
+              placeholder="Enter your slug"
+              name="slug"
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="author">Author</Label>
+            <Input
+              control={control}
+              name="author"
+              placeholder="Who's the author"
+            ></Input>
+          </Field>
+          <Field>
+            <Label required={true} htmlFor="category">
+              Category
+            </Label>
+            <Dropdown>
+              <Dropdown.Select></Dropdown.Select>
+              <Dropdown.List>
+                {categories.length > 0 &&
+                  categories.map((item) => (
+                    <Dropdown.Option
+                      onClick={() => handleSelectOption(item)}
+                      key={item.id}
+                    >
+                      {item.name}
+                    </Dropdown.Option>
+                  ))}
+              </Dropdown.List>
+            </Dropdown>
+            {selectCategory?.name && (
+              <span className="inline-block p-4 text-sm font-semibold text-white rounded-lg bg-primary">
+                {selectCategory?.name}
+              </span>
+            )}
+          </Field>
+        </div>
+        <div className="mb-10">
+          <Label required={true}>Edit your post's content:</Label>
+        </div>
+        <div className="w-full h-full mb-10">
+          <Field>
+            <Label required={true} htmlFor="image">
+              Your thumbnail
+            </Label>
+            <ImageUpload
+              imageURL={imageURL}
+              progress={progress}
+              minHeight="600px"
+              onChange={handleSelectImage}
+              handleRemoveImage={handleRemoveImage}
+            ></ImageUpload>
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 mb-10 gap-x-10">
+          <Field>
+            <Label required={true} htmlFor="status">
+              Status
+            </Label>
+            <FieldCheckbox>
+              <Radio
+                name="status"
+                control={control}
+                checked={watchStatus === postStatus.APPROVED}
+                value={postStatus.APPROVED}
+              >
+                Approved
+              </Radio>
+              <Radio
+                name="status"
+                control={control}
+                checked={watchStatus === postStatus.PENDING}
+                value={postStatus.PENDING}
+              >
+                Pending
+              </Radio>
+              <Radio
+                name="status"
+                control={control}
+                checked={watchStatus === postStatus.REJECTED}
+                value={postStatus.REJECTED}
+              >
+                Reject
+              </Radio>
+            </FieldCheckbox>
+          </Field>
+
+          <Field>
+            <Label htmlFor="popular">Popular post</Label>
+            <Toggle
+              name="popular"
+              on={watchPopular === true}
+              onClick={() => setValue("popular", !watchPopular)}
+            ></Toggle>
+          </Field>
+        </div>
+        <Button
+          type="submit"
+          className="mx-auto"
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+        >
+          Publish
+        </Button>
+      </form>
+    </>
+  );
 };
 
 export default PostUpdate;

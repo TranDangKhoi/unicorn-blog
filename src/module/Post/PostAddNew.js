@@ -137,7 +137,7 @@ const PostAddNew = () => {
   };
 
   useEffect(() => {
-    async function getData() {
+    async function getCategories() {
       const colRef = collection(db, "categories");
       const q = query(colRef, where("status", "==", 1));
       const docs = await getDocs(q);
@@ -150,7 +150,7 @@ const PostAddNew = () => {
       });
       setCategories(yourCategories);
     }
-    getData();
+    getCategories();
   }, []);
   useEffect(() => {
     const arrErrors = Object.values(errors);

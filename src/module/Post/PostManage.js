@@ -161,7 +161,7 @@ const PostManage = () => {
         <tbody>
           {postList.length > 0 &&
             postList.map((post) => (
-              <tr>
+              <tr key={post.id}>
                 <td title={post.id}>{displayTruncatedID(post?.id, 8)}</td>
                 <td>
                   <div className="flex items-center gap-x-3">
@@ -195,7 +195,11 @@ const PostManage = () => {
                     <ActionView
                       onClick={() => navigate(`/${post.slug}`)}
                     ></ActionView>
-                    <ActionEdit></ActionEdit>
+                    <ActionEdit
+                      onClick={() =>
+                        navigate(`/manage/update-post?id=${post.id}`)
+                      }
+                    ></ActionEdit>
                     <ActionDelete
                       onClick={() => handleDeletePost(post.id)}
                     ></ActionDelete>
