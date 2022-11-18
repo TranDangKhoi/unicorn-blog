@@ -102,15 +102,9 @@ III. Now to the Rules config part:
 
 ![Step 11 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/d071c4b9-ee5e-4c32-bec9-a5a461f52f13/4d4d80b5-e757-4843-9425-b9db8b02e01e.png?crop=focalpoint&fit=crop&fp-x=0.5819&fp-y=0.4187&fp-z=2.1463&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
 
+### 12. Now you may run this project by typing "npm start" in the project's terminal
+
 - Read more at: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
-
-# Setup dự án
-
-1. Cài đặt đầy đủ packages cần thiết nhất (như firebase, react-router-dom, styled-components), setup sao cho tất cả chạy đều ổn áp
-
-2. Thiết lập Routes
-
-3. Viết auth-context để lưu trữ thông tin người dùng và dùng ở nhiều nơi
 
 # Phân tích database
 
