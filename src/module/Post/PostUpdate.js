@@ -27,6 +27,7 @@ import DashboardHeading from "module/Category/DashboardHeading";
 import { postStatus } from "utils/constants";
 
 import "react-quill/dist/quill.snow.css";
+import { toast } from "react-toastify";
 
 const PostUpdate = () => {
   const [searchParams] = useSearchParams();
@@ -46,7 +47,7 @@ const PostUpdate = () => {
     mode: "onSubmit",
   });
   const watchStatus = Number(watch("status"));
-  const watchPopular = Number(watch("popular"));
+  const watchPopular = watch("popular");
   const thumbnailImageURL = getValues("imageURL");
   const thumbnailImageName = getValues("image_name");
   const {
@@ -70,6 +71,7 @@ const PostUpdate = () => {
       if (docSnapshot.data()) {
         reset(docSnapshot.data());
         setSelectCategory(docSnapshot.data()?.category || "");
+        setContent(docSnapshot.data()?.content || "");
       }
     }
     getPost();
@@ -95,7 +97,20 @@ const PostUpdate = () => {
   }, [thumbnailImageURL, setImageURL]);
 
   async function deleteThumbnail() {}
-  const handleUpdatePost = (values) => {};
+  const handleUpdatePost = async (values) => {
+    try {
+      const docRef = doc(db, "posts", postId);
+      await updateDoc(docRef, {
+        content,
+      });
+      toast.success("Post updated successfully", {
+        autoClose: 1500,
+      });
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
   async function deleteAvatar() {
     const docRef = doc(db, "posts", postId);
     await updateDoc(docRef, {
@@ -111,6 +126,16 @@ const PostUpdate = () => {
     });
     // setValue("categoryId", item.id);
     setSelectCategory(item);
+  };
+  const modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote"],
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["link", "image"],
+    ],
   };
   if (!postId) return null;
   return (
@@ -175,11 +200,18 @@ const PostUpdate = () => {
             )}
           </Field>
         </div>
-        <div className="mb-10">
-          <Label required={true}>Edit your post's content:</Label>
-          <div>
-            <ReactQuill theme="snow" value={content} onChange={setContent} />
-          </div>
+        <div className="mb-10 entry-content">
+          <Field>
+            <Label required={true}>Edit your post's content:</Label>
+            <div className="w-full">
+              <ReactQuill
+                modules={modules}
+                theme="snow"
+                value={content}
+                onChange={setContent}
+              />
+            </div>
+          </Field>
         </div>
         <div className="w-full h-full mb-10">
           <Field>
@@ -243,7 +275,7 @@ const PostUpdate = () => {
           disabled={isSubmitting}
           isLoading={isSubmitting}
         >
-          Publish
+          Update your post
         </Button>
       </form>
     </>
