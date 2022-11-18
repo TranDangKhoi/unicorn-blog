@@ -8,7 +8,7 @@
 
 ### 1. Go to blog-project-firebase - Overview - Firebase console
 
-[Go to blog-project-firebase - Overview - Firebase console](https://console.firebase.google.com/u/0/project/blog-project-firebase-30183/overview)
+![Go to blog-project-firebase - Overview - Firebase console](https://console.firebase.google.com/u/0/project/blog-project-firebase-30183/overview)
 
 ### 2. Click on Firestore Database
 
