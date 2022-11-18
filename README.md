@@ -72,7 +72,35 @@ III. Now to the Rules config part:
 
 ![Step 3 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/6536dc05-c0c0-4e3a-82c6-6b1edeb3c0de/8d75cdcc-a418-445c-bb2f-805d89025b76.png?crop=focalpoint&fit=crop&fp-x=0.7182&fp-y=0.3932&fp-z=1.8426&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
 
-### 4. The same apply to Storage
+### 4. The same things apply to Storage section
+
+### 5. Now let's setup Authentication, navigate to the console, click on Build
+
+![Step 5 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/c10d8328-6883-44ab-b73b-7d8ebc4c9b3d/635f2518-bceb-4f29-9f7b-50e424208a2e.png?crop=focalpoint&fit=crop&fp-x=0.0667&fp-y=0.2621&fp-z=2.4490&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 6. Click on Authentication
+
+![Step 6 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/6f3c2cd5-9dc5-4894-a56e-fe9c37293683/c38b94f7-3eed-4056-9e1b-598f5c9c8504.png?crop=focalpoint&fit=crop&fp-x=0.0560&fp-y=0.3013&fp-z=2.8614&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 7. Click on Get started
+
+![Step 7 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/9e06c200-36c1-41ab-9036-353db2f6d748/04cf24ad-6ca4-46e6-b3f3-0f6b09df98cf.png?crop=focalpoint&fit=crop&fp-x=0.3474&fp-y=0.3137&fp-z=2.9358&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 8. Click on Email/Password
+
+![Step 8 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/8e8623ec-c46e-4cd3-92f2-3650b21dfabb/b2c0ff5b-4b20-4114-a0ea-69a7467146f7.png?crop=focalpoint&fit=crop&fp-x=0.3906&fp-y=0.3942&fp-z=2.8319&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 9. Click on Enable
+
+![Step 9 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/27580295-7c60-4ff1-be34-488e7570fa1f/bb5a5bf3-4948-4505-83ef-f264fd9ba111.png?crop=focalpoint&fit=crop&fp-x=0.6248&fp-y=0.3661&fp-z=2.1373&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 10. Check Enable
+
+![Step 10 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/db325fc7-c1c3-48cf-9359-e1ba7a4c5dd4/12a2882d-8fd5-42c7-b4be-293176a166fd.png?crop=focalpoint&fit=crop&fp-x=0.6265&fp-y=0.3667&fp-z=2.3189&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 11. Click on Save
+
+![Step 11 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/d071c4b9-ee5e-4c32-bec9-a5a461f52f13/4d4d80b5-e757-4843-9425-b9db8b02e01e.png?crop=focalpoint&fit=crop&fp-x=0.5819&fp-y=0.4187&fp-z=2.1463&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
 
 - Read more at: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
 
