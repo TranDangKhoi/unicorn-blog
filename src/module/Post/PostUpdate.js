@@ -7,10 +7,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
+import ImageUploader from "quill-image-uploader";
+
 import { useSearchParams } from "react-router-dom";
 
 import { Button } from "components/Button";
@@ -28,6 +30,10 @@ import { postStatus } from "utils/constants";
 
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
+import { useMemo } from "react";
+import { imgbbAPI, imgBBEndpoint } from "api-config";
+import axios from "axios";
+Quill.register("modules/imageUploader", ImageUploader);
 
 const PostUpdate = () => {
   const [searchParams] = useSearchParams();
@@ -127,16 +133,44 @@ const PostUpdate = () => {
     // setValue("categoryId", item.id);
     setSelectCategory(item);
   };
-  const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      ["blockquote"],
-      [{ header: 1 }, { header: 2 }], // custom button values
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["link", "image"],
-    ],
-  };
+  const modules = useMemo(
+    () => ({
+      toolbar: [
+        ["bold", "italic", "underline", "strike"],
+        ["blockquote"],
+        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        ["link", "image"],
+      ],
+      imageUploader: {
+        upload: async (file) => {
+          const bodyFormData = new FormData();
+          bodyFormData.append("image", file);
+          const response = await axios({
+            method: "post",
+            url: imgbbAPI,
+            data: bodyFormData,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          return response.data.data.url;
+        },
+      },
+    }),
+    []
+  );
+  // const modules = {
+  //   toolbar: [
+  //     ["bold", "italic", "underline", "strike"],
+  //     ["blockquote"],
+  //     [{ header: 1 }, { header: 2 }], // custom button values
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     [{ header: [1, 2, 3, 4, 5, 6, false] }],
+  //     ["link", "image"],
+  //   ],
+  // };
   if (!postId) return null;
   return (
     <>
