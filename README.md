@@ -2,11 +2,27 @@
 
 1. Cài đặt đầy đủ packages cần thiết nhất (như firebase, react-router-dom, styled-components), setup sao cho tất cả chạy đều ổn áp
 
-2. Thiết lập Firebase :fire: **(LƯU Ý): Khi start in production mode thì ta sẽ có một số luật để có thể tác động vào database, nên ta sẽ phải chỉnh sửa rules trong Firestore Database như sau:**
+2. Thiết lập Firebase :fire: **(LƯU Ý): Khi start in production mode thì ta sẽ có một số luật để có thể tác động vào database, nên ta sẽ phải chỉnh sửa rules trong từng mục như sau:**
 
-   - `allow read, write: if request.auth != null;`: Dòng lệnh này dành cho những user đã đăng nhập có thể CRUD database hay nói cách khác là thêm/sửa/xóa bài viết
+- Firestore Database:
 
-   - Biết rõ thêm tại: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
+### 1. Go to blog-project-firebase - Overview - Firebase console
+
+[Go to blog-project-firebase - Overview - Firebase console](https://console.firebase.google.com/u/0/project/blog-project-firebase-30183/overview)
+
+### 2. Click on Firestore Database
+
+![Step 2 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/26056d58-8ff0-40fd-900f-e24f85ecac10/2bb89c5d-04bf-4326-8114-ab59287087d2.png?crop=focalpoint&fit=crop&fp-x=0.0620&fp-y=0.2023&fp-z=2.7666&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 3. Click on Rules tab
+
+![Step 3 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/63b04c7e-a9bc-4f62-8a52-f92fdeffa7cf/2eb3a703-a2e3-4144-9ab8-e3361c50dccd.png?crop=focalpoint&fit=crop&fp-x=0.1880&fp-y=0.1218&fp-z=3.1373&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+### 4. Paste "allow read, write: if true;" into text area
+
+![Step 4 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/6536dc05-c0c0-4e3a-82c6-6b1edeb3c0de/8d75cdcc-a418-445c-bb2f-805d89025b76.png?crop=focalpoint&fit=crop&fp-x=0.7182&fp-y=0.3932&fp-z=1.8426&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
+
+- Biết rõ thêm tại: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
 
 3. Thiết lập Routes
 
