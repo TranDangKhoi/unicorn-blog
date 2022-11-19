@@ -1,3 +1,4 @@
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
@@ -45,19 +46,19 @@ const PostNewestItemStyles = styled.div`
     }
   }
 `;
-const PostNewestItem = () => {
+const PostNewestItem = ({ post }) => {
+  const { displayLocaleDateBySeconds } = useFormattedDisplay();
   return (
     <PostNewestItemStyles>
-      <PostImage
-        src="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80"
-        alt=""
-        to="/"
-      ></PostImage>
+      <PostImage src={post?.imageURL} alt={post?.slug} to="/"></PostImage>
 
       <div className="post-content">
-        <PostCategory type="secondary">Knowledge</PostCategory>
-        <PostTitle>10 lofi playlists to chill with at late night</PostTitle>
-        <PostMeta></PostMeta>
+        <PostCategory type="secondary">{post.category.name}</PostCategory>
+        <PostTitle to={post.slug}>{post.title}</PostTitle>
+        <PostMeta
+          date={displayLocaleDateBySeconds(post.createdAt.seconds)}
+          username={post.user.username}
+        ></PostMeta>
       </div>
     </PostNewestItemStyles>
   );

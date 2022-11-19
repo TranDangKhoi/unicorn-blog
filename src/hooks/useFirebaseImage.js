@@ -20,17 +20,12 @@ export default function useFirebaseImage(
 
   if (!setValue || !getValues) return;
   const handleUploadImage = (file) => {
-    if (
-      !file ||
-      file.type !== "image/png" ||
-      file.type !== "image/jpg" ||
-      file.type !== "image/jpeg" ||
-      file.type !== "image/avif"
-    ) {
-      toast.error("You can only upload a png, jpeg, avif, jpg image files", {
+    if (!file || !file.type.includes("image/")) {
+      toast.error("You can only upload image files", {
         autoClose: 4000,
         pauseOnHover: true,
       });
+      console.log(file);
       return;
     }
     const storage = getStorage();

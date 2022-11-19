@@ -16,6 +16,7 @@ import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 
 const PostNewestLargeStyles = styled.div`
   .post {
@@ -41,34 +42,35 @@ const PostNewestLargeStyles = styled.div`
 
 const PostNewestLarge = () => {
   const [newestPost, setNewestPost] = useState({});
+  const { displayLocaleDateBySeconds } = useFormattedDisplay();
   useEffect(() => {
-    async function getNewestPost() {
-      const colRef = collection(db, "posts");
-      const q = query(colRef, limit(1), orderBy("createdAt", "desc"));
-      onSnapshot(q, (snapshot) => {
-        const results = [];
-        snapshot.docs.forEach((doc) => {
-          results.push({
-            id: doc.id,
-            ...doc.data(),
-          });
+    const colRef = collection(db, "posts");
+    const q = query(colRef, limit(1), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const results = [];
+      snapshot.docs.forEach((doc) => {
+        results.push({
+          id: doc.id,
+          ...doc.data(),
         });
-        setNewestPost(results);
       });
-    }
-    getNewestPost();
+      setNewestPost(results[0]);
+    });
   }, []);
+  const { category, user } = newestPost;
   console.log(newestPost);
+  if (!category || !user) return null;
   return (
     <PostNewestLargeStyles>
-      <PostImage
-        src="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80"
-        alt="Image"
-        to="/"
-      ></PostImage>
-      <PostCategory kind="secondary">Relaxing</PostCategory>
-      <PostTitle size="big">10 lofi playlists to listen at night</PostTitle>
-      <PostMeta></PostMeta>
+      <PostImage src={newestPost?.imageURL} alt="Image" to="/"></PostImage>
+      <PostCategory kind="secondary">{category?.name}</PostCategory>
+      <PostTitle to={newestPost.slug} size="big">
+        {newestPost?.title}
+      </PostTitle>
+      <PostMeta
+        date={displayLocaleDateBySeconds(newestPost?.createdAt?.seconds)}
+        username={user?.username}
+      ></PostMeta>
     </PostNewestLargeStyles>
   );
 };

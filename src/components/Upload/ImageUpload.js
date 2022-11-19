@@ -25,6 +25,7 @@ const ImageUpload = ({
         id={name}
         className="hidden-input"
         onChange={() => {}}
+        accept="image/png, image/gif, image/jpeg"
         {...props}
       />
       {progress !== 0 && !imageURL && (

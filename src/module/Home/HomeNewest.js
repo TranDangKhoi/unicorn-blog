@@ -1,8 +1,18 @@
 import { Heading } from "components/Layout";
+import { db } from "firebase-app/firebase-config";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import PostItem from "module/Post/PostItem";
 import PostNewestItem from "module/Post/PostNewestItem";
 import PostNewestLarge from "module/Post/PostNewestLarge";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const HomeNewestStyles = styled.div`
@@ -29,6 +39,22 @@ const HomeNewestStyles = styled.div`
 `;
 
 const HomeNewest = () => {
+  const [newestPostList, setNewestPostList] = useState({});
+  useEffect(() => {
+    const colRef = collection(db, "posts");
+    const q = query(colRef, limit(4), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const results = [];
+      snapshot.docs.forEach((doc) => {
+        results.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      results.shift();
+      setNewestPostList(results);
+    });
+  }, []);
   return (
     <HomeNewestStyles className="home-block">
       <div className="container">
@@ -36,9 +62,10 @@ const HomeNewest = () => {
         <div className="layout">
           <PostNewestLarge></PostNewestLarge>
           <div className="sidebar">
-            <PostNewestItem></PostNewestItem>
-            <PostNewestItem></PostNewestItem>
-            <PostNewestItem></PostNewestItem>
+            {newestPostList.length > 0 &&
+              newestPostList.map((post) => (
+                <PostNewestItem key={post.id} post={post}></PostNewestItem>
+              ))}
           </div>
         </div>
         <div className="grid-layout grid-layout--primary">
