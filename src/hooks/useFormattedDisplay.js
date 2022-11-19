@@ -1,4 +1,4 @@
-export default function useTableDisplay() {
+export default function useFormattedDisplay() {
   function displayLocaleDateBySeconds(seconds) {
     return new Date(seconds * 1000).toLocaleDateString("vi-VI");
   }

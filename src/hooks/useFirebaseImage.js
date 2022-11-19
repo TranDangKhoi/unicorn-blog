@@ -17,15 +17,25 @@ export default function useFirebaseImage(
 ) {
   const [progress, setProgress] = useState(0);
   const [imageURL, setImageURL] = useState("");
-  const metadata = {
-    contentType: "image/png",
-  };
+
   if (!setValue || !getValues) return;
   const handleUploadImage = (file) => {
-    if (!file) return;
+    if (
+      !file ||
+      file.type !== "image/png" ||
+      file.type !== "image/jpg" ||
+      file.type !== "image/jpeg" ||
+      file.type !== "image/avif"
+    ) {
+      toast.error("You can only upload a png, jpeg, avif, jpg image files", {
+        autoClose: 4000,
+        pauseOnHover: true,
+      });
+      return;
+    }
     const storage = getStorage();
     const storageRef = ref(storage, "images/" + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+    const uploadTask = uploadBytesResumable(storageRef, file);
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(
       "state_changed",

@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import NotFoundPage from "./NotFoundPage";
-import useTableDisplay from "hooks/useTableDisplay";
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 const PostDetailsPageStyles = styled.div`
   padding-bottom: 100px;
   .post {
@@ -109,7 +109,7 @@ const PostDetailsPageStyles = styled.div`
 const PostDetailsPage = () => {
   const { slug } = useParams();
   const [postInfo, setPostInfo] = useState({});
-  const { displayLocaleDateBySeconds } = useTableDisplay();
+  const { displayLocaleDateBySeconds } = useFormattedDisplay();
   useEffect(() => {
     async function getPostContent() {
       if (!slug) return;
@@ -123,8 +123,7 @@ const PostDetailsPage = () => {
     }
     getPostContent();
   }, [postInfo.content, slug]);
-  if (!slug) return <NotFoundPage></NotFoundPage>;
-  if (!postInfo.title) return null;
+  if (!slug || !postInfo?.title) return <NotFoundPage></NotFoundPage>;
   return (
     <PostDetailsPageStyles>
       <Layout>

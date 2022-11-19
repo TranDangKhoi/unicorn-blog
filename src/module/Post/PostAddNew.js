@@ -1,4 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { imgbbAPI } from "api-config";
+import axios from "axios";
 import { Button } from "components/Button";
 import { Dropdown } from "components/Dropdown";
 import { Field, FieldCheckbox } from "components/Field";
@@ -21,8 +23,9 @@ import {
 } from "firebase/firestore";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import ReactQuill from "react-quill";
 import { toast } from "react-toastify";
 import { postAddNewSchema } from "schema/schema";
 import slugify from "slugify";
@@ -31,6 +34,7 @@ import { postStatus } from "utils/constants";
 
 const PostAddNew = () => {
   const { userInfo } = useAuth();
+  const [content, setContent] = useState("");
   const {
     control,
     reset,
@@ -95,6 +99,8 @@ const PostAddNew = () => {
       if (result.isConfirmed) {
         await addDoc(colRef, {
           ...cloneValues,
+          slug: slugify(values.title, { lower: true }),
+          content,
           imageURL,
           createdAt: serverTimestamp(),
         });
@@ -105,9 +111,10 @@ const PostAddNew = () => {
         });
         reset({
           title: "",
-          slug: "",
+          slug: slugify(values.title, { lower: true }),
           status: 2,
           category: {},
+          content: "",
           imageURL: "",
           popular: false,
           user: {},
@@ -162,6 +169,41 @@ const PostAddNew = () => {
       });
     }
   }, [errors]);
+  const modules = useMemo(
+    () => ({
+      toolbar: [
+        ["bold", "italic", "underline", "strike"],
+        ["blockquote"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        ["clean"],
+        [("link", "image")],
+      ],
+      imageUploader: {
+        upload: async (file) => {
+          const bodyFormData = new FormData();
+          bodyFormData.append("image", file);
+          const response = await axios({
+            method: "post",
+            url: imgbbAPI,
+            data: bodyFormData,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          return response.data.data.url;
+        },
+      },
+    }),
+    []
+  );
   return (
     <>
       <DashboardHeading
@@ -183,22 +225,7 @@ const PostAddNew = () => {
               name="title"
             ></Input>
           </Field>
-          <Field>
-            <Label htmlFor="slug">Slug</Label>
-            <Input
-              control={control}
-              placeholder="Enter your slug"
-              name="slug"
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="author">Author</Label>
-            <Input
-              control={control}
-              name="author"
-              placeholder="Who's the author"
-            ></Input>
-          </Field>
+
           <Field>
             <Label required={true} htmlFor="category">
               Category
@@ -224,6 +251,14 @@ const PostAddNew = () => {
             )}
           </Field>
         </div>
+        <div className="w-full mb-10">
+          <ReactQuill
+            modules={modules}
+            theme="snow"
+            value={content}
+            onChange={setContent}
+          />
+        </div>
         <div className="w-full h-full mb-10">
           <Field>
             <Label required={true} htmlFor="image">
@@ -238,6 +273,7 @@ const PostAddNew = () => {
             ></ImageUpload>
           </Field>
         </div>
+
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label required={true} htmlFor="status">

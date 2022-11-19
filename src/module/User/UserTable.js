@@ -16,7 +16,7 @@ import {
   doc,
   where,
 } from "firebase/firestore";
-import useTableDisplay from "hooks/useTableDisplay";
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 import { debounce } from "lodash";
 import DashboardHeading from "module/Category/DashboardHeading";
 import { useEffect, useState } from "react";
@@ -91,7 +91,7 @@ const UserTable = () => {
   }, [filter]);
   const navigate = useNavigate();
   const { displayLocalTimeAndDateBySeconds, displayTruncatedID } =
-    useTableDisplay();
+    useFormattedDisplay();
   useEffect(() => {
     const colRef = collection(db, "users");
     onSnapshot(colRef, (snapshot) => {

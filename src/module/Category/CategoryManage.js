@@ -1,4 +1,4 @@
-import useDisplayDateBySeconds from "hooks/useTableDisplay";
+import useDisplayDateBySeconds from "hooks/useFormattedDisplay";
 import Swal from "sweetalert2";
 import React from "react";
 import DashboardHeading from "./DashboardHeading";

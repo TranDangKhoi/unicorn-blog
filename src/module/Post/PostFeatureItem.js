@@ -1,4 +1,4 @@
-import useTableDisplay from "hooks/useTableDisplay";
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -49,7 +49,7 @@ const PostFeatureItemStyles = styled.div`
   }
 `;
 const PostFeatureItem = ({ post }) => {
-  const { displayLocaleDateBySeconds } = useTableDisplay();
+  const { displayLocaleDateBySeconds } = useFormattedDisplay();
   if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>

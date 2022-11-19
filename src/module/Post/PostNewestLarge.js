@@ -1,9 +1,22 @@
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+
+import { db } from "firebase-app/firebase-config";
+
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
+
 const PostNewestLargeStyles = styled.div`
   .post {
     &-image {
@@ -27,6 +40,25 @@ const PostNewestLargeStyles = styled.div`
 `;
 
 const PostNewestLarge = () => {
+  const [newestPost, setNewestPost] = useState({});
+  useEffect(() => {
+    async function getNewestPost() {
+      const colRef = collection(db, "posts");
+      const q = query(colRef, limit(1), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        const results = [];
+        snapshot.docs.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setNewestPost(results);
+      });
+    }
+    getNewestPost();
+  }, []);
+  console.log(newestPost);
   return (
     <PostNewestLargeStyles>
       <PostImage

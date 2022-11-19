@@ -2,7 +2,6 @@ import { ActionDelete, ActionEdit, ActionView } from "components/Action";
 import { Button } from "components/Button";
 import { LabelStatus } from "components/Label";
 import { Heading } from "components/Layout";
-import { Pagination } from "components/Pagination";
 import { Table } from "components/Table";
 import { db } from "firebase-app/firebase-config";
 import {
@@ -17,7 +16,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import useTableDisplay from "hooks/useTableDisplay";
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 import { debounce } from "lodash";
 import DashboardHeading from "module/Category/DashboardHeading";
 import React, { useEffect } from "react";
@@ -34,7 +33,7 @@ const PostManage = () => {
   const [isEmpty, setIsEmpty] = useState(false);
   const navigate = useNavigate();
   const { displayLocalTimeAndDateBySeconds, displayTruncatedID } =
-    useTableDisplay();
+    useFormattedDisplay();
   const handleLoadMorePosts = async () => {
     // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
     const nextQuery = query(

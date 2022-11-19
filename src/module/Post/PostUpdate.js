@@ -27,11 +27,10 @@ import { db } from "firebase-app/firebase-config";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
 import { postStatus } from "utils/constants";
-
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import { useMemo } from "react";
-import { imgbbAPI, imgBBEndpoint } from "api-config";
+import { imgbbAPI } from "api-config";
 import axios from "axios";
 Quill.register("modules/imageUploader", ImageUploader);
 
@@ -48,7 +47,7 @@ const PostUpdate = () => {
     reset,
     setValue,
     getValues,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, isValid, errors },
   } = useForm({
     mode: "onSubmit",
   });
@@ -103,7 +102,8 @@ const PostUpdate = () => {
   }, [thumbnailImageURL, setImageURL]);
 
   async function deleteThumbnail() {}
-  const handleUpdatePost = async (values) => {
+  const handleUpdatePost = async () => {
+    if (!isValid) return;
     try {
       const docRef = doc(db, "posts", postId);
       await updateDoc(docRef, {
