@@ -89,3 +89,13 @@ a {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.quill {
+  position: relative;
+  .ql-toolbar {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+  }
+}

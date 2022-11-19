@@ -18,13 +18,26 @@
     font-size: 22px;
   }
   p {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     line-height: 2;
+  }
+  ul {
+    list-style-type: disc;
+  }
+  ol {
+    list-style-type: decimal;
+  }
+  ul,
+  ol {
+    margin-bottom: 20px;
+    li {
+      margin-bottom: 10px;
+    }
   }
   figure {
     margin-bottom: 20px;
   }
-  figure img {
+  img {
     border-radius: 20px;
     margin-bottom: 10px;
   }

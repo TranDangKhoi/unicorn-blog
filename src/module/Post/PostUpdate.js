@@ -138,10 +138,17 @@ const PostUpdate = () => {
       toolbar: [
         ["bold", "italic", "underline", "strike"],
         ["blockquote"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
         [{ header: 1 }, { header: 2 }], // custom button values
         [{ list: "ordered" }, { list: "bullet" }],
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        ["link", "image"],
+        ["clean"],
+        [("link", "image")],
       ],
       imageUploader: {
         upload: async (file) => {
@@ -161,16 +168,6 @@ const PostUpdate = () => {
     }),
     []
   );
-  // const modules = {
-  //   toolbar: [
-  //     ["bold", "italic", "underline", "strike"],
-  //     ["blockquote"],
-  //     [{ header: 1 }, { header: 2 }], // custom button values
-  //     [{ list: "ordered" }, { list: "bullet" }],
-  //     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  //     ["link", "image"],
-  //   ],
-  // };
   if (!postId) return null;
   return (
     <>
