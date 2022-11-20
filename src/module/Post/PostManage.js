@@ -173,7 +173,7 @@ const PostManage = () => {
                 </td>
                 <td className="!text-left">
                   <div className="flex flex-col items-center justify-center">
-                    <h3 className="font-semibold max-w-[300px] whitespace-pre-wrap line-clamp">
+                    <h3 className="font-semibold max-w-[300px] whitespace-pre-wrap line-clamp-2">
                       {post.title}
                     </h3>
                     <time className="text-sm text-gray-500">

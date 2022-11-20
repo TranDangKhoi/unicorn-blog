@@ -146,7 +146,7 @@ const PostUpdate = () => {
         ],
         [{ header: 1 }, { header: 2 }], // custom button values
         [{ list: "ordered" }, { list: "bullet" }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ header: [1, 2, 3, 4, false] }],
         ["clean"],
         [("link", "image")],
       ],

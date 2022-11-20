@@ -3,6 +3,7 @@ import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
+import { Textarea } from "components/Textarea";
 import { ImageUpload } from "components/Upload";
 import { db } from "firebase-app/firebase-config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -113,6 +114,7 @@ const UserUpdate = () => {
               control={control}
             ></Input>
           </Field>
+
           <Field>
             <Label>Email</Label>
             <Input
@@ -121,6 +123,16 @@ const UserUpdate = () => {
               control={control}
               type="email"
             ></Input>
+          </Field>
+        </div>
+        <div className="form-layout">
+          <Field>
+            <Label>Bio</Label>
+            <Textarea
+              name="bio"
+              placeholder="Enter your bio"
+              control={control}
+            ></Textarea>
           </Field>
         </div>
         <div className="form-layout">

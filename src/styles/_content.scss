@@ -1,5 +1,5 @@
 .entry-content,
-.entry-content .ql-snow .gl-editor {
+.entry-content .ql-snow .ql-editor {
   font-size: 16px;
   font-family: "Epilogue", "Monserrat", sans-serif;
   h1,
@@ -24,17 +24,21 @@
   p {
     margin-bottom: 30px;
     line-height: 2;
+    font-size: 18px;
   }
   ul {
     list-style-type: disc;
+    margin-left: 40px;
   }
   ol {
     list-style-type: decimal;
+    margin-left: 40px;
   }
   ul,
   ol {
     margin-bottom: 20px;
     li {
+      font-size: 18px;
       margin-bottom: 10px;
     }
   }

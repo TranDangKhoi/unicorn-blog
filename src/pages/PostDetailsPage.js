@@ -19,8 +19,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import NotFoundPage from "./NotFoundPage";
 import useFormattedDisplay from "hooks/useFormattedDisplay";
+import { AuthorBox } from "components/Author";
 const PostDetailsPageStyles = styled.div`
-  padding-bottom: 100px;
   .post {
     &-header {
       display: flex;
@@ -53,7 +53,6 @@ const PostDetailsPageStyles = styled.div`
     margin-bottom: 80px;
     display: flex;
     border-radius: 20px;
-    background-color: ${(props) => props.theme.grayF3};
     &-image {
       width: 200px;
       height: 200px;
@@ -146,20 +145,7 @@ const PostDetailsPage = () => {
           </div>
           <div className="post-content">
             <div className="entry-content">{parse(postInfo.content)}</div>
-            <div className="author">
-              <div className="author-image">
-                <img src={postInfo.user.avatar} alt="" />
-              </div>
-              <div className="author-content">
-                <h3 className="author-name">{postInfo.user.username}</h3>
-                <p className="author-desc">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Dignissimos non animi porro voluptates quibusdam optio nulla
-                  quis nihil ipsa error delectus temporibus nesciunt, nam
-                  officiis adipisci suscipit voluptate eum totam!
-                </p>
-              </div>
-            </div>
+            <AuthorBox userId={postInfo.user.userId}></AuthorBox>
           </div>
           <div className="post-related">
             <Heading>Bài viết liên quan</Heading>
