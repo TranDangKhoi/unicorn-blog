@@ -102,6 +102,8 @@ const PostAddNew = () => {
           slug: slugify(values.title, { lower: true }),
           content,
           imageURL,
+          categoryId: cloneValues.category.id,
+          userId: auth.currentUser.uid,
           createdAt: serverTimestamp(),
         });
         toast.success("Your blog has been posted successfully");

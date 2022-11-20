@@ -1,17 +1,9 @@
-import { Heading, Layout } from "components/Layout";
+import { Layout } from "components/Layout";
 import { db } from "firebase-app/firebase-config";
 import parse from "html-react-parser";
-import {
-  collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import PostCategory from "module/Post/PostCategory";
 import PostImage from "module/Post/PostImage";
-import PostItem from "module/Post/PostItem";
 import PostMeta from "module/Post/PostMeta";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -20,6 +12,7 @@ import styled from "styled-components";
 import NotFoundPage from "./NotFoundPage";
 import useFormattedDisplay from "hooks/useFormattedDisplay";
 import { AuthorBox } from "components/Author";
+import PostRelated from "module/Post/PostRelated";
 const PostDetailsPageStyles = styled.div`
   .post {
     &-header {
@@ -122,7 +115,8 @@ const PostDetailsPage = () => {
     }
     getPostContent();
   }, [postInfo.content, slug]);
-  if (!slug || !postInfo?.title) return <NotFoundPage></NotFoundPage>;
+  if (!slug) return <NotFoundPage></NotFoundPage>;
+  if (!postInfo?.title) return null;
   return (
     <PostDetailsPageStyles>
       <Layout>
@@ -147,15 +141,7 @@ const PostDetailsPage = () => {
             <div className="entry-content">{parse(postInfo.content)}</div>
             <AuthorBox userId={postInfo.user.userId}></AuthorBox>
           </div>
-          <div className="post-related">
-            <Heading>Bài viết liên quan</Heading>
-            <div className="grid-layout grid-layout--primary">
-              <PostItem></PostItem>
-              <PostItem></PostItem>
-              <PostItem></PostItem>
-              <PostItem></PostItem>
-            </div>
-          </div>
+          <PostRelated categoryId={postInfo?.categoryId}></PostRelated>
         </div>
       </Layout>
     </PostDetailsPageStyles>

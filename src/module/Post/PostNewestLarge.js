@@ -57,14 +57,13 @@ const PostNewestLarge = () => {
       setNewestPost(results[0]);
     });
   }, []);
-  const { category, user } = newestPost;
-  console.log(newestPost);
+  const { category, user } = newestPost || [];
   if (!category || !user) return null;
   return (
     <PostNewestLargeStyles>
       <PostImage src={newestPost?.imageURL} alt="Image" to="/"></PostImage>
       <PostCategory kind="secondary">{category?.name}</PostCategory>
-      <PostTitle to={newestPost.slug} size="big">
+      <PostTitle to={newestPost?.slug} size="big">
         {newestPost?.title}
       </PostTitle>
       <PostMeta

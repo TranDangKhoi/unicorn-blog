@@ -1,4 +1,6 @@
+import useFormattedDisplay from "hooks/useFormattedDisplay";
 import React from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -33,19 +35,17 @@ const PostItemStyles = styled.div`
   }
 `;
 
-const PostItem = () => {
+const PostItem = ({ post }) => {
+  const { displayLocaleDateBySeconds } = useFormattedDisplay();
   return (
     <PostItemStyles>
-      <PostImage
-        src="https://images.unsplash.com/photo-1570993492881-25240ce854f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2290&q=80"
-        alt=""
-        to="/"
-      ></PostImage>
-      <PostCategory>Programming</PostCategory>
-      <PostTitle>
-        The complete guide to learn new languages for beginners
-      </PostTitle>
-      <PostMeta></PostMeta>
+      <PostImage src={post.imageURL} alt={post.slug}></PostImage>
+      <PostCategory to={post.category.slug}>{post.category.name}</PostCategory>
+      <PostTitle to={post.slug}>{post.title}</PostTitle>
+      <PostMeta
+        date={displayLocaleDateBySeconds(post.createdAt.seconds)}
+        username={post.user.username}
+      ></PostMeta>
     </PostItemStyles>
   );
 };

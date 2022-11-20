@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const PostCategoryStyles = styled.div`
   display: inline-block;
@@ -33,7 +33,7 @@ const PostCategory = ({
 }) => {
   return (
     <PostCategoryStyles kind={kind} className={`post-category ${className}`}>
-      <NavLink to={to}>{children}</NavLink>
+      <Link to={`/${to}`}>{children}</Link>
     </PostCategoryStyles>
   );
 };

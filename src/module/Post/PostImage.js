@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 const PostImageStyles = styled.div`
   img {
@@ -12,8 +12,8 @@ const PostImageStyles = styled.div`
 const PostImage = ({ to = "", className = "", src = "", alt = "" }) => {
   if (to && to !== "")
     return (
-      <NavLink
-        to={to}
+      <Link
+        to={`/${to}`}
         style={{
           display: "block",
         }}
@@ -21,7 +21,7 @@ const PostImage = ({ to = "", className = "", src = "", alt = "" }) => {
         <PostImageStyles className={`post-image ${className}`}>
           <img src={src} alt={alt} loading="lazy" />
         </PostImageStyles>
-      </NavLink>
+      </Link>
     );
   return (
     <PostImageStyles className={`post-image ${className}`}>

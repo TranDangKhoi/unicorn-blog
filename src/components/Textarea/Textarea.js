@@ -9,8 +9,7 @@ const TextareaStyles = styled.div`
   textarea {
     user-select: none;
     font-weight: 500;
-    padding: ${(props) =>
-      props.hasIcon ? "15px 60px 15px 25px" : "15px 25px"};
+    padding: 16px 20px;
     background: ${(props) => props.theme.grayLight};
     width: 100%;
     border-radius: 8px;
