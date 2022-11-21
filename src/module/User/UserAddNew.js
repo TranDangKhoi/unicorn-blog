@@ -121,7 +121,7 @@ const UserAddNew = () => {
     });
     handleResetUploadAfterSubmit();
   };
-  if (userInfo?.role !== userRole.ADMIN || userInfo?.role !== userRole.MOD)
+  if (userInfo?.role !== userRole.ADMIN && userInfo?.role !== userRole.MOD)
     return null;
   return (
     <div>

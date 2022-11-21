@@ -7,7 +7,7 @@ import UserTable from "./UserTable";
 
 const UserManage = () => {
   const { userInfo } = useAuth();
-  if (userInfo?.role !== userRole.ADMIN || userInfo?.role !== userRole.MOD)
+  if (userInfo?.role !== userRole.ADMIN && userInfo?.role !== userRole.MOD)
     return null;
   return (
     <>

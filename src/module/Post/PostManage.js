@@ -66,7 +66,7 @@ const PostManage = () => {
   useEffect(() => {
     async function getPosts() {
       const colRef = collection(db, "posts");
-      if (userInfo.role !== userRole.ADMIN) {
+      if (userInfo.role !== userRole.ADMIN && userInfo.role !== userRole.MOD) {
         const firstQuery = filter
           ? query(
               colRef,

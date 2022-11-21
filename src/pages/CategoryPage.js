@@ -85,7 +85,9 @@ const CategoryPage = () => {
   return (
     <Layout>
       <div className="container">
-        <Heading className="mt-10">Articles with category: {categoryName}</Heading>
+        <Heading className="mt-10">
+          Articles with category: {categoryName}
+        </Heading>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4">
           {postList.length > 0 &&
             postList.map((post) => (

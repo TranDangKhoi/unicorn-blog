@@ -62,7 +62,9 @@ const PostNewestLarge = () => {
   return (
     <PostNewestLargeStyles>
       <PostImage src={newestPost?.imageURL} alt="Image" to="/"></PostImage>
-      <PostCategory kind="secondary">{category?.name}</PostCategory>
+      <PostCategory kind="secondary" to={newestPost.category.slug}>
+        {category?.name}
+      </PostCategory>
       <PostTitle to={newestPost?.slug} size="big">
         {newestPost?.title}
       </PostTitle>
