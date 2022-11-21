@@ -20,16 +20,18 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { categoryStatus } from "utils/constants";
+import { categoryStatus, userRole } from "utils/constants";
 import { Button } from "components/Button";
 import { ActionDelete, ActionEdit } from "components/Action";
 import { useNavigate } from "react-router-dom";
 import { Field } from "components/Field";
 import { debounce } from "lodash";
+import { useAuth } from "contexts/auth-context";
 
 const CATEGORIES_PER_PAGE = 8;
 
 const CategoryManage = () => {
+  const { userInfo } = useAuth();
   const [categoryList, setCategoryList] = useState([]);
   const { displayTruncatedID, displayLocalTimeAndDateBySeconds } =
     useDisplayDateBySeconds();
@@ -139,6 +141,8 @@ const CategoryManage = () => {
         break;
     }
   };
+  if (userInfo?.role !== userRole.ADMIN || userInfo?.role !== userRole.MOD)
+    return null;
   return (
     <>
       <div className="flex justify-between">

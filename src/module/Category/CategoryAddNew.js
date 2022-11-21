@@ -4,6 +4,7 @@ import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
+import { useAuth } from "contexts/auth-context";
 import { db } from "firebase-app/firebase-config";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useEffect } from "react";
@@ -11,10 +12,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { categoryAddNewSchema } from "schema/schema";
 import slugify from "slugify";
-import { categoryStatus } from "utils/constants";
+import { categoryStatus, userRole } from "utils/constants";
 import DashboardHeading from "./DashboardHeading";
 
 const CategoryAddNew = () => {
+  const { userInfo } = useAuth();
   const {
     control,
     handleSubmit,
@@ -65,6 +67,8 @@ const CategoryAddNew = () => {
       });
     }
   };
+  if (userInfo?.role !== userRole.ADMIN || userInfo?.role !== userRole.MOD)
+    return null;
   return (
     <div>
       <DashboardHeading

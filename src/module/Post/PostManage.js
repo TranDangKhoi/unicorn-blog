@@ -3,7 +3,8 @@ import { Button } from "components/Button";
 import { LabelStatus } from "components/Label";
 import { Heading } from "components/Layout";
 import { Table } from "components/Table";
-import { db } from "firebase-app/firebase-config";
+import { useAuth } from "contexts/auth-context";
+import { auth, db } from "firebase-app/firebase-config";
 import {
   collection,
   deleteDoc,
@@ -17,17 +18,20 @@ import {
   where,
 } from "firebase/firestore";
 import useFormattedDisplay from "hooks/useFormattedDisplay";
-import { debounce } from "lodash";
+import { debounce, first } from "lodash";
 import DashboardHeading from "module/Category/DashboardHeading";
+import NotFoundPage from "pages/NotFoundPage";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { postStatus } from "utils/constants";
+import { postStatus, userRole } from "utils/constants";
 const POSTS_PER_PAGE = 8;
 const PostManage = () => {
+  const { userInfo } = useAuth();
   const [postList, setPostList] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
   const [filter, setFilter] = useState("");
   const [lastDoc, setLastDoc] = useState({});
   const [isEmpty, setIsEmpty] = useState(false);
@@ -62,36 +66,72 @@ const PostManage = () => {
   useEffect(() => {
     async function getPosts() {
       const colRef = collection(db, "posts");
-      const firstQuery = filter
-        ? query(
-            colRef,
-            where("name", ">=", filter),
-            where("name", "<=", filter + "utf8"),
-            orderBy("name", "desc")
-          )
-        : query(colRef, limit(POSTS_PER_PAGE), orderBy("createdAt", "desc"));
-      // Lấy ra toàn bộ docs
-      const documentSnapshots = await getDocs(firstQuery);
-      // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI
-      const lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1];
+      if (userInfo.role !== userRole.ADMIN) {
+        const firstQuery = filter
+          ? query(
+              colRef,
+              where("name", ">=", filter),
+              where("name", "<=", filter + "utf8"),
+              where("userId", "==", auth.currentUser.uid),
+              orderBy("name", "desc")
+            )
+          : query(
+              colRef,
+              limit(POSTS_PER_PAGE),
+              where("userId", "==", userInfo.uid),
+              orderBy("createdAt", "desc")
+            );
+        // Lấy ra toàn bộ docs
+        const documentSnapshots = await getDocs(firstQuery);
+        // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI
+        const lastVisible =
+          documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-      //  Hiển thị các docs lấy được ra màn hình
-      onSnapshot(firstQuery, colRef, (snapshot) => {
-        let results = [];
-        snapshot.docs.forEach((doc) => {
-          results.push({
-            id: doc.id,
-            ...doc.data(),
+        //  Hiển thị các docs lấy được ra màn hình
+        onSnapshot(firstQuery, colRef, (snapshot) => {
+          let results = [];
+          snapshot.docs.forEach((doc) => {
+            results.push({
+              id: doc.id,
+              ...doc.data(),
+            });
           });
+          setPostList(results);
         });
-        setPostList(results);
-      });
-      // Gán cái thằng lastVisible (thằng doc cuối cùng của page hiện tại) kia cho một state là lastDoc để xử lí sau này
-      setLastDoc(lastVisible);
+        // Gán cái thằng lastVisible (thằng doc cuối cùng của page hiện tại) kia cho một state là lastDoc để xử lí sau này
+        setLastDoc(lastVisible);
+      } else {
+        const firstQuery = filter
+          ? query(
+              colRef,
+              where("name", ">=", filter),
+              where("name", "<=", filter + "utf8"),
+              orderBy("name", "desc")
+            )
+          : query(colRef, limit(POSTS_PER_PAGE), orderBy("createdAt", "desc"));
+        // Lấy ra toàn bộ docs
+        const documentSnapshots = await getDocs(firstQuery);
+        // Lấy ra thông tin của doc cuối cùng CỦA PAGE HIỆN TẠI
+        const lastVisible =
+          documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+        //  Hiển thị các docs lấy được ra màn hình
+        onSnapshot(firstQuery, colRef, (snapshot) => {
+          let results = [];
+          snapshot.docs.forEach((doc) => {
+            results.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+          setPostList(results);
+        });
+        // Gán cái thằng lastVisible (thằng doc cuối cùng của page hiện tại) kia cho một state là lastDoc để xử lí sau này
+        setLastDoc(lastVisible);
+      }
     }
     getPosts();
-  }, [filter]);
+  }, [filter, userInfo.role, userInfo.uid]);
 
   const handleFilter = debounce((e) => {
     setFilter(e.target.value);

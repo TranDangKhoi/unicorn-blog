@@ -4,6 +4,7 @@ import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
 import { Radio } from "components/Radio";
 import { ImageUpload } from "components/Upload";
+import { useAuth } from "contexts/auth-context";
 import { auth, db } from "firebase-app/firebase-config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
@@ -16,6 +17,7 @@ import Swal from "sweetalert2";
 import { userRole, userStatus } from "utils/constants";
 
 const UserAddNew = () => {
+  const { userInfo } = useAuth();
   const {
     control,
     reset,
@@ -119,6 +121,8 @@ const UserAddNew = () => {
     });
     handleResetUploadAfterSubmit();
   };
+  if (userInfo?.role !== userRole.ADMIN || userInfo?.role !== userRole.MOD)
+    return null;
   return (
     <div>
       <DashboardHeading

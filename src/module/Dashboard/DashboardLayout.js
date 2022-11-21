@@ -42,14 +42,8 @@ const DashboardLayout = () => {
   useEffect(() => {
     document.title = "Welcome to your dashboard";
   }, []);
+  console.log(userInfo);
   if (!userInfo) return <LoginPage></LoginPage>;
-  // useEffect(() => {
-  //   document.title = "Your dashboard";
-  //   if (!userInfo?.email) {
-  //     navigate("/sign-in");
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [userInfo]);
   return (
     <DashboardStyles>
       <DashboardHeader></DashboardHeader>

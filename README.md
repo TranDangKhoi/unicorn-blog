@@ -1,3 +1,11 @@
+# Functions that hasn't been done yet
+
+- Searching for articles: Firebase search engine is a bit ... odd, so i will save this one for later
+
+- Update user's email and password in Firebase Authentication through Admin's Dashboard: Making researchs ... still find nothing possible
+
+-
+
 # How to run this project
 
 **DATE**: 11/18/2022
