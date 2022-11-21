@@ -3,6 +3,7 @@ import { Button } from "components/Button";
 import { Field } from "components/Field";
 import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
+import { Layout } from "components/Layout";
 import { useAuth } from "contexts/auth-context";
 import { auth, db } from "firebase-app/firebase-config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -28,6 +29,9 @@ const SignUpPage = () => {
     mode: "onSubmit",
     resolver: yupResolver(signUpSchema),
   });
+  useEffect(() => {
+    document.body.scrollIntoView({ block: "start" });
+  }, []);
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {
@@ -85,52 +89,58 @@ const SignUpPage = () => {
   if (userInfo) return <Homepage></Homepage>;
 
   return (
-    <AuthenticationPage>
-      <form
-        className="form"
-        onSubmit={handleSubmit(handleSignUp)}
-        autoComplete="off"
-      >
-        <Field>
-          <Label htmlFor="username">Username</Label>
-          <Input
-            type="text"
-            name="username"
-            placeholder="Enter your username"
-            control={control}
-          ></Input>
-        </Field>
-        <Field>
-          <Label htmlFor="email">Email address</Label>
-          <Input
-            type="text"
-            name="email"
-            placeholder="Enter your email"
-            control={control}
-          ></Input>
-        </Field>
-        <Field>
-          <Label htmlFor="password">Password</Label>
-          <InputPassword control={control}></InputPassword>
-        </Field>
-        <Field>
-          <Label htmlFor="confirmPassword">Re-confirm password</Label>
-          <InputPassword
-            name="confirmPassword"
-            control={control}
-          ></InputPassword>
-        </Field>
-        <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
-          Sign up
-        </Button>
-        <div className="redirect">
-          Already had an account?{" "}
-          <Link className="redirect-link" to="/sign-in">
-            Sign in here
-          </Link>
-        </div>
-      </form>
-    </AuthenticationPage>
+    <Layout>
+      <AuthenticationPage>
+        <form
+          className="form"
+          onSubmit={handleSubmit(handleSignUp)}
+          autoComplete="off"
+        >
+          <Field>
+            <Label htmlFor="username">Username</Label>
+            <Input
+              type="text"
+              name="username"
+              placeholder="Enter your username"
+              control={control}
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="email">Email address</Label>
+            <Input
+              type="text"
+              name="email"
+              placeholder="Enter your email"
+              control={control}
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="password">Password</Label>
+            <InputPassword control={control}></InputPassword>
+          </Field>
+          <Field>
+            <Label htmlFor="confirmPassword">Re-confirm password</Label>
+            <InputPassword
+              name="confirmPassword"
+              control={control}
+            ></InputPassword>
+          </Field>
+          <Button
+            type="submit"
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Sign up
+          </Button>
+          <div className="redirect">
+            Already had an account?{" "}
+            <Link className="redirect-link" to="/sign-in">
+              Sign in here
+            </Link>
+          </div>
+        </form>
+      </AuthenticationPage>
+    </Layout>
   );
 };
 

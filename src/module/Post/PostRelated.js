@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import PostItem from "./PostItem";
 
-const PostRelated = ({ categoryId }) => {
+const PostRelated = ({ postId, categoryId }) => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const docRef = query(
@@ -30,7 +30,6 @@ const PostRelated = ({ categoryId }) => {
       setPosts(results);
     });
   }, [categoryId]);
-  console.log(posts);
   if (!categoryId || posts.length <= 0) return null;
   return (
     <div className="post-related">

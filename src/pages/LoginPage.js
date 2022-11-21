@@ -3,6 +3,7 @@ import { Button } from "components/Button";
 import { Field } from "components/Field";
 import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
+import { Layout } from "components/Layout";
 import { useAuth } from "contexts/auth-context";
 import { auth } from "firebase-app/firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -46,10 +47,13 @@ const LoginPage = () => {
       );
     }
   };
-  // useEffect(() => {
-  //   document.title = "Login to Unicorn Blog";
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [userInfo]);
+  useEffect(() => {
+    document.body.scrollIntoView({ block: "start" });
+  }, []);
+  useEffect(() => {
+    document.title = "Login to Unicorn Blog";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo]);
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {
@@ -62,36 +66,42 @@ const LoginPage = () => {
   }, [errors]);
   if (userInfo) return <Homepage></Homepage>;
   return (
-    <AuthenticationPage>
-      <form
-        className="form"
-        onSubmit={handleSubmit(handleLogin)}
-        autoComplete="off"
-      >
-        <Field>
-          <Label htmlFor="email"></Label>
-          <Input
-            control={control}
-            type="text"
-            name="email"
-            placeholder="Enter your email address"
-          ></Input>
-        </Field>
-        <Field>
-          <Label htmlFor="password"></Label>
-          <InputPassword control={control}></InputPassword>
-        </Field>
-        <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
-          Sign In
-        </Button>
-        <div className="redirect">
-          Don't have an account?{" "}
-          <Link className="redirect-link" to="/sign-up">
-            Sign up here
-          </Link>
-        </div>
-      </form>
-    </AuthenticationPage>
+    <Layout>
+      <AuthenticationPage>
+        <form
+          className="form"
+          onSubmit={handleSubmit(handleLogin)}
+          autoComplete="off"
+        >
+          <Field>
+            <Label htmlFor="email"></Label>
+            <Input
+              control={control}
+              type="text"
+              name="email"
+              placeholder="Enter your email address"
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="password"></Label>
+            <InputPassword control={control}></InputPassword>
+          </Field>
+          <Button
+            type="submit"
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Sign In
+          </Button>
+          <div className="redirect">
+            Don't have an account?{" "}
+            <Link className="redirect-link" to="/sign-up">
+              Sign up here
+            </Link>
+          </div>
+        </form>
+      </AuthenticationPage>
+    </Layout>
   );
 };
 

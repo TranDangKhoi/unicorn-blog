@@ -115,6 +115,9 @@ const PostDetailsPage = () => {
     }
     getPostContent();
   }, [postInfo.content, slug]);
+  useEffect(() => {
+    document.body.scrollIntoView({ block: "start" });
+  }, [slug]);
   if (!slug) return <NotFoundPage></NotFoundPage>;
   if (!postInfo?.title) return null;
   return (
@@ -127,7 +130,7 @@ const PostDetailsPage = () => {
               className="post-feature"
             ></PostImage>
             <div className="post-info">
-              <PostCategory className="mb-6">
+              <PostCategory className="mb-6" to={postInfo.category?.slug}>
                 {postInfo.category.name}
               </PostCategory>
               <h1 className="post-heading">{postInfo.title}</h1>

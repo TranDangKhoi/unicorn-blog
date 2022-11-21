@@ -37,14 +37,21 @@ const PostItemStyles = styled.div`
 
 const PostItem = ({ post }) => {
   const { displayLocaleDateBySeconds } = useFormattedDisplay();
+  console.log(post);
   return (
     <PostItemStyles>
-      <PostImage src={post.imageURL} alt={post.slug}></PostImage>
-      <PostCategory to={post.category.slug}>{post.category.name}</PostCategory>
-      <PostTitle to={post.slug}>{post.title}</PostTitle>
+      <PostImage
+        src={post?.imageURL}
+        alt={post?.slug}
+        to={post.slug}
+      ></PostImage>
+      <PostCategory to={post?.category.slug}>
+        {post?.category.name}
+      </PostCategory>
+      <PostTitle to={post?.slug}>{post?.title}</PostTitle>
       <PostMeta
-        date={displayLocaleDateBySeconds(post.createdAt.seconds)}
-        username={post.user.username}
+        date={displayLocaleDateBySeconds(post?.createdAt.seconds)}
+        username={post?.user?.username}
       ></PostMeta>
     </PostItemStyles>
   );

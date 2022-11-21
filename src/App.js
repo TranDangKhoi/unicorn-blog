@@ -9,6 +9,7 @@ import UserAddNew from "module/User/UserAddNew";
 import UserManage from "module/User/UserManage";
 import UserProfile from "module/User/UserProfile";
 import UserUpdate from "module/User/UserUpdate";
+import CategoryPage from "pages/CategoryPage";
 import DashboardPage from "pages/DashboardPage";
 import Homepage from "pages/Homepage";
 import LoginPage from "pages/LoginPage";
@@ -28,6 +29,10 @@ function App() {
           <Route
             path="/:slug"
             element={<PostDetailsPage></PostDetailsPage>}
+          ></Route>
+          <Route
+            path="/category/:slug"
+            element={<CategoryPage></CategoryPage>}
           ></Route>
           <Route element={<DashboardLayout></DashboardLayout>}>
             <Route

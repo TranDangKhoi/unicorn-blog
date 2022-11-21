@@ -33,7 +33,7 @@ const PostCategory = ({
 }) => {
   return (
     <PostCategoryStyles kind={kind} className={`post-category ${className}`}>
-      <Link to={`/${to}`}>{children}</Link>
+      <Link to={`/category/${to}`}>{children}</Link>
     </PostCategoryStyles>
   );
 };
