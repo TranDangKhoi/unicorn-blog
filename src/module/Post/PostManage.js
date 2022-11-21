@@ -18,9 +18,8 @@ import {
   where,
 } from "firebase/firestore";
 import useFormattedDisplay from "hooks/useFormattedDisplay";
-import { debounce, first } from "lodash";
+import { debounce } from "lodash";
 import DashboardHeading from "module/Category/DashboardHeading";
-import NotFoundPage from "pages/NotFoundPage";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +30,6 @@ const POSTS_PER_PAGE = 8;
 const PostManage = () => {
   const { userInfo } = useAuth();
   const [postList, setPostList] = useState([]);
-  const [userPosts, setUserPosts] = useState([]);
   const [filter, setFilter] = useState("");
   const [lastDoc, setLastDoc] = useState({});
   const [isEmpty, setIsEmpty] = useState(false);

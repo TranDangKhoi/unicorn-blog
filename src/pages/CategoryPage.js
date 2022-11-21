@@ -1,3 +1,4 @@
+import { Button } from "components/Button";
 import { Heading, Layout } from "components/Layout";
 import { db } from "firebase-app/firebase-config";
 import {
@@ -5,15 +6,15 @@ import {
   getDocs,
   limit,
   onSnapshot,
-  orderBy,
   query,
   startAfter,
   where,
 } from "firebase/firestore";
+import DashboardHeading from "module/Category/DashboardHeading";
 import PostItem from "module/Post/PostItem";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
 const ARTICLES_PER_PAGE = 12;
 const CategoryPage = () => {
@@ -22,7 +23,6 @@ const CategoryPage = () => {
   const [lastDoc, setLastDoc] = useState();
   const [isEmpty, setIsEmpty] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-  const navigate = useNavigate();
   const handleLoadMorePosts = async () => {
     // Ví dụ lastDoc (category cuối cùng) của page 1 là Gaming thì cái query này sẽ lấy ra tất cả thằng đằng sau thằng Gaming đó để hiển thị ra tiếp
     const nextQuery = query(
@@ -94,6 +94,17 @@ const CategoryPage = () => {
               <PostItem key={post?.id} post={post}></PostItem>
             ))}
         </div>
+        {!isEmpty ? (
+          <div className="mt-10">
+            <Button onClick={handleLoadMorePosts}>Load more</Button>
+          </div>
+        ) : (
+          <DashboardHeading
+            className="italic text-center"
+            desc="The end."
+            title="No more data"
+          ></DashboardHeading>
+        )}
       </div>
     </Layout>
   );

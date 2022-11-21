@@ -1,6 +1,5 @@
 import useFormattedDisplay from "hooks/useFormattedDisplay";
 import React from "react";
-import { useEffect } from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";

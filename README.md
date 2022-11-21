@@ -62,6 +62,8 @@ II. Now let's config the Firebase :fire::
 
 ![Step 10 screenshot](https://images.tango.us/workflows/671f8a39-f99c-4f7a-8d6b-664e8f9667c8/steps/8e42663b-8eaa-48b2-8330-7bf912fefe93/08dc2e29-ca50-4bd5-a63c-bcd08058f27d.png?crop=focalpoint&fit=crop&fp-x=0.4458&fp-y=0.8545&fp-z=3.2000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
 
+![Where to paste](https://i.ibb.co/Tk57nfM/image.png)
+
 ### 14. Now you should setup Authentication, Firestore Database, Cloud Storage, make sure your start it in PRODUCTION MODE and select the right region of your country
 
 ![Step 14 screenshot](https://i.ibb.co/d09SZht/image.png)
