@@ -23,14 +23,18 @@ import {
 } from "firebase/firestore";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
+import "react-quill/dist/quill.snow.css";
+
+import ImageUploader from "quill-image-uploader";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import { toast } from "react-toastify";
 import { postAddNewSchema } from "schema/schema";
 import slugify from "slugify";
 import Swal from "sweetalert2";
 import { postStatus } from "utils/constants";
+Quill.register("modules/imageUploader", ImageUploader);
 
 const PostAddNew = () => {
   const { userInfo } = useAuth();

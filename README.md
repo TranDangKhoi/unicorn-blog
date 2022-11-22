@@ -4,8 +4,6 @@
 
 - Update user's email and password in Firebase Authentication through Admin's Dashboard: Making researchs ... still find nothing possible
 
--
-
 # How to run this project
 
 **DATE**: 11/18/2022
@@ -627,7 +625,7 @@ const handleSignUp = async (values) => {
 
   - CRUD trong Firestore cũng rất dễ dàng, không có gì cầu kì quá mức khó học cả
 
-- Khuyết điểm:
+- Nhược điểm:
 
   - Query không hỗ trợ chức năng "query gần giống" hoàn toàn, mà phải giống y hệt thì mới search ra được kết quả
 

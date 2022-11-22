@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Field, FieldCheckbox } from "components/Field";
 import { Input } from "components/Input";
@@ -14,8 +15,28 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import slugify from "slugify";
+import * as yup from "yup";
 import { userRole, userStatus } from "utils/constants";
 
+const userUpdateSchema = yup.object({
+  username: yup
+    .string()
+    .required("Please enter the username")
+    .min(3, "Username is too short (must be more than 3 characters)"),
+  email: yup
+    .string()
+    .required("Please enter the e-mail address")
+    .email("Your e-mail address is invalid, please enter another one"),
+  bio: yup.string(),
+  status: yup
+    .number()
+    .oneOf([userStatus.ACTIVE, userStatus.PENDING, userStatus.BANNED])
+    .required("Your post's status is invalid"),
+  role: yup
+    .number()
+    .oneOf([userRole.ADMIN, userRole.MOD, userRole.USER])
+    .required("Your user's role is invalid"),
+});
 const UserUpdate = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
