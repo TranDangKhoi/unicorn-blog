@@ -132,6 +132,7 @@ const UserAddNew = () => {
       <form onSubmit={handleSubmit(handleCreateNewUser)}>
         <div className="w-[250px] h-[250px] mx-auto rounded-full mb-10">
           <ImageUpload
+            name="image"
             className="h-full rounded-full"
             onChange={handleSelectImage}
             handleRemoveImage={handleRemoveImage}

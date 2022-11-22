@@ -15,28 +15,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import slugify from "slugify";
-import * as yup from "yup";
 import { userRole, userStatus } from "utils/constants";
 
-const userUpdateSchema = yup.object({
-  username: yup
-    .string()
-    .required("Please enter the username")
-    .min(3, "Username is too short (must be more than 3 characters)"),
-  email: yup
-    .string()
-    .required("Please enter the e-mail address")
-    .email("Your e-mail address is invalid, please enter another one"),
-  bio: yup.string(),
-  status: yup
-    .number()
-    .oneOf([userStatus.ACTIVE, userStatus.PENDING, userStatus.BANNED])
-    .required("Your post's status is invalid"),
-  role: yup
-    .number()
-    .oneOf([userRole.ADMIN, userRole.MOD, userRole.USER])
-    .required("Your user's role is invalid"),
-});
 const UserUpdate = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -53,6 +33,7 @@ const UserUpdate = () => {
     defaultValues: {
       status: userStatus.ACTIVE,
     },
+    resolver: yupResolver,
   });
   const userId = searchParams.get("userId");
   const watchUserStatus = Number(watch("status"));
@@ -77,6 +58,18 @@ const UserUpdate = () => {
     }
     getCurrentUserValue();
   }, [userId, reset]);
+
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.dismiss(arrErrors.find((item) => item === 0));
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: true,
+        closeOnClick: true,
+      });
+    }
+  }, [errors]);
+
   const handleUpdateUser = async (values) => {
     const cloneValues = { ...values };
     const docRef = doc(db, "users", userId);
@@ -117,6 +110,7 @@ const UserUpdate = () => {
       <form onSubmit={handleSubmit(handleUpdateUser)}>
         <div className="w-[250px] h-[250px] mx-auto rounded-full mb-10">
           <ImageUpload
+            name="image"
             className="h-full rounded-full"
             onChange={handleSelectImage}
             handleRemoveImage={handleRemoveImage}

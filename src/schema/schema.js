@@ -1,4 +1,6 @@
+import { userRole, userStatus } from "utils/constants";
 import * as yup from "yup";
+
 export const signUpSchema = yup.object({
   username: yup
     .string()
@@ -53,3 +55,25 @@ export const categoryUpdateSchema = yup.object({
   name: yup.string().required("Please enter category's name"),
   status: yup.number().oneOf([1, 2, 3]),
 });
+
+export const userUpdateSchema = yup.object({
+  username: yup
+    .string()
+    .required("Please enter the username")
+    .min(3, "Username is too short (must be more than 3 characters)"),
+  email: yup
+    .string()
+    .required("Please enter the e-mail address")
+    .email("Your e-mail address is invalid, please enter another one"),
+  bio: yup.string(),
+  status: yup
+    .number()
+    .oneOf([userStatus.ACTIVE, userStatus.PENDING, userStatus.BANNED])
+    .required("Your post's status is invalid"),
+  role: yup
+    .number()
+    .oneOf([userRole.ADMIN, userRole.MOD, userRole.USER])
+    .required("Your user's role is invalid"),
+});
+
+export const userAddNewSchema = yup.object({});

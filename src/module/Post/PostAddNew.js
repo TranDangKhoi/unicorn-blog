@@ -271,6 +271,7 @@ const PostAddNew = () => {
               Your thumbnail
             </Label>
             <ImageUpload
+              name="image"
               imageURL={imageURL}
               progress={progress}
               minHeight="600px"
