@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import NotFoundGif from "assets/images/404.gif";
+
 const NotFoundPageStyles = styled.div`
   .gif {
     margin: 0 auto;
@@ -49,7 +51,7 @@ const NotFoundPage = () => {
   return (
     <NotFoundPageStyles>
       <div className="container">
-        <img srcSet="/404.gif" alt="" className="gif" />
+        <img srcSet={NotFoundGif} alt="" className="gif" />
         <h1 className="header">Oops! Page not found</h1>
         <h2 className="sub-header">The page you finding isn't existed</h2>
         <Link className="redirect" to={"/"}>

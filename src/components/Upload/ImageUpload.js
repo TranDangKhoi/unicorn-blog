@@ -1,6 +1,6 @@
 import { LoadingSpinner } from "components/Loading";
 import PropTypes from "prop-types";
-
+import imgUpload from "assets/images/img-upload.png";
 const ImageUpload = ({
   name,
   className,
@@ -38,7 +38,7 @@ const ImageUpload = ({
         <>
           <div className="flex flex-col items-center text-center pointer-events-none">
             <img
-              srcSet="/img-upload.png"
+              srcSet={imgUpload}
               alt="Upload your"
               className="max-w-[80px] mb-5"
             />

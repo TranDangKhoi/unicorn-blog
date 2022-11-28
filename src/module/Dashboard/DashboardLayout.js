@@ -42,7 +42,6 @@ const DashboardLayout = () => {
   useEffect(() => {
     document.title = "Welcome to your dashboard";
   }, []);
-  console.log(userInfo);
   if (!userInfo) return <LoginPage></LoginPage>;
   return (
     <DashboardStyles>

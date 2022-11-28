@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Logo from "assets/images/blog-logo.png";
 
 const AuthenticationPageStyles = styled.div`
   background: #f2f2f2;
@@ -36,7 +37,7 @@ const AuthenticationPage = ({ children }) => {
   return (
     <AuthenticationPageStyles>
       <div className="container">
-        <img srcSet="/blog-logo.png 1.5x" alt="unicorn-blog" className="logo" />
+        <img srcSet={`${Logo} 1.5x`} alt="unicorn-blog" className="logo" />
         <h1 className="heading">Unicorn Blog</h1>
         {children}
       </div>

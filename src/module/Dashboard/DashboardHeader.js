@@ -3,6 +3,7 @@ import { useAuth } from "contexts/auth-context";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Logo from "assets/images/blog-logo.png";
 const DashboardHeaderStyles = styled.div`
   background-color: white;
   padding: 20px;
@@ -42,7 +43,7 @@ const DashboardHeader = () => {
   return (
     <DashboardHeaderStyles>
       <NavLink to="/" className="logo">
-        <img srcSet="/blog-logo.png" alt="monkey-blogging" className="logo" />
+        <img srcSet={Logo} alt="monkey-blogging" className="logo" />
         <span className="hidden lg:inline-block">Unicorn Blog</span>
       </NavLink>
       <div className="header-right">

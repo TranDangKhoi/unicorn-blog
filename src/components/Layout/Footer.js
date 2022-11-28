@@ -58,7 +58,7 @@ const Footer = () => {
     <FooterStyles>
       <div className="container">
         <div className="footer-logo">
-          <img srcSet={Logo} alt="Logo" />
+          <img srcSet={`${Logo} 2x`} alt="Logo" />
           <span>Unicorn Blog</span>
         </div>
         <div className="footer-list">

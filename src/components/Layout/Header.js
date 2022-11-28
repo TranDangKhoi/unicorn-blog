@@ -5,6 +5,7 @@ import { auth } from "firebase-app/firebase-config";
 import { signOut } from "firebase/auth";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import Logo from "assets/images/blog-logo.png";
 import styled from "styled-components";
 const menuLinks = [
   {
@@ -142,11 +143,7 @@ const Header = () => {
       <div className="container">
         <div className="header-main">
           <Link to="/">
-            <img
-              srcSet="/blog-logo.png 3x"
-              alt="Unicorn-Blog"
-              className="logo"
-            />
+            <img srcSet={`${Logo} 3x`} alt="Unicorn-Blog" className="logo" />
           </Link>
           <ul className="menu">
             {menuLinks.length > 0 &&

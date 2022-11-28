@@ -25,7 +25,6 @@ export default function useFirebaseImage(
         autoClose: 4000,
         pauseOnHover: true,
       });
-      console.log(file);
       return;
     }
     const storage = getStorage();

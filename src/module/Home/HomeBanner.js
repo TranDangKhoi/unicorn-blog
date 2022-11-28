@@ -2,7 +2,7 @@ import { Button } from "components/Button";
 import { useAuth } from "contexts/auth-context";
 import React from "react";
 import styled from "styled-components";
-
+import Banner from "assets/images/banner-img.png";
 const HomeBannerStyles = styled.div`
   min-height: 520px;
   padding: 40px 0;
@@ -78,7 +78,7 @@ const HomeBanner = () => {
             </Button>
           </div>
           <div className="banner-image">
-            <img src="/banner-img.png" alt="banner" />
+            <img srcSet={Banner} alt="banner" />
           </div>
         </div>
       </div>

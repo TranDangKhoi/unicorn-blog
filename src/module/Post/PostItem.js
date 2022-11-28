@@ -36,7 +36,6 @@ const PostItemStyles = styled.div`
 
 const PostItem = ({ post }) => {
   const { displayLocaleDateBySeconds } = useFormattedDisplay();
-  console.log(post);
   return (
     <PostItemStyles>
       <PostImage

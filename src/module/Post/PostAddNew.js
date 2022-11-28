@@ -83,7 +83,6 @@ const PostAddNew = () => {
   const watchPopular = watch("popular");
   const watchStatus = Number(watch("status"));
   const handleAddPost = async (values) => {
-    console.log(values);
     const cloneValues = { ...values };
     cloneValues.slug = slugify(cloneValues.slug || cloneValues.title, {
       lower: true,

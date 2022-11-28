@@ -111,7 +111,6 @@ const PostDetailsPage = () => {
           doc.data() && setPostInfo(doc.data());
         });
       });
-      console.log(postInfo.content);
     }
     getPostContent();
   }, [postInfo.content, slug]);
