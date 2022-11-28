@@ -4,6 +4,7 @@ import { Field } from "components/Field";
 import { Input, InputPassword } from "components/Input";
 import { Label } from "components/Label";
 import { Layout } from "components/Layout";
+import { Validate } from "components/Validate";
 import { useAuth } from "contexts/auth-context";
 import { auth, db } from "firebase-app/firebase-config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -104,6 +105,7 @@ const SignUpPage = () => {
               placeholder="Enter your username"
               control={control}
             ></Input>
+            <Validate>Your username must have less than 24 characters</Validate>
           </Field>
           <Field>
             <Label htmlFor="email">Email address</Label>
@@ -113,10 +115,15 @@ const SignUpPage = () => {
               placeholder="Enter your email"
               control={control}
             ></Input>
+            <Validate>
+              Your email address must be in the correct pattern (e.g:
+              foobar@gmail.com)
+            </Validate>
           </Field>
           <Field>
             <Label htmlFor="password">Password</Label>
             <InputPassword control={control}></InputPassword>
+            <Validate>Your password must have more than 8 characters</Validate>
           </Field>
           <Field>
             <Label htmlFor="confirmPassword">Re-confirm password</Label>
