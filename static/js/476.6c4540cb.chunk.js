@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkunicorn_blog=self.webpackChunkunicorn_blog||[]).push([[476],{476:function(e,n,o){o.r(n);var t=o(6524),r=o(2791),u=o(184);n.default=function(){return(0,r.useEffect)((function(){document.title="Welcome to your dashboard"}),[]),(0,u.jsx)("div",{children:(0,u.jsx)(t.Z,{title:"Dashboard",desc:"Overview dashboard monitor"})})}}}]);
+//# sourceMappingURL=476.6c4540cb.chunk.js.map
