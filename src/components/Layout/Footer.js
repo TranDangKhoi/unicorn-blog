@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Logo from "assets/images/blog-logo.png";
 const FooterStyles = styled.footer`
   margin-top: 100px;
   padding: 20px;
@@ -57,7 +58,7 @@ const Footer = () => {
     <FooterStyles>
       <div className="container">
         <div className="footer-logo">
-          <img srcSet="/blog-logo.png 2x" alt="Logo" />
+          <img srcSet={Logo} alt="Logo" />
           <span>Unicorn Blog</span>
         </div>
         <div className="footer-list">
