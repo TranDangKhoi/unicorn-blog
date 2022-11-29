@@ -17,10 +17,10 @@ const AuthorBox = ({ userId }) => {
   return (
     <div className="author">
       <div className="author-image">
-        <img src={userInfo.avatar} alt="" />
+        <img src={userInfo?.avatar} alt="" />
       </div>
       <div className="author-content">
-        <h3 className="author-name">{userInfo.username}</h3>
+        <h3 className="author-name">{userInfo?.username}</h3>
         <p className="author-desc line-clamp-5">{userInfo?.bio}</p>
       </div>
     </div>

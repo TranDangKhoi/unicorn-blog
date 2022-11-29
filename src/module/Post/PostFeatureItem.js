@@ -1,4 +1,5 @@
 import useFormattedDisplay from "hooks/useFormattedDisplay";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -9,7 +10,6 @@ const PostFeatureItemStyles = styled.div`
   border-radius: 16px;
   position: relative;
   overflow: hidden;
-  height: 169px;
   .post {
     &-image {
       width: 100%;
@@ -47,15 +47,33 @@ const PostFeatureItemStyles = styled.div`
   @media screen and (min-width: 1024px) {
     height: 272px;
   }
+  @media screen and (max-width: 1023.98px) {
+    height: 200px;
+
+    .post {
+      &-time {
+        font-size: 12px;
+      }
+      &-author {
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 12px;
+      }
+    }
+  }
 `;
 const PostFeatureItem = ({ post }) => {
   const { displayLocaleDateBySeconds } = useFormattedDisplay();
+  const navigate = useNavigate();
   if (!post || !post.id) return null;
   return (
     <PostFeatureItemStyles>
       <PostImage src={post.imageURL} alt="Post-Image"></PostImage>
-      <div className="post-overlay"></div>
-      <div className="post-content">
+      <div className="z-10 post-overlay"></div>
+      <div className="post-content" onClick={() => navigate(`/${post.slug}`)}>
         <div className="post-top">
           {post?.category?.name && (
             <PostCategory kind="secondary" to={post?.category?.slug}>

@@ -23,8 +23,8 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
-    mode: "onSubmit",
     resolver: yupResolver(loginSchema),
+    mode: "onSubmit",
   });
   const handleLogin = async (values) => {
     if (!isValid) return;

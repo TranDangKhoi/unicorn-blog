@@ -7,7 +7,6 @@ const InputStyles = styled.div`
   position: relative;
   width: 100%;
   input {
-    user-select: none;
     font-weight: 500;
     padding: ${(props) =>
       props.hasIcon ? "15px 60px 15px 25px" : "15px 25px"};
