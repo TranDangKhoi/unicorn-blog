@@ -66,7 +66,7 @@ II. Now let's config the Firebase :fire::
 
 ![Step 14 screenshot](https://i.ibb.co/d09SZht/image.png)
 
-III. Now to the Rules config part:
+## III. Now to the Rules config part:
 
 ### 1. Click on Firestore Database
 
@@ -80,7 +80,7 @@ III. Now to the Rules config part:
 
 ![Step 3 screenshot](https://images.tango.us/workflows/bb48f5ce-a506-4247-8b0c-5c066f101f4e/steps/6536dc05-c0c0-4e3a-82c6-6b1edeb3c0de/8d75cdcc-a418-445c-bb2f-805d89025b76.png?crop=focalpoint&fit=crop&fp-x=0.7182&fp-y=0.3932&fp-z=1.8426&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
 
-### 4. The same things apply to Storage section
+### 4. The same rules apply to your Storage
 
 ### 5. Now let's setup Authentication, navigate to the console, click on Build
 
@@ -218,7 +218,7 @@ UPDATED v1.3:
 
 - Responsive and optimize UI UX
 
-- Update post with ckeditor
+- Update post
 
 # Những thứ rút ra được sau khi làm project
 
@@ -637,3 +637,5 @@ const handleSignUp = async (values) => {
 
 <br>
  => Chốt lại là Firebase chỉ hợp làm dự án đơn giản, các chức năng authen của nó cũng khá bình thường và không hỗ trợ nhiều thứ
+
+- Không nên sử dụng user-select:none cho input bởi vì trên máy tính có thể hoạt động trơn tru, nhưng xuống điện thoại, khi các bạn chọn vào input và nhập thì nó sẽ ko nhận bất kì event input nào cả :') cái này phải tự fix mãi mới xong vì stackoverflow không có
