@@ -529,12 +529,9 @@ const handleSignUp = async (values) => {
 };
 ```
 
-# Chức năng sửa trong Firebase
-
-- Khi click vào nút sửa post/category, thì ta sẽ route sang trang sửa
-- Chạy qua trang /manage/update-category?id=foobar
-
 # Những thứ cần cập nhật để ghi nhớ
+
+- Không nên sử dụng user-select:none cho input bởi vì trên máy tính có thể hoạt động trơn tru, nhưng xuống điện thoại, khi các bạn chọn vào input và nhập thì nó sẽ ko nhận bất kì event input nào cả :') cái này phải tự fix mãi mới xong vì stackoverflow không có
 
 - Cập nhật lại README trong react-studying:
 
@@ -637,5 +634,3 @@ const handleSignUp = async (values) => {
 
 <br>
  => Chốt lại là Firebase chỉ hợp làm dự án đơn giản, các chức năng authen của nó cũng khá bình thường và không hỗ trợ nhiều thứ
-
-- Không nên sử dụng user-select:none cho input bởi vì trên máy tính có thể hoạt động trơn tru, nhưng xuống điện thoại, khi các bạn chọn vào input và nhập thì nó sẽ ko nhận bất kì event input nào cả :') cái này phải tự fix mãi mới xong vì stackoverflow không có
