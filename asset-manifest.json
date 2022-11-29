@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/unicorn-blog/static/css/main.004fd748.css",
-    "main.js": "/unicorn-blog/static/js/main.2a149d8c.js",
-    "static/js/216.2b6142b3.chunk.js": "/unicorn-blog/static/js/216.2b6142b3.chunk.js",
-    "static/js/473.652493d7.chunk.js": "/unicorn-blog/static/js/473.652493d7.chunk.js",
+    "main.css": "/unicorn-blog/static/css/main.a5178660.css",
+    "main.js": "/unicorn-blog/static/js/main.3e4a0e2e.js",
+    "static/js/216.b8e7e1bd.chunk.js": "/unicorn-blog/static/js/216.b8e7e1bd.chunk.js",
+    "static/js/473.1673d9c1.chunk.js": "/unicorn-blog/static/js/473.1673d9c1.chunk.js",
     "static/js/444.90debb7e.chunk.js": "/unicorn-blog/static/js/444.90debb7e.chunk.js",
     "static/js/476.6c4540cb.chunk.js": "/unicorn-blog/static/js/476.6c4540cb.chunk.js",
     "static/js/132.10d52eaf.chunk.js": "/unicorn-blog/static/js/132.10d52eaf.chunk.js",
@@ -24,10 +24,10 @@
     "static/media/404.gif": "/unicorn-blog/static/media/404.4391ddd9e0896d9040d5.gif",
     "static/media/banner-img.png": "/unicorn-blog/static/media/banner-img.8a5f1be1f5fbe279c49d.png",
     "index.html": "/unicorn-blog/index.html",
-    "main.004fd748.css.map": "/unicorn-blog/static/css/main.004fd748.css.map",
-    "main.2a149d8c.js.map": "/unicorn-blog/static/js/main.2a149d8c.js.map",
-    "216.2b6142b3.chunk.js.map": "/unicorn-blog/static/js/216.2b6142b3.chunk.js.map",
-    "473.652493d7.chunk.js.map": "/unicorn-blog/static/js/473.652493d7.chunk.js.map",
+    "main.a5178660.css.map": "/unicorn-blog/static/css/main.a5178660.css.map",
+    "main.3e4a0e2e.js.map": "/unicorn-blog/static/js/main.3e4a0e2e.js.map",
+    "216.b8e7e1bd.chunk.js.map": "/unicorn-blog/static/js/216.b8e7e1bd.chunk.js.map",
+    "473.1673d9c1.chunk.js.map": "/unicorn-blog/static/js/473.1673d9c1.chunk.js.map",
     "444.90debb7e.chunk.js.map": "/unicorn-blog/static/js/444.90debb7e.chunk.js.map",
     "476.6c4540cb.chunk.js.map": "/unicorn-blog/static/js/476.6c4540cb.chunk.js.map",
     "132.10d52eaf.chunk.js.map": "/unicorn-blog/static/js/132.10d52eaf.chunk.js.map",
@@ -47,7 +47,7 @@
     "540.8abe88fd.chunk.js.map": "/unicorn-blog/static/js/540.8abe88fd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.004fd748.css",
-    "static/js/main.2a149d8c.js"
+    "static/css/main.a5178660.css",
+    "static/js/main.3e4a0e2e.js"
   ]
 }
