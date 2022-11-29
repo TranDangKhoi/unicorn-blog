@@ -19,7 +19,7 @@ const ValidateStyles = styled.div`
   }
 `;
 const Validate = ({ children, className }) => {
-  return <ValidateStyles>{children}</ValidateStyles>;
+  return <ValidateStyles className={className}>{children}</ValidateStyles>;
 };
 
 export default Validate;
