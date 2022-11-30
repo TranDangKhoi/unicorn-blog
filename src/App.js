@@ -34,6 +34,11 @@ function App() {
             <Route path="/" element={<Homepage></Homepage>}></Route>
             <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>
             <Route path="/sign-in" element={<LoginPage></LoginPage>}></Route>
+            <Route path="/blog" element={<NotFoundPage></NotFoundPage>}></Route>
+            <Route
+              path="/contact"
+              element={<NotFoundPage></NotFoundPage>}
+            ></Route>
             <Route
               path="/:slug"
               element={<PostDetailsPage></PostDetailsPage>}
