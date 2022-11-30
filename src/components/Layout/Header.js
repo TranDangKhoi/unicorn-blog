@@ -238,7 +238,6 @@ const Header = () => {
                       <div className="username">
                         {getLastName(auth?.currentUser?.displayName)}
                       </div>
-                      <i className="fa-solid fa-angle-down"></i>
                     </div>
                     <Button
                       className="sign-out"

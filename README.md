@@ -1,8 +1,10 @@
 # Functions that hasn't been done yet
 
+- Charts for data analytics
+
 - Searching for articles: Firebase search engine is a bit ... odd, so i will save this one for later
 
-- Update user's email and password in Firebase Authentication through Admin's Dashboard: Making researchs ... still find nothing possible
+- Update user email and password in Firebase Authentication through Admin Dashboard: Making researchs ... still find nothing possible
 
 # How to run this project
 
@@ -110,7 +112,7 @@ II. Now let's config the Firebase :fire::
 
 ![Step 11 screenshot](https://images.tango.us/workflows/d08f28cd-5696-42e4-adb8-7087ac58bbc9/steps/d071c4b9-ee5e-4c32-bec9-a5a461f52f13/4d4d80b5-e757-4843-9425-b9db8b02e01e.png?crop=focalpoint&fit=crop&fp-x=0.5819&fp-y=0.4187&fp-z=2.1463&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A969)
 
-### 12. Now you may run this project by typing "npm start" in the project's terminal
+### 12. Now you may run this project by typing "npm start" in the project terminal
 
 - Read more at: [Basic Security Rules](https://firebase.google.com/docs/rules/basics?authuser=0&hl=en)
 

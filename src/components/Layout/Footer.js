@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Logo from "assets/images/blog-logo.png";
 const FooterStyles = styled.footer`
-  margin-top: 100px;
   padding: 20px;
   border-top: 1px solid #ccc;
   .footer {
