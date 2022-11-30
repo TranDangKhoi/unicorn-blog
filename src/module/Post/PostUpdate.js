@@ -102,11 +102,14 @@ const PostUpdate = () => {
   }, [thumbnailImageURL, setImageURL]);
 
   async function deleteThumbnail() {}
-  const handleUpdatePost = async () => {
+  const handleUpdatePost = async (values) => {
     if (!isValid) return;
     try {
+      const cloneValues = { ...values };
+      console.log(cloneValues);
       const docRef = doc(db, "posts", postId);
       await updateDoc(docRef, {
+        ...cloneValues,
         content,
       });
       toast.success("Post updated successfully", {
@@ -117,12 +120,7 @@ const PostUpdate = () => {
       return err;
     }
   };
-  async function deleteAvatar() {
-    const docRef = doc(db, "posts", postId);
-    await updateDoc(docRef, {
-      imageURL: "",
-    });
-  }
+
   const handleSelectOption = async (item) => {
     const docRef = doc(db, "categories", item.id);
     const docData = await getDoc(docRef);
@@ -188,22 +186,6 @@ const PostUpdate = () => {
               control={control}
               placeholder="Enter your title"
               name="title"
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="slug">Slug</Label>
-            <Input
-              control={control}
-              placeholder="Enter your slug"
-              name="slug"
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="author">Author</Label>
-            <Input
-              control={control}
-              name="author"
-              placeholder="Who's the author"
             ></Input>
           </Field>
           <Field>

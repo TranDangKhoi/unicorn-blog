@@ -32,7 +32,7 @@ const PostRelated = ({ postId, categoryId }) => {
   }, [categoryId]);
   if (!categoryId || posts.length <= 0) return null;
   return (
-    <div className="post-related">
+    <div className="mb-10 post-related">
       <Heading>Related articles</Heading>
       <div className="grid-layout grid-layout--primary">
         {posts.map((post) => (
