@@ -180,10 +180,8 @@ function getLastName(username) {
 }
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const handleSignOut = () => {
-    signOut(auth);
-  };
   const { userInfo, setUserInfo } = useAuth();
+  console.log(userInfo);
   useEffect(() => {
     setUserInfo(auth.currentUser);
   }, [setUserInfo]);
@@ -230,14 +228,8 @@ const Header = () => {
                 {userInfo ? (
                   <div className="user">
                     <div className="user-display">
-                      <img
-                        src={auth?.currentUser?.photoURL}
-                        alt=""
-                        className="avatar"
-                      />
-                      <div className="username">
-                        {getLastName(auth?.currentUser?.displayName)}
-                      </div>
+                      <img src={userInfo?.photoURL} alt="" className="avatar" />
+                      <div className="username">{userInfo?.displayName}</div>
                     </div>
                     <Button
                       className="sign-out"
