@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Field } from "components/Field";
 import { Input } from "components/Input";
@@ -11,6 +12,7 @@ import DashboardHeading from "module/Category/DashboardHeading";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { userProfileSchema } from "schema/schema";
 import slugify from "slugify";
 
 const UserProfile = () => {
@@ -24,10 +26,12 @@ const UserProfile = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onSubmit",
+    resolver: yupResolver(userProfileSchema),
   });
   const avatarURL = getValues("avatar");
   const imageRegex = /%2F(\S+)\?/gm.exec(avatarURL);
   const imageName = imageRegex?.length > 0 ? imageRegex[1] : "";
+
   const {
     handleRemoveImage,
     setImageURL,
@@ -35,6 +39,7 @@ const UserProfile = () => {
     handleSelectImage,
     progress,
   } = useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
+
   async function deleteAvatar() {
     const docRef = doc(db, "users", userInfo.uid);
     const docData = await getDoc(docRef);
@@ -43,9 +48,11 @@ const UserProfile = () => {
       avatar: `https://ui-avatars.com/api/?background=random&name=${userData.username}`,
     });
   }
+
   useEffect(() => {
     setImageURL(avatarURL);
   }, [avatarURL, setImageURL]);
+
   useEffect(() => {
     async function getCurrentUserValue() {
       if (!userInfo.uid) return;
@@ -56,6 +63,18 @@ const UserProfile = () => {
     }
     getCurrentUserValue();
   }, [reset, userInfo]);
+
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.dismiss(arrErrors.find((item) => item === 0));
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: true,
+        closeOnClick: true,
+      });
+    }
+  }, [errors]);
+
   const handleUpdateUserProfile = async (values) => {
     const cloneValues = { ...values };
     const docRef = doc(db, "users", userInfo.uid);
@@ -101,15 +120,6 @@ const UserProfile = () => {
               control={control}
               name="username"
               placeholder="Enter your username"
-            ></Input>
-          </Field>
-          <Field>
-            <Label>Email</Label>
-            <Input
-              control={control}
-              name="email"
-              type="email"
-              placeholder="Enter your e-mail address"
             ></Input>
           </Field>
         </div>

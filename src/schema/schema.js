@@ -76,4 +76,31 @@ export const userUpdateSchema = yup.object({
     .required("Your user's role is invalid"),
 });
 
-export const userAddNewSchema = yup.object({});
+export const userAddNewSchema = yup.object({
+  username: yup
+    .string()
+    .required("Please enter an appropriate username!")
+    .max(24, "Username must be less than 24 characters"),
+  email: yup
+    .string()
+    .required("Please enter an e-mail address")
+    .email("The email you entered is invalid, please enter another one"),
+  password: yup
+    .string()
+    .required("Please enter an appropriate password")
+    .min(8, "Your password must be at least 8 characters"),
+  status: yup.number().oneOf([1, 2, 3]),
+  role: yup
+    .number()
+    .required("Pleaes select a role for your user")
+    .oneOf([userRole.ADMIN, userRole.MOD, userRole.USER]),
+});
+
+export const userProfileSchema = yup.object({
+  username: yup
+    .string()
+    .required("Please enter an appropriate username!")
+    .max(24, "Username must be less than 24 characters"),
+  birthday: yup.date(),
+  phone: yup.number().max(16, "Your phone number must be less than 16 numbers"),
+});

@@ -2,7 +2,6 @@ import { Button } from "components/Button";
 import IconSearch from "components/Icon/IconSearch";
 import { useAuth } from "contexts/auth-context";
 import { auth } from "firebase-app/firebase-config";
-import { signOut } from "firebase/auth";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "assets/images/blog-logo.png";
@@ -173,11 +172,7 @@ const HeaderStyles = styled.header`
     }
   }
 `;
-function getLastName(username) {
-  if (!username) return "User";
-  const length = username.split(" ").length;
-  return username.split(" ")[length - 1];
-}
+
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { userInfo, setUserInfo } = useAuth();

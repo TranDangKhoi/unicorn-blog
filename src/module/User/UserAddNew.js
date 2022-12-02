@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "components/Button";
 import { Field, FieldCheckbox } from "components/Field";
 import { Input, InputPassword } from "components/Input";
@@ -10,8 +11,10 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import useFirebaseImage from "hooks/useFirebaseImage";
 import DashboardHeading from "module/Category/DashboardHeading";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { userAddNewSchema } from "schema/schema";
 import slugify from "slugify";
 import Swal from "sweetalert2";
 import { userRole, userStatus } from "utils/constants";
@@ -37,6 +40,7 @@ const UserAddNew = () => {
       status: userStatus.ACTIVE,
       role: userRole.USER,
     },
+    resolver: yupResolver(userAddNewSchema),
   });
   const watchUserStatus = Number(watch("status"));
   const watchUserRole = Number(watch("role"));
@@ -47,6 +51,18 @@ const UserAddNew = () => {
     handleRemoveImage,
     handleSelectImage,
   } = useFirebaseImage(setValue, getValues);
+
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.dismiss(arrErrors.find((item) => item === 0));
+      toast.error(arrErrors[0]?.message, {
+        pauseOnHover: true,
+        closeOnClick: true,
+      });
+    }
+  }, [errors]);
+
   const handleCreateNewUser = async (values) => {
     Swal.fire({
       title: "Are you sure you want to create this user?",
