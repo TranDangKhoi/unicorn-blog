@@ -9,7 +9,7 @@ const AuthorBox = ({ userId }) => {
   useEffect(() => {
     async function getAuthorInfos() {
       const docRef = doc(db, "users", userId);
-      const docData = await getDoc(docRef);
+    const docData = await getDoc(docRef);
       setUserInfo(docData.data());
     }
     getAuthorInfos();

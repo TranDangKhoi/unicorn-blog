@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { userUpdateSchema } from "schema/schema";
 import slugify from "slugify";
 import { userRole, userStatus } from "utils/constants";
 
@@ -33,7 +34,7 @@ const UserUpdate = () => {
     defaultValues: {
       status: userStatus.ACTIVE,
     },
-    resolver: yupResolver,
+    resolver: yupResolver(userUpdateSchema),
   });
   const userId = searchParams.get("userId");
   const watchUserStatus = Number(watch("status"));
