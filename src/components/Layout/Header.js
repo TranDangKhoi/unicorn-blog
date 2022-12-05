@@ -1,12 +1,13 @@
 import { Button } from "components/Button";
 import IconSearch from "components/Icon/IconSearch";
 import { useAuth } from "contexts/auth-context";
-import { auth } from "firebase-app/firebase-config";
+import { db } from "firebase-app/firebase-config";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "assets/images/blog-logo.png";
 import styled from "styled-components";
 import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 const menuLinks = [
   {
     url: "/",
@@ -176,10 +177,14 @@ const HeaderStyles = styled.header`
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { userInfo, setUserInfo } = useAuth();
-  console.log(userInfo);
   useEffect(() => {
-    setUserInfo(auth.currentUser);
-  }, [setUserInfo]);
+    async function getUserInfo() {
+      const docRef = doc(db, "users", userInfo?.uid);
+      const docData = await getDoc(docRef);
+      setUserInfo(docData.data());
+    }
+    getUserInfo();
+  }, [setUserInfo, userInfo?.uid]);
   const handleShowMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -223,8 +228,8 @@ const Header = () => {
                 {userInfo ? (
                   <div className="user">
                     <div className="user-display">
-                      <img src={userInfo?.photoURL} alt="" className="avatar" />
-                      <div className="username">{userInfo?.displayName}</div>
+                      <img src={userInfo?.avatar} alt="" className="avatar" />
+                      <div className="username">{userInfo?.username}</div>
                     </div>
                     <Button
                       className="sign-out"
