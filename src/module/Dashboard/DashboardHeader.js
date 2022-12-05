@@ -51,7 +51,7 @@ const DashboardHeader = () => {
           Write new post
         </Button>
         <NavLink to="/profile" className="header-avatar">
-          <img src={userInfo?.photoURL} alt="" />
+          <img src={userInfo?.avatar} alt="" />
         </NavLink>
       </div>
     </DashboardHeaderStyles>
