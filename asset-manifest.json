@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/unicorn-blog/static/css/main.910c3e7d.css",
-    "main.js": "/unicorn-blog/static/js/main.44abe2f7.js",
+    "main.js": "/unicorn-blog/static/js/main.cdb7c159.js",
     "static/js/216.e356ad09.chunk.js": "/unicorn-blog/static/js/216.e356ad09.chunk.js",
     "static/js/473.b25b6b32.chunk.js": "/unicorn-blog/static/js/473.b25b6b32.chunk.js",
     "static/js/444.90debb7e.chunk.js": "/unicorn-blog/static/js/444.90debb7e.chunk.js",
@@ -24,7 +24,7 @@
     "static/media/banner-img.png": "/unicorn-blog/static/media/banner-img.8a5f1be1f5fbe279c49d.png",
     "index.html": "/unicorn-blog/index.html",
     "main.910c3e7d.css.map": "/unicorn-blog/static/css/main.910c3e7d.css.map",
-    "main.44abe2f7.js.map": "/unicorn-blog/static/js/main.44abe2f7.js.map",
+    "main.cdb7c159.js.map": "/unicorn-blog/static/js/main.cdb7c159.js.map",
     "216.e356ad09.chunk.js.map": "/unicorn-blog/static/js/216.e356ad09.chunk.js.map",
     "473.b25b6b32.chunk.js.map": "/unicorn-blog/static/js/473.b25b6b32.chunk.js.map",
     "444.90debb7e.chunk.js.map": "/unicorn-blog/static/js/444.90debb7e.chunk.js.map",
@@ -46,6 +46,6 @@
   },
   "entrypoints": [
     "static/css/main.910c3e7d.css",
-    "static/js/main.44abe2f7.js"
+    "static/js/main.cdb7c159.js"
   ]
 }
